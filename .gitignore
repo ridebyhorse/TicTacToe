@@ -10,6 +10,7 @@ xcuserdata/
 *.dSYM.zip
 *.dSYM
 *.DS_Store
+*.xcuserdatad
 
 ## Playgrounds
 timeline.xctimeline

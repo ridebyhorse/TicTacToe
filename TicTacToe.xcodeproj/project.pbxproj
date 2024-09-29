@@ -14,6 +14,10 @@
 		CB6F3E632CA99EFC005C2ED9 /* Font+ProjectFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6F3E622CA99EFC005C2ED9 /* Font+ProjectFonts.swift */; };
 		CB6F3E672CA9A539005C2ED9 /* BasicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6F3E662CA9A539005C2ED9 /* BasicButton.swift */; };
 		CB6F3E6B2CA9A5FD005C2ED9 /* BasicButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6F3E6A2CA9A5FD005C2ED9 /* BasicButtonStyle.swift */; };
+		E1E0BDB42CA9EC4900DB8D34 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDB32CA9EC4900DB8D34 /* GameManager.swift */; };
+		E1E0BDB72CA9EFF300DB8D34 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDB62CA9EFF300DB8D34 /* GameModel.swift */; };
+		E1E0BDB92CA9F03400DB8D34 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDB82CA9F03400DB8D34 /* User.swift */; };
+		E1E0BDBC2CA9F6B300DB8D34 /* Recources.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDBB2CA9F6B300DB8D34 /* Recources.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +29,10 @@
 		CB6F3E622CA99EFC005C2ED9 /* Font+ProjectFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+ProjectFonts.swift"; sourceTree = "<group>"; };
 		CB6F3E662CA9A539005C2ED9 /* BasicButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicButton.swift; sourceTree = "<group>"; };
 		CB6F3E6A2CA9A5FD005C2ED9 /* BasicButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicButtonStyle.swift; sourceTree = "<group>"; };
+		E1E0BDB32CA9EC4900DB8D34 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
+		E1E0BDB62CA9EFF300DB8D34 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
+		E1E0BDB82CA9F03400DB8D34 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E1E0BDBB2CA9F6B300DB8D34 /* Recources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recources.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,9 +66,11 @@
 			isa = PBXGroup;
 			children = (
 				CB6F3E542CA997AA005C2ED9 /* TicTacToeApp.swift */,
+				E1E0BDB52CA9EFCC00DB8D34 /* Models */,
 				CB6F3E6C2CA9AF33005C2ED9 /* Screens */,
 				CB6F3E652CA9A527005C2ED9 /* Base */,
-				CB6F3E582CA997AB005C2ED9 /* Assets.xcassets */,
+				E1E0BDB22CA9EC3300DB8D34 /* Managers */,
+				E1E0BDBA2CA9F67000DB8D34 /* Resources */,
 				CB6F3E642CA9A3CD005C2ED9 /* Extensions */,
 				CB6F3E5A2CA997AB005C2ED9 /* Preview Content */,
 			);
@@ -106,6 +116,32 @@
 				CB6F3E562CA997AA005C2ED9 /* StartView.swift */,
 			);
 			path = Start;
+			sourceTree = "<group>";
+		};
+		E1E0BDB22CA9EC3300DB8D34 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				E1E0BDB32CA9EC4900DB8D34 /* GameManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		E1E0BDB52CA9EFCC00DB8D34 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E1E0BDB62CA9EFF300DB8D34 /* GameModel.swift */,
+				E1E0BDB82CA9F03400DB8D34 /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E1E0BDBA2CA9F67000DB8D34 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CB6F3E582CA997AB005C2ED9 /* Assets.xcassets */,
+				E1E0BDBB2CA9F6B300DB8D34 /* Recources.swift */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,9 +215,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB6F3E572CA997AA005C2ED9 /* StartView.swift in Sources */,
+				E1E0BDBC2CA9F6B300DB8D34 /* Recources.swift in Sources */,
+				E1E0BDB42CA9EC4900DB8D34 /* GameManager.swift in Sources */,
 				CB6F3E632CA99EFC005C2ED9 /* Font+ProjectFonts.swift in Sources */,
 				CB6F3E6B2CA9A5FD005C2ED9 /* BasicButtonStyle.swift in Sources */,
+				E1E0BDB92CA9F03400DB8D34 /* User.swift in Sources */,
 				CB6F3E552CA997AA005C2ED9 /* TicTacToeApp.swift in Sources */,
+				E1E0BDB72CA9EFF300DB8D34 /* GameModel.swift in Sources */,
 				CB6F3E672CA9A539005C2ED9 /* BasicButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

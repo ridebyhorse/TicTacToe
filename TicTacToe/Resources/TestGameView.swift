@@ -9,7 +9,8 @@ import SwiftUI
 
 struct TestGameView: View {
     @StateObject private var gameManager = GameManager(isPlayingAgainstAI: true)
-    var level: DifficultyLevel = .hard
+    var level: DifficultyLevel = .easy
+    
       var body: some View {
           VStack {
               Text(gameManager.winner != nil ? "\(gameManager.winner!.name) победил!" : "Текущий игрок: \(gameManager.currentPlayer.name)")
@@ -24,7 +25,7 @@ struct TestGameView: View {
                             with: level
                           )
                       }) {
-                          Text(gameManager.gameBoard[index] == .cross ? "Н" : gameManager.gameBoard[index] == .circle ? "O" : "")
+                          Text(gameManager.gameBoard[index] == .cross ? "X" : gameManager.gameBoard[index] == .circle ? "O" : "")
                               .font(.system(size: 64))
                               .frame(width: 100, height: 100)
                               .background(Color.gray.opacity(0.5))

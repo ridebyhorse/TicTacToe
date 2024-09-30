@@ -14,6 +14,6 @@ enum PlayerType {
 
 enum DifficultyLevel {
     case easy
-    case standart
+    case standard
     case hard
 }

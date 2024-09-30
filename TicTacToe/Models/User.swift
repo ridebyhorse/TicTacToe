@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User {
+struct User: Equatable {
     let name: String
     let type: PlayerType
 
@@ -16,4 +16,5 @@ struct User {
         self.name = name
         self.type = type
     }
+    
 }

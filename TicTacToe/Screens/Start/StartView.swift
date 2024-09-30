@@ -12,18 +12,49 @@ struct StartView: View {
     
     var body: some View {
         VStack {
+            HStack {
+                Button(action: {
+                    print("rules tapped")
+                }, label: {
+                    NavigationLink(
+                        destination: {
+                            Color(.basicBlack)
+                                .navigationTitle("Rules")
+                        }) {
+                            Image(.rulesIcon)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 36, height: 36)
+                    }
+                })
+                Spacer()
+                Button(action: {
+                    print("settings tapped")
+                }, label: {
+                    NavigationLink(
+                        destination: {
+                            Color(.basicBlue)
+                                .navigationTitle("Settings")
+                        }) {
+                            Image(.settingsIcon)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 38, height: 36)
+                    }
+                })
+            }
             Spacer()
             Image(.mainIcon)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .padding(.horizontal, 48)
-            Text("TIC-TAC-TOE")
+            Text(Recources.Text.ticTacToe)
                 .font(.mainTitle)
                 .padding(30)
             Spacer()
             BasicButton(
                 styleType: .primary,
-                title: "Let's play",
+                title: Recources.Text.letsPlay,
                 tapHandler: { print("Let's") }
             )
         }
@@ -33,5 +64,7 @@ struct StartView: View {
 }
 
 #Preview {
-    StartView()
+    NavigationView {
+        StartView()
+    }
 }

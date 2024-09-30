@@ -1,5 +1,5 @@
 //
-//  InstructionsView.swift
+//  RulesView.swift
 //  TicTacToe
 //
 //  Created by Келлер Дмитрий on 30.09.2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct InstructionsView: View {
+struct RulesView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
     
     var body: some View {
@@ -26,5 +26,5 @@ struct InstructionsView: View {
 }
 
 #Preview {
-    InstructionsView()
+    RulesView()
 }

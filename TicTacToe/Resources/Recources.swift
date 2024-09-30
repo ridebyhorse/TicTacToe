@@ -10,5 +10,7 @@ import Foundation
 enum Recources {
     enum Text {
         static let you = "You"
+        static let ticTacToe = "TIC-TAC-TOE"
+        static let letsPlay = "Let's play"
     }
 }

@@ -9,14 +9,11 @@ import SwiftUI
 
 @main
 struct TicTacToeApp: App {
-    init() {
-        UINavigationBar.appearance().largeTitleTextAttributes = [
-            .font : Font.navigationTitle
-        ]
-    }
     var body: some Scene {
         WindowGroup {
-            StartView()
+            NavigationView {
+                StartView()
+            }
         }
     }
 }

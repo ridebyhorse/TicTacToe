@@ -16,7 +16,9 @@ struct TicTacToeApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            StartView()
+            NavigationView {
+                StartView()
+            }
         }
     }
 }

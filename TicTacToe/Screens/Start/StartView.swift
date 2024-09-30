@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct StartView: View {
+    @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
+    
     var body: some View {
         VStack {
             Spacer()
@@ -26,6 +28,7 @@ struct StartView: View {
             )
         }
         .padding(.horizontal, 21)
+        
     }
 }
 

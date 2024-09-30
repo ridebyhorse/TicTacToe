@@ -12,7 +12,7 @@ struct User {
     let type: PlayerType
 
 //    MARK: Init
-    init(name: String = Recources.Text.you, type: PlayerType) {
+    init(name: String = Resources.Text.you, type: PlayerType = .cross) {
         self.name = name
         self.type = type
     }

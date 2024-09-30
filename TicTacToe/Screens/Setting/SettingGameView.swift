@@ -16,17 +16,7 @@ struct SettingGameView: View {
             Text("Hello, World!")
             
         }
-        
-        .navigationTitle(Resources.Text.settings.localized(language))
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                BackBarButton()
-            }
-        }
     }
-    
 }
 
 #Preview {

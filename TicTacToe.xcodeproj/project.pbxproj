@@ -157,8 +157,8 @@
 		E1E0BDB22CA9EC3300DB8D34 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				E1E0BDCF2CAA8DBE00DB8D34 /* Coordinator */,
 				E1E0BDB32CA9EC4900DB8D34 /* GameManager.swift */,
+				E1E0BDCF2CAA8DBE00DB8D34 /* Coordinator */,
 				E1E0BDDC2CAA976500DB8D34 /* Localizations */,
 			);
 			path = Managers;

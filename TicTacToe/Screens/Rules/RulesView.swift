@@ -15,14 +15,6 @@ struct RulesView: View {
         VStack {
             Text("Hello, World!")
         }
-        .navigationTitle(Resources.Text.howToPlay.localized(language))
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                BackBarButton()
-            }
-        }
     }
 }
 

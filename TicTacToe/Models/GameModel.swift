@@ -11,3 +11,9 @@ enum PlayerType {
     case circle
     case cross
 }
+
+enum DifficultyLevel {
+    case easy
+    case standart
+    case hard
+}

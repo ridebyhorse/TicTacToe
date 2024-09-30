@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TestGameView: View {
     @StateObject private var gameManager = GameManager(isPlayingAgainstAI: true)
-      
+    var level: DifficultyLevel = .hard
       var body: some View {
           VStack {
               Text(gameManager.winner != nil ? "\(gameManager.winner!.name) победил!" : "Текущий игрок: \(gameManager.currentPlayer.name)")
@@ -19,7 +19,10 @@ struct TestGameView: View {
               LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3)) {
                   ForEach(0..<9) { index in
                       Button(action: {
-                          gameManager.makeMove(at: index)
+                          gameManager.makeMove(
+                            at: index,
+                            with: level
+                          )
                       }) {
                           Text(gameManager.gameBoard[index] == .cross ? "Н" : gameManager.gameBoard[index] == .circle ? "O" : "")
                               .font(.system(size: 64))

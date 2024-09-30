@@ -5,21 +5,10 @@
 //  Created by Келлер Дмитрий on 29.09.2024.
 //
 
-import Foundation
-
-protocol IGameManager {
-    var currentPlayer: User { get }
-    var gameBoard: [PlayerType?] { get }
-    var winner: User? { get }
-    var isGameOver: Bool { get }
-    
-    func makeMove(at position: Int) -> Bool
-    func resetGame()
-}
 
 import Foundation
 
-final class GameManager: ObservableObject, IGameManager {
+final class GameManager: ObservableObject {
     @Published private(set) var currentPlayer: User
     @Published private(set) var gameBoard: [PlayerType?]
     @Published private(set) var winner: User?
@@ -40,8 +29,8 @@ final class GameManager: ObservableObject, IGameManager {
         self.gameBoard = Array(repeating: nil, count: 9)
     }
     
-    func makeMove(at position: Int) -> Bool {
-        guard position >= 0 && position < 9, 
+    func makeMove(at position: Int, with level: DifficultyLevel) -> Bool {
+        guard position >= 0 && position < 9,
                 gameBoard[position] == nil,
                 !isGameOver else {
             return false
@@ -63,7 +52,7 @@ final class GameManager: ObservableObject, IGameManager {
         
         // Если играем против AI и не завершена
         if isPlayingAgainstAI && !isGameOver && currentPlayer.type == player2.type {
-            aiMove()
+            aiMove(with: level)
         }
         
         return true
@@ -76,8 +65,21 @@ final class GameManager: ObservableObject, IGameManager {
         currentPlayer = player1
     }
     
+//    MARK: AI
+    
+    private func aiMove(with level: DifficultyLevel) {
+        switch level {
+        case .easy:
+            aiEasyMove()
+        case .standart:
+            aiStandartMove()
+        case .hard:
+            aiHardMove()
+        }
+    }
+    
     // AI делает ход
-    private func aiMove() {
+    private func aiHardMove() {
         guard !isGameOver else { return }
         
         // 1. Если ИИ может победить на этом ходу — сделать ход.
@@ -116,6 +118,25 @@ final class GameManager: ObservableObject, IGameManager {
             currentPlayer = player1
         }
     }
+    
+    private func aiStandartMove() {
+        
+    }
+    
+    private func aiEasyMove() {
+           guard !isGameOver else { return }
+           
+           // Наивная логика для AI (просто делает первый доступный ход)
+           if let emptyPosition = gameBoard.firstIndex(where: { $0 == nil }) {
+               gameBoard[emptyPosition] = player2.type
+               if checkWin(for: player2.type) {
+                   winner = player2
+                   isGameOver = true
+               }
+               currentPlayer = player1
+           }
+       }
+
     
     // Найти выигрышный ход для данного типа игрока
     private func findWinningMove(for type: PlayerType) -> Int? {

@@ -6,3 +6,26 @@
 //
 
 import Foundation
+
+final class StartViewModel: ObservableObject {
+    // MARK: Properties
+    private let coordinator: Coordinator
+    
+    // MARK: Initialization
+    init(coordinator: Coordinator) {
+        self.coordinator = coordinator
+    }
+    
+    // MARK: - NavigationState
+    func startGame() {
+        coordinator.updateNavigationState(action: .startGame)
+    }
+    
+    func openSettings() {
+        coordinator.updateNavigationState(action: .showSettings)
+    }
+    
+    func openRules() {
+        coordinator.updateNavigationState(action: .showRules)
+    }
+}

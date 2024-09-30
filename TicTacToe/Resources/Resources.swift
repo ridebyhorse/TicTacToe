@@ -13,6 +13,8 @@ enum Resources {
         static let secondPlayer = "Second Player"
         static let settings = "Settings"
         static let howToPlay = "How to Play"
+        static let ticTacToe = "TIC-TAC-TOE"
+        static let letsPlay = "Let's play"
     }
     
     enum Image {

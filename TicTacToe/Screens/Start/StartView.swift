@@ -10,37 +10,27 @@ import SwiftUI
 struct StartView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
     
+    @ObservedObject var viewModel: StartViewModel
+    
     var body: some View {
         VStack {
             HStack {
                 Button(action: {
-                    print("rules tapped")
+                    viewModel.openRules()
                 }, label: {
-                    NavigationLink(
-                        destination: {
-                            Color(.basicBlack)
-                                .navigationTitle("Rules")
-                        }) {
-                            Image(.rulesIcon)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 36, height: 36)
-                    }
+                    Image(.rulesIcon)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 36, height: 36)
                 })
                 Spacer()
                 Button(action: {
-                    print("settings tapped")
+                    viewModel.openSettings()
                 }, label: {
-                    NavigationLink(
-                        destination: {
-                            Color(.basicBlue)
-                                .navigationTitle("Settings")
-                        }) {
-                            Image(.settingsIcon)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 38, height: 36)
-                    }
+                    Image(.settingsIcon)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 38, height: 36)
                 })
             }
             Spacer()
@@ -48,14 +38,14 @@ struct StartView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .padding(.horizontal, 48)
-            Text(Recources.Text.ticTacToe)
+            Text(Resources.Text.ticTacToe)
                 .font(.mainTitle)
                 .padding(30)
             Spacer()
             BasicButton(
                 styleType: .primary,
-                title: Recources.Text.letsPlay,
-                tapHandler: { print("Let's") }
+                title: Resources.Text.letsPlay,
+                tapHandler: { viewModel.startGame() }
             )
         }
         .padding(.horizontal, 21)
@@ -64,7 +54,5 @@ struct StartView: View {
 }
 
 #Preview {
-    NavigationView {
-        StartView()
-    }
+    StartView(viewModel: StartViewModel(coordinator: Coordinator()))
 }

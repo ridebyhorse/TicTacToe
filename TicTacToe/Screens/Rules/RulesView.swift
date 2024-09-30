@@ -9,10 +9,11 @@ import SwiftUI
 
 struct RulesView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
+    @ObservedObject var viewModel: RulesViewModel
     
     var body: some View {
         VStack {
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            Text("Hello, World!")
         }
         .navigationTitle(Resources.Text.howToPlay.localized(language))
         .navigationBarTitleDisplayMode(.inline)
@@ -26,5 +27,5 @@ struct RulesView: View {
 }
 
 #Preview {
-    RulesView()
+    RulesView(viewModel: RulesViewModel(coordinator: Coordinator()))
 }

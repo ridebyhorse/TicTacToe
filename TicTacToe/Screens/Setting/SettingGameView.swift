@@ -9,10 +9,11 @@ import SwiftUI
 
 struct SettingGameView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
+    @ObservedObject var viewModel: SettingsViewModel
     
     var body: some View {
         VStack {
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            Text("Hello, World!")
             
         }
         
@@ -29,5 +30,5 @@ struct SettingGameView: View {
 }
 
 #Preview {
-    SettingGameView()
+    SettingGameView(viewModel: SettingsViewModel(coordinator: Coordinator()))
 }

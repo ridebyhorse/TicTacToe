@@ -1,0 +1,33 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "%@ победил!" : {
+
+    },
+    "GameView" : {
+
+    },
+    "Hello, World!" : {
+
+    },
+    "Key" : {
+      "extractionState" : "manual"
+    },
+    "O" : {
+
+    },
+    "X" : {
+
+    },
+    "Начать заново" : {
+
+    },
+    "Текущий игрок: %@" : {
+
+    }
+  },
+  "version" : "1.0"
+}

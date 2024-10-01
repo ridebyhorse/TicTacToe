@@ -31,7 +31,7 @@ struct RulesView: View {
         .padding(.horizontal, 21)
         .padding(.top, 8)
         ScrollView {
-            ForEach(0..<4) { index in
+            ForEach(0..<viewModel.rules.count, id: \.self) { index in
                 HStack {
                     ZStack {
                         Circle()

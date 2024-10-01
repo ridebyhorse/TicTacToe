@@ -10,16 +10,28 @@
     "%lld" : {
 
     },
-    "GameView" : {
+    "Choose" : {
 
     },
-    "Hello, World!" : {
+    "GameView" : {
 
     },
     "Key" : {
       "extractionState" : "manual"
     },
     "O" : {
+
+    },
+    "Picked" : {
+
+    },
+    "Select Time" : {
+
+    },
+    "Time for game" : {
+
+    },
+    "Turn on the time" : {
 
     },
     "X" : {

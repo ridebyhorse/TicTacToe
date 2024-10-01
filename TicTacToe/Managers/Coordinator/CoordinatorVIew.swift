@@ -28,5 +28,3 @@ struct CoordinatorView: View {
         .animation(.bouncy, value: coordinator.navigationState)
     }
 }
-
-

@@ -12,9 +12,28 @@ struct GameView: View {
     @ObservedObject var viewModel: GameViewModel
     
     var body: some View {
-        VStack {
-            Text("GameView")
-            
+        ZStack{
+            Color("basicBackground")
+            VStack{
+                HStack(spacing: 32){
+                    PlayerSquareView()
+                    Text("Time")
+                        .font(.basicTitle)
+                    PlayerSquareView()
+                }
+                HStack{
+                    Image("crossPink")
+                        .resizable()
+                        .frame(width: 54, height: 54)
+                    Text("Player")
+                        .font(.basicTitle)
+                }
+                .padding(.top, 45)
+                GameFieldView()
+                    .padding(.top, 20)
+                Spacer()
+            }
+            .padding(.top, 20)
         }
     }
 }

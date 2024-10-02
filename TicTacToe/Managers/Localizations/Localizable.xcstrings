@@ -1,12 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
-    "%@  player Name" : {
-
-    },
     "%@  Player Name" : {
 
     },
@@ -16,46 +10,19 @@
     "%lld" : {
 
     },
-    "Choose" : {
-
-    },
-    "Easy" : {
-
-    },
-    "GameView" : {
-
-    },
-    "Hard" : {
-
-    },
     "Key" : {
       "extractionState" : "manual"
     },
-    "O" : {
+    "Player" : {
 
     },
-    "Picked" : {
-
-    },
-    "Select Game" : {
-
-    },
-    "Select Time" : {
-
-    },
-    "Standard" : {
-
-    },
-    "Time for game" : {
-
-    },
-    "Turn on the time" : {
-
-    },
-    "X" : {
+    "Time" : {
 
     },
     "Начать заново" : {
+
+    },
+    "Ничья!" : {
 
     },
     "Текущий игрок: %@" : {

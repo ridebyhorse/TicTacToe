@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GamePageView: View {
+    @ObservedObject var viewModel: GameViewModel
     
     var body: some View {
         Spacer()
@@ -34,5 +35,5 @@ struct GamePageView: View {
 }
 
 #Preview {
-    GamePageView()
+    GamePageView(viewModel: GameViewModel(coordinator: Coordinator()))
 }

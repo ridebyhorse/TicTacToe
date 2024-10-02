@@ -18,7 +18,7 @@ final class StartViewModel: ObservableObject {
     
     // MARK: - NavigationState
     func startGame() {
-        coordinator.updateNavigationState(action: .startGame)
+        coordinator.updateNavigationState(action: .selectGame)
     }
     
     func openSettings() {

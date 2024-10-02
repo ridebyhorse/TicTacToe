@@ -9,6 +9,8 @@ import Foundation
 
 enum Resources {
     enum Text {
+        static let choose = "Choose"
+        static let picked = "Picked"
         static let you = "You"
         static let secondPlayer = "Second Player"
         static let settings = "Settings"

@@ -15,8 +15,10 @@ struct CoordinatorView: View {
             switch coordinator.navigationState {
             case .onboarding:
                 StartView(viewModel: StartViewModel(coordinator: coordinator))
+            case .selectGame:
+                GameSelectView(viewModel: GameSelectViewModel(coordinator: coordinator))
             case .game:
-                GameView(viewModel: GameViewModel(coordinator: coordinator))
+                GamePageView(viewModel: GameViewModel(coordinator: coordinator))
             case .setting:
                 SettingGameView(viewModel: SettingsViewModel(coordinator: coordinator))
             case .rules:

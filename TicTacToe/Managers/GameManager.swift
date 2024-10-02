@@ -10,24 +10,21 @@ import Foundation
 
 final class GameManager: ObservableObject {
     // MARK: - Properties
-    @Published private(set) var currentPlayer: User
     @Published private(set) var gameBoard: [PlayerType?]
     @Published private(set) var winner: User?
     @Published private(set) var isGameOver: Bool = false
     
-    private let player1: User
-    private let player2: User
+    let userManager: UserManager
     private let isPlayingAgainstAI: Bool
     
     // MARK: - Init
-    init(player1: User = User(name: Resources.Text.you, type: .cross),
-         player2: User = User(name: Resources.Text.secondPlayer, type: .circle),
-         isPlayingAgainstAI: Bool = false) {
-        self.player1 = player1
-        self.player2 = player2
+    init(userManager: UserManager, isPlayingAgainstAI: Bool = false) {
+        self.userManager = userManager
         self.isPlayingAgainstAI = isPlayingAgainstAI
-        self.currentPlayer = player1
         self.gameBoard = Array(repeating: nil, count: 9)
+        
+        // Жребьевка при инициализации
+        userManager.randomizeFirstPlayer()
     }
     
     // MARK: - Game Actions
@@ -36,11 +33,11 @@ final class GameManager: ObservableObject {
         guard isValidMove(at: position) else { return false }
 
         // Совершаем ход
-        gameBoard[position] = currentPlayer.type
+        gameBoard[position] = userManager.currentPlayer.type
         evaluateGameState()
 
         // Если играем против AI и ход AI
-        if isPlayingAgainstAI && !isGameOver && currentPlayer == player2 {
+        if isPlayingAgainstAI && !isGameOver && userManager.currentPlayer == userManager.player2 {
             aiMove(with: level)
         }
         return true
@@ -50,7 +47,9 @@ final class GameManager: ObservableObject {
         gameBoard = Array(repeating: nil, count: 9)
         winner = nil
         isGameOver = false
-        currentPlayer = player1
+        
+        // Перезапуск игры с жребьевкой
+        userManager.randomizeFirstPlayer()
     }
     
     // MARK: - AI Move
@@ -69,7 +68,11 @@ final class GameManager: ObservableObject {
     private func aiHardMove() {
         guard !isGameOver else { return }
 
-        if let move = findWinningMove(for: player2.type) ?? findWinningMove(for: player1.type) ?? findCenterMove() ?? findCornerMove() ?? findFirstAvailableMove() {
+        if let move = findWinningMove(for: userManager.player2.type) ??
+                     findWinningMove(for: userManager.player1.type) ??
+                     findCenterMove() ??
+                     findCornerMove() ??
+                     findFirstAvailableMove() {
             performAIMove(at: move)
         }
     }
@@ -77,7 +80,7 @@ final class GameManager: ObservableObject {
     private func aiStandardMove() {
         guard !isGameOver else { return }
 
-        if let move = findCenterMove() ?? findWinningMove(for: player2.type) ?? findFirstAvailableMove() {
+        if let move = findCenterMove() ?? findWinningMove(for: userManager.player2.type) ?? findFirstAvailableMove() {
             performAIMove(at: move)
         }
     }
@@ -96,22 +99,18 @@ final class GameManager: ObservableObject {
     }
 
     private func evaluateGameState() {
-        if checkWin(for: currentPlayer.type) {
-            winner = currentPlayer
+        if checkWin(for: userManager.currentPlayer.type) {
+            winner = userManager.currentPlayer
             isGameOver = true
         } else if isBoardFull() {
             isGameOver = true // Ничья
         } else {
-            switchPlayer()
+            userManager.switchPlayer()
         }
     }
     
-    private func switchPlayer() {
-        currentPlayer = (currentPlayer == player1) ? player2 : player1
-    }
-
     private func performAIMove(at position: Int) {
-        gameBoard[position] = player2.type
+        gameBoard[position] = userManager.player2.type
         evaluateGameState()
     }
 

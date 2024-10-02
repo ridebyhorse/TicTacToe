@@ -20,7 +20,7 @@ final class GameManager: ObservableObject {
     private let isPlayingAgainstAI: Bool
     
     // MARK: - Init
-    init(player1: User = User(type: .cross),
+    init(player1: User = User(name: Resources.Text.you, type: .cross),
          player2: User = User(name: Resources.Text.secondPlayer, type: .circle),
          isPlayingAgainstAI: Bool = false) {
         self.player1 = player1
@@ -43,7 +43,6 @@ final class GameManager: ObservableObject {
         if isPlayingAgainstAI && !isGameOver && currentPlayer == player2 {
             aiMove(with: level)
         }
-
         return true
     }
     

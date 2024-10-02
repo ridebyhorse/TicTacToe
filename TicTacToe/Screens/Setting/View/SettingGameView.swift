@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingGameView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
+    
     @ObservedObject var viewModel: SettingsViewModel
     
     var body: some View {
@@ -39,24 +40,24 @@ struct SettingGameView: View {
             VStack {
                 SettingPickerView(
                     selectedValue: $viewModel.selectedDuration,
-                    title: "Turn on the time"
+                    title: Resources.Text.turnOnTime.localized(language)
                 )
                 
                 SettingPickerView(
                     selectedValue: $viewModel.selectedMusic,
-                    title: "Select Music Style"
+                    title: Resources.Text.selectMusicStyle.localized(language)
                 )
                 
                 SettingPickerView(
                     selectedValue: $viewModel.selectedLevel,
-                    title: "Select difficulty level"
+                    title: Resources.Text.selectDifficultyLevel.localized(language)
                 )
                 
                
-                VStack(alignment: .leading) {
-                    Text("Select Player Style")
+                VStack(alignment: .center) {
+                    Text(Resources.Text.selectPlayerStyle.localized(language))
                         .font(.headline)
-                        .font(.title2)
+                        .font(.navigationTitle)
                             
                         .foregroundColor(.basicBlack)
                         .padding(.top, 50)

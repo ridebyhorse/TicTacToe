@@ -33,14 +33,13 @@ struct ToolBarView: View {
                 Spacer().frame(width: 50)
             }
             
-            // Центр: заголовок
+           
             Text(title)
-                .font(.headline)
+                .font(.navigationTitle)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.horizontal)
                 .lineLimit(1)
             
-            // Правый кнопка
             if showRightButton, let rightButtonAction = rightButtonAction {
                 Button(action: {
                     rightButtonAction()

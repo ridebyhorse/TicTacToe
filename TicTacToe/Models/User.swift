@@ -10,11 +10,11 @@ import Foundation
 struct User: Equatable {
     let name: String
     let type: PlayerType
+    var score = 0
 
 //    MARK: Init
-    init(name: String = Resources.Text.you, type: PlayerType = .cross) {
+    init(name: String, type: PlayerType) {
         self.name = name
         self.type = type
     }
-    
 }

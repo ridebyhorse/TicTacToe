@@ -1,7 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
+    "%@  Player Name" : {
 
     },
     "%@ победил!" : {
@@ -10,34 +10,19 @@
     "%lld" : {
 
     },
-    "Choose" : {
-
-    },
-    "GameView" : {
-
-    },
     "Key" : {
       "extractionState" : "manual"
     },
-    "O" : {
+    "Player" : {
 
     },
-    "Picked" : {
-
-    },
-    "Select Time" : {
-
-    },
-    "Time for game" : {
-
-    },
-    "Turn on the time" : {
-
-    },
-    "X" : {
+    "Time" : {
 
     },
     "Начать заново" : {
+
+    },
+    "Ничья!" : {
 
     },
     "Текущий игрок: %@" : {

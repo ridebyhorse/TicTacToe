@@ -25,7 +25,7 @@ final class GameViewModel: ObservableObject {
     
     let level: DifficultyLevel = .standard
 //    булька для смены варианта с ИИ играть или вдвоем
-    let isPlayingAgainstAI: Bool = false
+    let isPlayingAgainstAI: Bool = true
     
     // MARK: Initialization
     init(

@@ -4,10 +4,25 @@
     "" : {
 
     },
+    "%@  player Name" : {
+
+    },
+    "%@  Player Name" : {
+
+    },
     "%@ победил!" : {
 
     },
+    "Choose" : {
+
+    },
+    "Easy" : {
+
+    },
     "GameView" : {
+
+    },
+    "Hard" : {
 
     },
     "Hello, World!" : {
@@ -17,6 +32,24 @@
       "extractionState" : "manual"
     },
     "O" : {
+
+    },
+    "Picked" : {
+
+    },
+    "Select Game" : {
+
+    },
+    "Select Time" : {
+
+    },
+    "Standard" : {
+
+    },
+    "Time for game" : {
+
+    },
+    "Turn on the time" : {
 
     },
     "X" : {

@@ -1,9 +1,18 @@
-import SwiftUI
+//
+//  GameSelectView2.swift
+//  TicTacToe
+//
+//  Created by Ylyas Abdywahytow on 10/1/24.
+//
 
-struct GameSelectView: View {
-    @ObservedObject var viewModel: GameSelectViewModel
+import SwiftUI
+import Foundation
+
+struct GameSelectView2: View {
     @State var selectedPlayer: String? = "single"
-    @State var selectedType: String? = "Hard"
+    
+    @ObservedObject var viewModel: GameSelectViewModel
+    @State var selectedType: String? = nil
     @State var selectedSymbol: String = "cross"
     @State var secondPlayerSymbol: String = "circle"
     
@@ -12,7 +21,7 @@ struct GameSelectView: View {
             Color.basicBackground.ignoresSafeArea(.all)
             VStack {
                 Spacer().frame(height: 80)
-                Grid {
+                VStack(spacing: 20) {
                     Spacer()
                     Spacer()
                     Text("Select Game")
@@ -20,61 +29,59 @@ struct GameSelectView: View {
                         .fontWeight(.bold)
                         .foregroundColor(.basicBlack)
                     
-                    GridRow {
-                        VStack(alignment: .center) {
-                            Spacer()
-                            
-                            Button(action: {
-                                selectedType = "Hard"
-                                viewModel.updateGameMode("Hard")
-                            }) {
-                                HStack {
-                                    Text("Hard")
-                                        .font(.title3)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(Color.basicBlack)
-                                }
+                    VStack(alignment: .center) {
+                        Spacer()
+                        
+                        Button(action: {
+                            selectedType = "Hard"
+                            viewModel.updateGameMode("Hard")
+                        }) {
+                            HStack {
+                                Text("Hard")
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color.basicBlack)
                             }
-                            .frame(width: 245, height: 60)
-                            .background(selectedType == "Hard" ? Color.basicBlue : Color.basicLightBlue)
-                            .cornerRadius(35)
-                            .shadow(radius: 2)
-                            .padding(.top)
-                            
-                            Button(action: {
-                                selectedType = "Standard"
-                            }) {
-                                HStack {
-                                    Text("Standard")
-                                        .font(.title3)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(Color.basicBlack)
-                                }
-                            }
-                            .frame(width: 245, height: 60)
-                            .background(selectedType == "Standard" ? Color.basicBlue : Color.basicLightBlue)
-                            .cornerRadius(35)
-                            .shadow(radius: 2)
-                            .padding(.top)
-                            
-                            Button(action: {
-                                selectedType = "Easy"
-                            }) {
-                                HStack {
-                                    Text("Easy")
-                                        .font(.title3)
-                                        .foregroundColor(Color.basicBlack)
-                                }
-                            }
-                            .frame(width: 245, height: 60)
-                            .background(selectedType == "Easy" ? Color.basicBlue : Color.basicLightBlue)
-                            .cornerRadius(35)
-                            .shadow(radius: 2)
-                            .padding(.top)
-                            
-                            Spacer()
                         }
+                        .frame(width: 245, height: 60)
+                        .background(selectedType == "Hard" ? Color.basicBlue : Color.basicLightBlue)
+                        .cornerRadius(35)
+                        .shadow(radius: 2)
+                        .padding(.top)
+                        
+                        Button(action: {
+                            selectedType = "Standard"
+                        }) {
+                            HStack {
+                                Text("Standard")
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(Color.basicBlack)
+                            }
+                        }
+                        .frame(width: 245, height: 60)
+                        .background(selectedType == "Standard" ? Color.basicBlue : Color.basicLightBlue)
+                        .cornerRadius(35)
+                        .shadow(radius: 2)
+                        .padding(.top)
+                        
+                        Button(action: {
+                            selectedType = "Easy"
+                        }) {
+                            HStack {
+                                Text("Easy")
+                                    .font(.title3)
+                                    .foregroundColor(Color.basicBlack)
+                            }
+                        }
+                        .frame(width: 245, height: 60)
+                        .background(selectedType == "Easy" ? Color.basicBlue : Color.basicLightBlue)
+                        .cornerRadius(35)
+                        .shadow(radius: 2)
+                        .padding(.top)
                     }
+                    Spacer()
+                    
                 }
                 .padding()
                 .frame(width: 285, height: 330)
@@ -175,7 +182,7 @@ struct GameSelectView: View {
             VStack {
                 HStack {
                     Button(action: {
-                    
+                        //навигация
                     }) {
                         Image("backIcon")
                             .resizable()
@@ -186,7 +193,7 @@ struct GameSelectView: View {
                     Spacer()
                     
                     Button(action: {
-                       
+                        // навигация
                     }) {
                         Image("settingsIcon")
                             .resizable()
@@ -210,5 +217,6 @@ struct GameSelectView: View {
 
 
 #Preview {
-    GameSelectView(viewModel: GameSelectViewModel(coordinator: Coordinator()))
+    GameSelectView2(viewModel: GameSelectViewModel(coordinator: Coordinator()))
 }
+

@@ -17,6 +17,9 @@
 		E1392EE02CAD1F2900112013 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1392EDF2CAD1F2900112013 /* UserManager.swift */; };
 		E1392EE22CAD1FA400112013 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1392EE12CAD1FA400112013 /* StorageManager.swift */; };
 		E1392EE42CAD1FC300112013 /* MusicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1392EE32CAD1FC300112013 /* MusicManager.swift */; };
+		E1392EE92CAD298200112013 /* GameSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1392EE52CAD298200112013 /* GameSelectView.swift */; };
+		E1392EEA2CAD298200112013 /* GameSelectView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1392EE62CAD298200112013 /* GameSelectView2.swift */; };
+		E1392EEB2CAD298200112013 /* GameSelecViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1392EE72CAD298200112013 /* GameSelecViewModel.swift */; };
 		E1E0BDB42CA9EC4900DB8D34 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDB32CA9EC4900DB8D34 /* GameManager.swift */; };
 		E1E0BDB72CA9EFF300DB8D34 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDB62CA9EFF300DB8D34 /* GameModel.swift */; };
 		E1E0BDB92CA9F03400DB8D34 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDB82CA9F03400DB8D34 /* User.swift */; };
@@ -50,6 +53,9 @@
 		E1392EDF2CAD1F2900112013 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		E1392EE12CAD1FA400112013 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		E1392EE32CAD1FC300112013 /* MusicManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicManager.swift; sourceTree = "<group>"; };
+		E1392EE52CAD298200112013 /* GameSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSelectView.swift; sourceTree = "<group>"; };
+		E1392EE62CAD298200112013 /* GameSelectView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSelectView2.swift; sourceTree = "<group>"; };
+		E1392EE72CAD298200112013 /* GameSelecViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSelecViewModel.swift; sourceTree = "<group>"; };
 		E1E0BDB32CA9EC4900DB8D34 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 		E1E0BDB62CA9EFF300DB8D34 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		E1E0BDB82CA9F03400DB8D34 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -144,6 +150,7 @@
 			children = (
 				CB6F3E6D2CA9AF3F005C2ED9 /* Start */,
 				E1E0BDDF2CAA9B1800DB8D34 /* Game */,
+				E1392EE82CAD298200112013 /* GameSelect */,
 				E1E0BDC12CAA865800DB8D34 /* Setting */,
 				E1E0BDC62CAA86C700DB8D34 /* Result */,
 				E1E0BDC72CAA86D400DB8D34 /* Rules */,
@@ -158,6 +165,16 @@
 				E1E0BDD22CAA94A500DB8D34 /* StartViewModel.swift */,
 			);
 			path = Start;
+			sourceTree = "<group>";
+		};
+		E1392EE82CAD298200112013 /* GameSelect */ = {
+			isa = PBXGroup;
+			children = (
+				E1392EE52CAD298200112013 /* GameSelectView.swift */,
+				E1392EE62CAD298200112013 /* GameSelectView2.swift */,
+				E1392EE72CAD298200112013 /* GameSelecViewModel.swift */,
+			);
+			path = GameSelect;
 			sourceTree = "<group>";
 		};
 		E1E0BDB22CA9EC3300DB8D34 /* Managers */ = {
@@ -320,6 +337,7 @@
 				CB6F3E572CA997AA005C2ED9 /* StartView.swift in Sources */,
 				E1E0BDD92CAA94FC00DB8D34 /* RulesViewModel.swift in Sources */,
 				E1392EE22CAD1FA400112013 /* StorageManager.swift in Sources */,
+				E1392EEA2CAD298200112013 /* GameSelectView2.swift in Sources */,
 				E1E0BDBC2CA9F6B300DB8D34 /* Resources.swift in Sources */,
 				E1E0BDCE2CAA8AE500DB8D34 /* String + Extension.swift in Sources */,
 				E1E0BDB42CA9EC4900DB8D34 /* GameManager.swift in Sources */,
@@ -334,9 +352,11 @@
 				E1E0BDE12CAA9B3700DB8D34 /* GameView.swift in Sources */,
 				E1E0BDD72CAA94CB00DB8D34 /* ResultViewModel.swift in Sources */,
 				E1E0BDD12CAA8DD900DB8D34 /* Coordinator.swift in Sources */,
+				E1392EEB2CAD298200112013 /* GameSelecViewModel.swift in Sources */,
 				E1E0BDC02CAA865300DB8D34 /* SettingGameView.swift in Sources */,
 				E1E0BDDE2CAA997300DB8D34 /* CoordinatorVIew.swift in Sources */,
 				E1392EE42CAD1FC300112013 /* MusicManager.swift in Sources */,
+				E1392EE92CAD298200112013 /* GameSelectView.swift in Sources */,
 				E1E0BDCC2CAA89A400DB8D34 /* LocalizationManager.swift in Sources */,
 				E1E0BDD32CAA94A500DB8D34 /* StartViewModel.swift in Sources */,
 				E1E0BDB72CA9EFF300DB8D34 /* GameModel.swift in Sources */,

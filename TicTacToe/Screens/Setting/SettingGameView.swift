@@ -34,7 +34,7 @@ struct SettingGameView: View {
             VStack {
                 HStack {
                     Button(action: {
-                        
+                        viewModel.dissmisSettings()
                     }) {
                         HStack {
                             Image("backIcon")

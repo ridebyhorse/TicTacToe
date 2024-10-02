@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct PlayerSquareView: View {
     var body: some View {
         ZStack{

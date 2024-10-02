@@ -28,4 +28,8 @@ final class StartViewModel: ObservableObject {
     func openRules() {
         coordinator.updateNavigationState(action: .showRules)
     }
+    
+    func openLeaderboard() {
+        coordinator.updateNavigationState(action: .leaderboard)
+    }
 }

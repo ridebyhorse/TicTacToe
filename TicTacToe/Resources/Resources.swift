@@ -22,6 +22,7 @@ enum Resources {
         static let drawResult = "Draw!"
         static let playAgain = "Play again"
         static let back = "Back"
+        static let leaderboard = "Leaderboard"
         static let rulesNavigationTitle = "How to play"
         static let rule1 = "Draw a grid with three rows and three columns, creating nine squares in total."
         static let rule2 = "Players take turns placing their marker (X or O) in an empty square.\nTo make a move, a player selects a number corresponding to the square where they want to place their marker."

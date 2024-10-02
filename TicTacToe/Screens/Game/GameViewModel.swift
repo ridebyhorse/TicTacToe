@@ -11,6 +11,7 @@ import SwiftUI
 final class GameViewModel: ObservableObject {
     // MARK: Properties
     private let coordinator: Coordinator
+    private let musicManager = MusicManager.shared
     
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 10),
@@ -24,6 +25,7 @@ final class GameViewModel: ObservableObject {
     // MARK: Initialization
     init(coordinator: Coordinator) {
         self.coordinator = coordinator
+        musicManager.playMusic()
     }
     
     //MARK: - NavigationState
@@ -44,11 +46,13 @@ final class GameViewModel: ObservableObject {
         }
         
         isGameboardDisabled = true
+        musicManager.playSoundFor(.moveUser1)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
             let computerPosition = determineComputerMovePosition(in: moves)
             moves[computerPosition] = Move(player: .computer, boardIndex: computerPosition)
             isGameboardDisabled = false
+            musicManager.playSoundFor(.moveUser2)
             
             if checkWinCondition(for: .computer, in: moves) {
                 //   result ekran: computer winner
@@ -133,8 +137,7 @@ final class GameViewModel: ObservableObject {
         moves = Array(repeating: nil, count: 9)
     }
     
-    
     func showResult() {
-        
+        musicManager.stopMusic()
     }
 }

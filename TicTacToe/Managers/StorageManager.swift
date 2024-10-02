@@ -21,7 +21,6 @@ final class StorageManager {
     private init () {}
     
     // MARK: - Settings
-    // MARK: - Settings
        func saveSettings(_ settings: GameSettings) {
            if let encodedSettings = try? JSONEncoder().encode(settings) {
                userDefaults.set(encodedSettings, forKey: UserDefaultKeys.savedSettings)

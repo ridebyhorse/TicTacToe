@@ -33,6 +33,7 @@ struct StartView: View {
                         .frame(width: 38, height: 36)
                 })
             }
+            .padding(.top, 8)
             Spacer()
             Image(.mainIcon)
                 .resizable()
@@ -40,6 +41,7 @@ struct StartView: View {
                 .padding(.horizontal, 48)
             Text(Resources.Text.ticTacToe)
                 .font(.mainTitle)
+                .foregroundStyle(.basicBlack)
                 .padding(30)
             Spacer()
             BasicButton(

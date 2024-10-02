@@ -11,12 +11,6 @@ struct SettingGameView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
     @ObservedObject var viewModel: SettingsViewModel
     
-    @State private var selectedIndex: PlayerStyle = .crossPinkCirclePurple
- 
-    @State private var selectedDuration: Duration = .none
-    @State private var selectedMusic: MusicStyle = .none
-    @State private var selectedLevel: DifficultyLevel = .standard
-    
     var body: some View {
         ZStack {
             Color.basicBackground.ignoresSafeArea()
@@ -32,7 +26,10 @@ struct SettingGameView: View {
     private var toolBar: some View {
         ToolBarView(
             showBackButton: true,
-            backButtonAction: viewModel.dissmisSettings,
+            backButtonAction: {
+                viewModel.saveSettings()
+                viewModel.dissmisSettings()
+            },
             title: Resources.Text.settings
         )
         .frame(height: 44)
@@ -40,22 +37,33 @@ struct SettingGameView: View {
     
     private var settingsContent: some View {
             VStack {
-                TogglePickerView(
-                    selectedValue: $selectedDuration,
+                SettingPickerView(
+                    selectedValue: $viewModel.selectedDuration,
                     title: "Turn on the time"
                 )
                 
-                TogglePickerView(
-                    selectedValue: $selectedMusic,
+                SettingPickerView(
+                    selectedValue: $viewModel.selectedMusic,
                     title: "Select Music Style"
                 )
                 
-                TogglePickerView(
-                    selectedValue: $selectedLevel,
+                SettingPickerView(
+                    selectedValue: $viewModel.selectedLevel,
                     title: "Select difficulty level"
                 )
                 
-                playerStylesScrollView
+               
+                VStack(alignment: .leading) {
+                    Text("Select Player Style")
+                        .font(.headline)
+                        .font(.title2)
+                            
+                        .foregroundColor(.basicBlack)
+                        .padding(.top, 50)
+                        .padding(.leading)
+                    
+                    playerStylesScrollView
+                }
             }
         }
 
@@ -66,14 +74,14 @@ struct SettingGameView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     ForEach(PlayerStyle.allCases, id: \.self) { style in
-                        let isSelected = selectedIndex == style
+                        let isSelected = viewModel.selectedIndex == style
                         StyleCellView(
                             styleImageForPlayer1: style.imageNames.player1,
                             styleImageForPlayer2: style.imageNames.player2,
                             isSelected: isSelected,
                             action: {
                                 withAnimation {
-                                    selectedIndex = style
+                                    viewModel.selectedIndex = style
                                     proxy.scrollTo(style, anchor: .center)
                                 }
                             }

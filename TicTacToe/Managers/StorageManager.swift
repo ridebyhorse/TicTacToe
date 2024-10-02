@@ -21,18 +21,21 @@ final class StorageManager {
     private init () {}
     
     // MARK: - Settings
-    func saveSettings() {
-        userDefaults.set(GameSettings.self, forKey: UserDefaultKeys.savedSettings)
-    }
-    
-    func getSettings() -> GameSettings {
-        if let savedGameSettings = userDefaults.object(forKey: UserDefaultKeys.savedSettings) as? GameSettings {
-            return savedGameSettings
-        } else {
-            return GameSettings.defaultGameSettings()
-        }
-        
-    }
+    // MARK: - Settings
+       func saveSettings(_ settings: GameSettings) {
+           if let encodedSettings = try? JSONEncoder().encode(settings) {
+               userDefaults.set(encodedSettings, forKey: UserDefaultKeys.savedSettings)
+           }
+       }
+       
+       func getSettings() -> GameSettings {
+           if let savedData = userDefaults.data(forKey: UserDefaultKeys.savedSettings),
+              let savedSettings = try? JSONDecoder().decode(GameSettings.self, from: savedData) {
+               return savedSettings
+           } else {
+               return GameSettings.defaultGameSettings() // Возвращаем настройки по умолчанию
+           }
+       }
     
     // MARK: - Leaderboard
 }

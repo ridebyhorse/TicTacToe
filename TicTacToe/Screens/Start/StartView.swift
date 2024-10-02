@@ -49,6 +49,7 @@ struct StartView: View {
                 title: Resources.Text.letsPlay,
                 tapHandler: { viewModel.startGame() }
             )
+            .padding(.bottom, 30)
         }
         .padding(.horizontal, 21)
         

@@ -7,37 +7,35 @@
 
 import Foundation
 
-struct GameSettings {
+struct GameSettings: Codable {
     let level: DifficultyLevel
-    let isDuration: Bool
     let duration: Duration
     let selectedStyle: PlayerStyle
-    let isMusicPlay: Bool
     let musicStyle: MusicStyle
 }
 
-enum Duration: String, CaseIterable {
+enum Duration: String, Codable, CaseIterable {
     case none = "none"
     case fast = "30 min"
     case normal = "60 min"
     case long = "120 min"
 }
 
-enum MusicStyle: String, CaseIterable {
+enum MusicStyle: String, Codable, CaseIterable {
     case none
     case classical
     case instrumentals
     case nature
 }
 
-enum DifficultyLevel: String, CaseIterable {
+enum DifficultyLevel: String, Codable, CaseIterable {
     case easy
     case standard
     case hard
 }
 
 // Перечисление для стилей игроков
-enum PlayerStyle: CaseIterable {
+enum PlayerStyle: Codable, CaseIterable {
     case crossPinkCirclePurple
     case crossYellowCircleGreen
     case crossFilledPurpleCircleFilledPurple
@@ -69,11 +67,9 @@ extension GameSettings {
     static func defaultGameSettings() -> GameSettings {
         let settings = GameSettings(
             level: .standard,
-            isDuration: false,
-            duration: .fast,
+            duration: .none,
             selectedStyle: .crossPinkCirclePurple,
-            isMusicPlay: true,
-            musicStyle: .classical
+            musicStyle: .none
         )
         return settings
     }

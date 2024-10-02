@@ -1,5 +1,5 @@
 //
-//  TogglePickerView.swift
+//  SettingPickerView.swift
 //  TicTacToe
 //
 //  Created by Келлер Дмитрий on 02.10.2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TogglePickerView<Value: RawRepresentable & CaseIterable & Hashable>: View where Value.RawValue == String {
+struct SettingPickerView<Value: RawRepresentable & CaseIterable & Hashable>: View where Value.RawValue == String {
     
     @Binding var selectedValue: Value
     let title: String

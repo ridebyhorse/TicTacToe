@@ -11,6 +11,7 @@ final class Coordinator: ObservableObject {
     
     enum NavigationState: Equatable {
         case onboarding
+        case selectGame
         case game
         case setting
         case rules
@@ -19,6 +20,7 @@ final class Coordinator: ObservableObject {
     
     enum CoordinatorAction {
         case showOnboarding
+        case selectGame
         case startGame
         case showSettings
         case showRules
@@ -34,6 +36,8 @@ final class Coordinator: ObservableObject {
         switch action {
         case .showOnboarding:
             newState = .onboarding
+        case .selectGame:
+            newState = .selectGame
         case .startGame:
             newState = .game
         case .showSettings:

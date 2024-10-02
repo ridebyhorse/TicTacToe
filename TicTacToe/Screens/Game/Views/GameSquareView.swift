@@ -11,7 +11,7 @@ import SwiftUI
 
 struct GameSquareView: View {
     
-    @Binding var move: Move?
+    var move: Move?
     
     var body: some View {
         ZStack {
@@ -30,6 +30,6 @@ struct GameSquareView: View {
 
 #Preview {
     @State var squareMove: Move? = Move(player: .human, boardIndex: 0)
-    return GameSquareView(move: $squareMove)
+    return GameSquareView(move: squareMove)
 }
 

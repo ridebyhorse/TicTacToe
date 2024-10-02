@@ -29,7 +29,9 @@ struct GameView: View {
                         .font(.basicTitle)
                 }
                 .padding(.top, 45)
-                GameFieldView()
+                GameFieldView(
+                    moves: viewModel.moves,
+                    action: viewModel.processPlayerMove(for:))
                     .padding(.top, 20)
                 Spacer()
             }

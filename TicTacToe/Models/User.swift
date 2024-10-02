@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum PlayerType {
+    case circle
+    case cross
+}
+
 struct User: Equatable {
     let name: String
     let type: PlayerType

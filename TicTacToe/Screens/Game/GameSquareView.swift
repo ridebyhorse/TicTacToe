@@ -7,9 +7,11 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct GameSquareView: View {
     
-    @Binding var value: String?
+    @Binding var move: Move?
     
     var body: some View {
         ZStack {
@@ -17,21 +19,17 @@ struct GameSquareView: View {
                 .frame(width: 74, height: 74)
                 .foregroundColor(Color("basicLightBlue"))
             
-            if let iconName = value {
-                Image(iconName)
+            if let move = move {
+                Image(move.indicator)
                     .resizable()
                     .frame(width: 50, height: 50)
-            }
-        }
-        .onTapGesture {
-            if value == nil {
-                value = "crossPink"
             }
         }
     }
 }
 
 #Preview {
-    @State var squareValue: String? = "crossPink"
-    return GameSquareView(value: $squareValue)
+    @State var squareMove: Move? = Move(player: .human, boardIndex: 0)
+    return GameSquareView(move: $squareMove)
 }
+

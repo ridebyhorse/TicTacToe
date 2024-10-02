@@ -9,12 +9,12 @@ import Foundation
 
 final class Coordinator: ObservableObject {
     
-    enum NavigationState {
+    enum NavigationState: Equatable {
         case onboarding
         case game
         case setting
         case rules
-        case result
+        case result(winner: User?, playedAgainstAI: Bool)
     }
     
     enum CoordinatorAction {
@@ -22,7 +22,7 @@ final class Coordinator: ObservableObject {
         case startGame
         case showSettings
         case showRules
-        case showResult
+        case showResult(winner: User?, playedAgainstAI: Bool)
     }
     
     @Published var navigationState: NavigationState = .onboarding
@@ -40,8 +40,8 @@ final class Coordinator: ObservableObject {
             newState = .setting
         case .showRules:
             newState = .rules
-        case .showResult:
-            newState = .result
+        case .showResult(let winner, let playedAgainstAI):
+            newState = .result(winner: winner, playedAgainstAI: playedAgainstAI)
         }
         return newState
     }

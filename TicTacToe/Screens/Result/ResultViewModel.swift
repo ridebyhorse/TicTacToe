@@ -9,15 +9,27 @@ import Foundation
 
 final class ResultViewModel: ObservableObject {
     // MARK: Properties
+    @Published var gameResult: GameResult
     private let coordinator: Coordinator
     
     // MARK: Initialization
-    init(coordinator: Coordinator) {
+    init(coordinator: Coordinator, winner: User?, playedAgainstAI: Bool) {
         self.coordinator = coordinator
+        
+        if let winner {
+            let aiWin = playedAgainstAI && winner.name == Resources.Text.secondPlayer
+            gameResult = aiWin ? .lose : .win(name: winner.name)
+        } else {
+            gameResult = .draw
+        }
     }
     
     //MARK: - NavigationState
-    func dismissResult() {
-        
+    func openLaunch() {
+        coordinator.updateNavigationState(action: .showOnboarding)
+    }
+    
+    func restartGame() {
+        coordinator.updateNavigationState(action: .startGame)
     }
 }

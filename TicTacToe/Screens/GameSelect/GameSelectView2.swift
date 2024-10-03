@@ -1,31 +1,49 @@
 import SwiftUI
 
 struct GameSelectView2: View {
-    @ObservedObject var viewModel: GameSelectViewModel
-
+    @ObservedObject var viewModel: SettingsViewModel
     @State private var selectedPlayer: String? = "single"
     @State private var showingAlert: Bool = false
-    
+
+    let singlePlayerIcon = "singlePlayerIcon"
+    let twoPlayerIcon = "twoPlayersIcon"
+    let selectGameText = "Select Game"
+    let singlePlayerText = "Single Player"
+    let single = "single"
+
+    init(viewModel: SettingsViewModel) {
+        self.viewModel = viewModel
+    }
+
     var body: some View {
         ZStack {
-            Color.basicBackground.ignoresSafeArea(.all)
-           
-            
+            Color.basicBackground.ignoresSafeArea()
             VStack {
-                ToolBarView(showRightButton: true,rightButtonAction:
-                                viewModel.showSettings, title: "")
-                
+                Spacer()
+                toolBar
+                Spacer().padding(.bottom, 20)
                 gameSelectionCard
-                
-                
+                Spacer().padding(.bottom, 100)
             }
         }
     }
-    
+
+    // MARK: - ToolBar
+    private var toolBar: some View {
+        ToolBarView(
+            showRightButton: true,
+            rightButtonAction: {
+                viewModel.showSettings()
+            },
+            title: ""
+        )
+        .frame(height: 44)
+    }
+
     // MARK: - Game Selection Card
     private var gameSelectionCard: some View {
         VStack {
-            Text("Select Game")
+            Text(selectGameText)
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundColor(.basicBlack)
@@ -33,29 +51,27 @@ struct GameSelectView2: View {
 
             VStack(alignment: .center) {
                 Spacer()
-                
-                gameModeButton(icon: "singlePlayerIcon", title: "Single Player", isSelected: selectedPlayer == "single") {
-                    selectedPlayer = "single"
+
+                gameModeButton(icon: singlePlayerIcon, title: singlePlayerText, isSelected: selectedPlayer == single) {
+                    selectedPlayer = single
                 }
-                
-                if selectedPlayer == "single" {
+
+                if selectedPlayer == single {
                     playerNameTextField(placeholder: "Enter your name", text: $viewModel.singlePlayerName, onSubmit: startSinglePlayerGame)
                         .alert("Please enter your name", isPresented: $showingAlert) {
                             Button("OK", role: .cancel) { }
                         }
                 }
 
-                gameModeButton(icon: "twoPlayersIcon", title: "Two Players", isSelected: selectedPlayer == "two") {
+                gameModeButton(icon: twoPlayerIcon, title: "Two Players", isSelected: selectedPlayer == "two") {
                     selectedPlayer = "two"
                 }
-                
+
                 if selectedPlayer == "two" {
-                    playerNameTextField(placeholder: "Player 1 Name", text: $viewModel.playerOneName)
-                    playerNameTextField(placeholder: "Player 2 Name", text: $viewModel.playerTwoName)
+                    twoPlayerNameFields
                 }
 
                 nextButton
-                
             }
         }
         .padding()
@@ -64,8 +80,8 @@ struct GameSelectView2: View {
         .cornerRadius(30)
         .shadow(radius: 5)
     }
-    
-    // MARK: - Buttons
+
+    // MARK: - Game Mode Button
     private func gameModeButton(icon: String, title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack {
@@ -73,6 +89,7 @@ struct GameSelectView2: View {
                 Text(title)
                     .font(.title3)
                     .foregroundColor(isSelected ? .white : .basicBlack)
+                    .fontWeight(.semibold)
             }
         }
         .frame(width: 245, height: 70)
@@ -81,10 +98,12 @@ struct GameSelectView2: View {
         .shadow(radius: 2)
         .padding(10)
     }
-    
+
+    // MARK: - Next Button
     private var nextButton: some View {
         Button(action: {
-            selectedPlayer = "leaderboard"
+            viewModel.saveSettings()
+            viewModel.startGame()
         }) {
             Text("Next")
                 .font(.title3)
@@ -112,10 +131,19 @@ struct GameSelectView2: View {
             .foregroundColor(.gray)
             .font(.system(size: 18, weight: .medium))
             .multilineTextAlignment(.center)
+            .onChange(of: text.wrappedValue) { _ in
+                viewModel.saveSettings()
+            }
             .onSubmit(onSubmit)
     }
-    
-   
+
+    // MARK: - Two Player Name Fields
+    private var twoPlayerNameFields: some View {
+        VStack {
+            playerNameTextField(placeholder: "Player 1 Name", text: $viewModel.playerOneName)
+            playerNameTextField(placeholder: "Player 2 Name", text: $viewModel.playerTwoName)
+        }
+    }
 
     // MARK: - Computed Properties
     private var cardHeight: CGFloat {
@@ -125,15 +153,15 @@ struct GameSelectView2: View {
         default: return 425
         }
     }
-    
+
     // MARK: - Private Methods
     private func startSinglePlayerGame() {
         if viewModel.singlePlayerName.isEmpty {
             showingAlert = true
         } else {
-            viewModel.playerTwoName = "AI"
+            viewModel.playerTwoName = ""
             dismissKeyboard()
-            // Start the single-player game here
+            // Start single-player game logic here
         }
     }
 
@@ -143,5 +171,5 @@ struct GameSelectView2: View {
 }
 
 #Preview {
-    GameSelectView2(viewModel: GameSelectViewModel(coordinator: Coordinator()))
+    GameSelectView2(viewModel: SettingsViewModel(coordinator: Coordinator()))
 }

@@ -16,7 +16,7 @@ struct CoordinatorView: View {
             case .onboarding:
                 StartView(viewModel: StartViewModel(coordinator: coordinator))
             case .selectGame:
-                GameSelectView(viewModel: GameSelectViewModel(coordinator: coordinator))
+                GameSelectView2(viewModel: SettingsViewModel(coordinator: coordinator))
             case .game:
                 GameView(viewModel: GameViewModel(coordinator: coordinator))
             case .setting:

@@ -12,6 +12,9 @@ struct GameSettings: Codable {
     let duration: Duration
     let selectedStyle: PlayerStyle
     let musicStyle: MusicStyle
+    var singlePlayerName: String
+    var playerOneName: String
+    var playerTwoName: String
 }
 
 enum Duration: String, Codable, CaseIterable {
@@ -62,6 +65,7 @@ enum PlayerStyle: Codable, CaseIterable {
     }
 }
 
+
 // Расширение для создания настроек по умолчанию
 extension GameSettings {
     static func defaultGameSettings() -> GameSettings {
@@ -69,7 +73,10 @@ extension GameSettings {
             level: .standard,
             duration: .none,
             selectedStyle: .crossPinkCirclePurple,
-            musicStyle: .none
+            musicStyle: .none ,
+            singlePlayerName: "",
+            playerOneName: "",
+            playerTwoName: ""
         )
         return settings
     }

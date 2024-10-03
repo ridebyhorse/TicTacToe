@@ -15,15 +15,16 @@ struct SettingGameView: View {
     var body: some View {
         ZStack {
             Color.basicBackground.ignoresSafeArea()
-            VStack {
-                toolBar
-                Spacer()
-                settingsContent
-                Spacer()
+          
+                VStack {
+                    toolBar
+                    Spacer()
+                    settingsContent
+                    Spacer()
             }
         }
     }
-
+    
     private var toolBar: some View {
         ToolBarView(
             showBackButton: true,
@@ -37,6 +38,7 @@ struct SettingGameView: View {
     }
     
     private var settingsContent: some View {
+        ScrollView(.vertical, showsIndicators: false) {
             VStack {
                 SettingPickerView(
                     selectedValue: $viewModel.selectedDuration,
@@ -53,23 +55,28 @@ struct SettingGameView: View {
                     title: Resources.Text.selectDifficultyLevel.localized(language)
                 )
                 
-               
+                GameSymbolSelectionView(
+                    selectedSymbol: $viewModel.selectedPlayerSymbol,
+                    imageNameForPlayer1: viewModel.selectedIndex.imageNames.player1,
+                    imageNameForPlayer2: viewModel.selectedIndex.imageNames.player2
+                )
+                
                 VStack(alignment: .center) {
                     Text(Resources.Text.selectPlayerStyle.localized(language))
-                        .font(.headline)
                         .font(.navigationTitle)
-                            
+                    
                         .foregroundColor(.basicBlack)
-                        .padding(.top, 50)
+                        .padding(.top, 20)
                         .padding(.leading)
                     
                     playerStylesScrollView
                 }
             }
         }
-
-
-
+    }
+    
+    
+    
     private var playerStylesScrollView: some View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {

@@ -11,34 +11,39 @@ import SwiftUI
 final class GameViewModel: ObservableObject {
     // MARK: Properties
     private let coordinator: Coordinator
-    
-    private let gameManager: GameManager
     private let userManager: UserManager
+    private let gameManager: GameManager
     private let storageManager: StorageManager
-    
-    private let user: User? = nil
+
     @Published var moves: [Move?] = Array(repeating: nil, count: 9)
-    
-    // MARK: - Published Properties
-    @Published private(set) var winner: User?
     @Published private(set) var gameResult: GameResult? = nil
-    
-    let level: DifficultyLevel = .standard
-//    булька для смены варианта с ИИ играть или вдвоем
-    let isPlayingAgainstAI: Bool = true
+    @Published var player1: User
+    @Published var player2: User
+    @Published var currentPlayer: User
+    @Published var gameMode: GameMode = .singlePlayer
+
+    private var level: DifficultyLevel = .standard
     
     // MARK: Initialization
     init(
         coordinator: Coordinator,
-        gameManager: GameManager = .shared,
         userManager: UserManager = .shared,
+        gameManager: GameManager = .shared,
         storageManager: StorageManager = .shared
     ) {
         self.coordinator = coordinator
-        self.gameManager = gameManager
         self.userManager = userManager
+        self.gameManager = gameManager
         self.storageManager = storageManager
-     
+
+        // Инициализация игроков
+        self.player1 = userManager.player1
+        self.player2 = userManager.player2
+        self.currentPlayer = userManager.currentPlayer
+        
+        // Загрузка настроек и установка их в GameManager
+        let savedSettings = storageManager.getSettings()
+        self.level = savedSettings.level
         resetGame()
     }
     
@@ -46,18 +51,23 @@ final class GameViewModel: ObservableObject {
     func processPlayerMove(for position: Int) {
         guard !isSquareOccupied(in: moves, forIndex: position) else { return }
         
-        if gameManager.makeMove(at: position, with: level, with: isPlayingAgainstAI) {
+        if gameManager.makeMove(at: position, currentPlayer: currentPlayer, opponentPlayer: player2) {
             updateMoves()
             
             if gameManager.isGameOver {
-                let result = gameManager.getGameResult(isPlayingAgainstAI: isPlayingAgainstAI)
+                let result = gameManager.getGameResult(firstPlayer: player1, secondPlayer: player2)
                 handleGameResult(result)
             }
         }
     }
     
     func resetGame() {
-        gameManager.resetGame()
+        // Получаем сохраненные настройки из StorageManager
+        let savedSettings = storageManager.getSettings()
+        
+        // Установка настроек в GameManager
+        gameManager.setGameSettings(savedSettings)
+        gameManager.resetGame(gameMode: gameMode, firstPlayer: player1, secondPlayer: player2)
         updateMoves()
     }
     
@@ -68,7 +78,7 @@ final class GameViewModel: ObservableObject {
         }
         
         if gameManager.isGameOver {
-            let result = gameManager.getGameResult(isPlayingAgainstAI: isPlayingAgainstAI)
+            let result = gameManager.getGameResult(firstPlayer: player1, secondPlayer: player2)
             handleGameResult(result)
         }
     }
@@ -77,33 +87,26 @@ final class GameViewModel: ObservableObject {
         return moves.contains(where: { $0?.boardIndex == index })
     }
     
-    func showResult() {
-        coordinator.updateNavigationState(action: .showResult(
-            winner: user,
-            playedAgainstAI: isPlayingAgainstAI)
-        )
-    }
-    
     private func handleGameResult(_ result: GameResult) {
         gameResult = result
         switch result {
-        case .win(_):
+        case .win(let name):
             coordinator.updateNavigationState(
                 action: .showResult(
-                    winner: userManager.currentPlayer,
-                    playedAgainstAI: isPlayingAgainstAI)
+                    winner: gameManager.winner,
+                    playedAgainstAI: gameMode == .singlePlayer)
             )
         case .lose:
             coordinator.updateNavigationState(
                 action: .showResult(
-                    winner: nil,
-                    playedAgainstAI: isPlayingAgainstAI)
+                    winner: gameManager.winner,
+                    playedAgainstAI: gameMode == .singlePlayer)
             )
         case .draw:
             coordinator.updateNavigationState(
                 action: .showResult(
                     winner: nil,
-                    playedAgainstAI: isPlayingAgainstAI)
+                    playedAgainstAI: gameMode == .singlePlayer)
             )
         }
     }

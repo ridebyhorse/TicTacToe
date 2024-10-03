@@ -13,8 +13,13 @@ struct GameView: View {
     
     var body: some View {
         ZStack{
-            Color("basicBackground")
+            Color("basicBackground").ignoresSafeArea(.all)
             VStack{
+                ToolBarView(
+                    showBackButton: true,
+                    backButtonAction: { print("Back button pressed") },
+                    title: ""
+                )
                 HStack(spacing: 32){
                     PlayerSquareView()
                     Text("Time")
@@ -34,8 +39,10 @@ struct GameView: View {
                     action: viewModel.processPlayerMove(for:))
                     .padding(.top, 20)
                 Spacer()
+                    .padding(.bottom, 50)
             }
-            .padding(.top, 20)
+            .padding(.bottom, 60)
+            
         }
     }
 }

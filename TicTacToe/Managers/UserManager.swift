@@ -7,12 +7,14 @@
 
 import Foundation
 
-final class UserManager: ObservableObject {
-    @Published private(set) var player1: User
-    @Published private(set) var player2: User
-    @Published var currentPlayer: User
+final class UserManager {
+   public static let shared = UserManager()
     
-    init(player1: User = User(name: Resources.Text.you, type: .cross),
+   var player1: User
+   var player2: User
+   var currentPlayer: User
+    
+    private init(player1: User = User(name: Resources.Text.you, type: .cross),
          player2: User = User(name: Resources.Text.secondPlayer, type: .circle)) {
         self.player1 = player1
         self.player2 = player2

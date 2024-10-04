@@ -16,7 +16,7 @@ struct CoordinatorView: View {
             case .onboarding:
                 StartView(viewModel: StartViewModel(coordinator: coordinator))
             case .selectGame:
-                GameSelectView(viewModel: GameSelectViewModel(coordinator: coordinator))
+                GameSelectView2(viewModel: GameSelectViewModel(coordinator: coordinator))
             case .game:
                 GameView(viewModel: GameViewModel(coordinator: coordinator))
             case .setting:
@@ -25,6 +25,8 @@ struct CoordinatorView: View {
                 RulesView(viewModel: RulesViewModel(coordinator: coordinator))
             case .result(let winner, let playedAgainstAI):
                 ResultView(viewModel: ResultViewModel(coordinator: coordinator, winner: winner, playedAgainstAI: playedAgainstAI))
+            case .leaderboard:
+                LeaderboardView(viewModel: LeaderboardViewModel(coordinator: coordinator))
             }
         }
         .animation(.bouncy, value: coordinator.navigationState)

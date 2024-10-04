@@ -16,6 +16,7 @@ final class Coordinator: ObservableObject {
         case setting
         case rules
         case result(winner: User?, playedAgainstAI: Bool)
+        case leaderboard
     }
     
     enum CoordinatorAction {
@@ -25,6 +26,7 @@ final class Coordinator: ObservableObject {
         case showSettings
         case showRules
         case showResult(winner: User?, playedAgainstAI: Bool)
+        case leaderboard
     }
     
     @Published var navigationState: NavigationState = .onboarding
@@ -46,6 +48,8 @@ final class Coordinator: ObservableObject {
             newState = .rules
         case .showResult(let winner, let playedAgainstAI):
             newState = .result(winner: winner, playedAgainstAI: playedAgainstAI)
+        case .leaderboard:
+            newState = .leaderboard
         }
         return newState
     }

@@ -25,6 +25,28 @@ struct StartView: View {
                 })
                 Spacer()
                 Button(action: {
+                    viewModel.openLeaderboard()
+                }, label: {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 30)
+                            .fill(.basicLightBlue)
+                            .frame(height: 54)
+                        HStack {
+                            Image(.leaderboardIcon)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 38, height: 29)
+                            Text(Resources.Text.leaderboard)
+                                .font(.buttonTitle)
+                                .foregroundStyle(.basicBlack)
+                        }
+                        .padding(.trailing, 10)
+                    }
+                    .padding(.top, 6)
+                    .padding(.horizontal, 28)
+                })
+                Spacer()
+                Button(action: {
                     viewModel.openSettings()
                 }, label: {
                     Image(.settingsIcon)

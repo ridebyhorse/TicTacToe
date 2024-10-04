@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-enum GameResult {
-    case win(name: String)
-    case lose
-    case draw
-}
-
 struct ResultView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
     @ObservedObject var viewModel: ResultViewModel

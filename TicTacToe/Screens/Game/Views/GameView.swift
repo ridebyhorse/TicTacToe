@@ -21,21 +21,21 @@ struct GameView: View {
                     title: ""
                 )
                 HStack(spacing: 32){
-                    PlayerSquareView()
+                    PlayerSquareView(player: viewModel.player1)
                     Text("Time")
                         .font(.basicTitle)
-                    PlayerSquareView()
+                    PlayerSquareView(player: viewModel.player2)
                 }
                 HStack{
-                    Image("crossPink")
+                    Image(getPlayerImageName(for: viewModel.currentPlayer))
                         .resizable()
                         .frame(width: 54, height: 54)
-                    Text("Player")
+                    Text(viewModel.currentPlayer.name)
                         .font(.basicTitle)
                 }
                 .padding(.top, 45)
                 GameFieldView(
-                    moves: viewModel.moves,
+                    gameBoard: viewModel.gameBoard,
                     action: viewModel.processPlayerMove(for:))
                     .padding(.top, 20)
                 Spacer()
@@ -45,6 +45,12 @@ struct GameView: View {
             
         }
     }
+    
+    // MARK: - Helper to get player image based on style and type
+        private func getPlayerImageName(for player: User) -> String {
+            let imageNames = player.style.imageNames
+            return player.type == .cross ? imageNames.player1 : imageNames.player2
+        }
 }
 
 #Preview {

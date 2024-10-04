@@ -7,28 +7,25 @@
 
 import SwiftUI
 
-
-
 struct GameFieldView: View {
-
-    @State private var isXTurn = true
-    let moves: [Move?]
+    let gameBoard: [PlayerSymbol?]
     let action: (_ index: Int) -> Void
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10)
     ]
+
     var body: some View {
-        ZStack{
+        ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .frame(width: 300, height: 300)
                 .foregroundColor(.white)
                 .shadow(color: Color(red: 0.6, green: 0.62, blue: 0.76).opacity(0.3), radius: 15, x: 4, y: 4)
-            
-            LazyVGrid(columns: columns, spacing: 20){
+
+            LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(0..<9) { index in
-                    GameSquareView(move: moves[index])
+                    GameSquareView(playerSymbol: gameBoard[index])
                         .onTapGesture {
                             action(index)
                         }
@@ -40,5 +37,5 @@ struct GameFieldView: View {
 }
 
 #Preview {
-    GameFieldView(moves: [], action: { index in index + 1 } )
+    GameFieldView(gameBoard: Array(repeating: nil, count: 9), action: { index in index + 1 })
 }

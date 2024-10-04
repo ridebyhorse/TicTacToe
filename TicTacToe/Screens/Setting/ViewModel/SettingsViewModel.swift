@@ -15,7 +15,7 @@ final class SettingsViewModel: ObservableObject {
     @Published var selectedDuration: Duration
     @Published var selectedMusic: MusicStyle
     @Published var selectedLevel: DifficultyLevel
-    @Published var selectedPlayerStyle: PlayerStyle
+    @Published var selectedPlayerSymbol: PlayerSymbol
     
     private let coordinator: Coordinator
     private let storageManager: StorageManager
@@ -32,7 +32,7 @@ final class SettingsViewModel: ObservableObject {
         self.selectedDuration = gameSettings.duration
         self.selectedMusic = gameSettings.musicStyle
         self.selectedLevel = gameSettings.level
-        self.selectedPlayerStyle = gameSettings.selectedStyle
+        self.selectedPlayerSymbol = gameSettings.playerSymbol
     }
 
     // MARK: Methods
@@ -41,7 +41,8 @@ final class SettingsViewModel: ObservableObject {
             level: selectedLevel,
             duration: selectedDuration,
             selectedStyle: selectedIndex,
-            musicStyle: selectedMusic
+            musicStyle: selectedMusic,
+            playerSymbol: selectedPlayerSymbol
         )
         storageManager.saveSettings(gameSettings)
     }
@@ -52,6 +53,7 @@ final class SettingsViewModel: ObservableObject {
         selectedDuration = defaultSettings.duration
         selectedMusic = defaultSettings.musicStyle
         selectedLevel = defaultSettings.level
+        selectedPlayerSymbol = defaultSettings.playerSymbol
         saveSettings()
     }
     

@@ -14,31 +14,44 @@ struct GameView: View {
     
     var body: some View {
         ZStack{
-            Color("basicBackground")
+            Color("basicBackground").ignoresSafeArea(.all)
             VStack{
+                ToolBarView(
+                    showBackButton: true,
+                    backButtonAction: { print("Back button pressed") },
+                    title: ""
+                )
                 HStack(spacing: 32){
-                    PlayerSquareView(playerIcon: settingsViewModel.selectedPlayerStyle.imageNames.player1)
+                    PlayerSquareView(player: viewModel.player1)
                     Text("Time")
                         .font(.basicTitle)
-                    PlayerSquareView(playerIcon: settingsViewModel.selectedPlayerStyle.imageNames.player2)
+                    PlayerSquareView(player: viewModel.player2)
                 }
                 HStack{
-                    Image("crossPink")
+                    Image(getPlayerImageName(for: viewModel.currentPlayer))
                         .resizable()
                         .frame(width: 54, height: 54)
-                    Text("Player")
+                    Text(viewModel.currentPlayer.name)
                         .font(.basicTitle)
                 }
                 .padding(.top, 45)
                 GameFieldView(
-                    moves: viewModel.moves,
+                    gameBoard: viewModel.gameBoard,
                     action: viewModel.processPlayerMove(for:))
                     .padding(.top, 20)
                 Spacer()
+                    .padding(.bottom, 50)
             }
-            .padding(.top, 20)
+            .padding(.bottom, 60)
+            
         }
     }
+    
+    // MARK: - Helper to get player image based on style and type
+        private func getPlayerImageName(for player: User) -> String {
+            let imageNames = player.style.imageNames
+            return player.type == .cross ? imageNames.player1 : imageNames.player2
+        }
 }
 
 //#Preview {

@@ -7,29 +7,20 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct GameSquareView: View {
-    
-    var move: Move?
-    
+    var playerSymbol: PlayerSymbol? 
+
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
                 .frame(width: 74, height: 74)
                 .foregroundColor(Color("basicLightBlue"))
-            
-            if let move = move {
-                Image(move.indicator)
+
+            if let symbol = playerSymbol {
+                Image(symbol == .cross ? "crossPink" : "circlePurple")
                     .resizable()
                     .frame(width: 50, height: 50)
             }
         }
     }
 }
-
-#Preview {
-    @State var squareMove: Move? = Move(player: .human, boardIndex: 0)
-    return GameSquareView(move: squareMove)
-}
-

@@ -9,101 +9,107 @@ import Foundation
 import SwiftUI
 
 final class GameViewModel: ObservableObject {
-    // MARK: Properties
+    // MARK: - Properties
     private let coordinator: Coordinator
-    
-    private let gameManager: GameManager
     private let userManager: UserManager
+    private let gameManager: GameManager
     private let storageManager: StorageManager
-    
-    private let user: User? = nil
-    @Published var moves: [Move?] = Array(repeating: nil, count: 9)
-    
-    // MARK: - Published Properties
-    @Published private(set) var winner: User?
+    private let musicManager: MusicManager
+
+    @Published var gameBoard: [PlayerSymbol?] = Array(repeating: nil, count: 9)
     @Published private(set) var gameResult: GameResult? = nil
+    @Published var player1: User
+    @Published var player2: User
+    @Published var currentPlayer: User
+    @Published var gameMode: GameMode = .singlePlayer
+
+    private var level: DifficultyLevel = .standard
     
-    let level: DifficultyLevel = .standard
-//    булька для смены варианта с ИИ играть или вдвоем
-    let isPlayingAgainstAI: Bool = true
-    
-    // MARK: Initialization
+    // MARK: - Initialization
     init(
         coordinator: Coordinator,
-        gameManager: GameManager = .shared,
         userManager: UserManager = .shared,
-        storageManager: StorageManager = .shared
+        gameManager: GameManager = .shared,
+        storageManager: StorageManager = .shared,
+        musicManager: MusicManager = .shared
     ) {
         self.coordinator = coordinator
-        self.gameManager = gameManager
         self.userManager = userManager
+        self.gameManager = gameManager
         self.storageManager = storageManager
-     
+        self.musicManager = musicManager
+
+        // Инициализация игроков
+        self.player1 = userManager.player1
+        self.player2 = userManager.player2
+        self.currentPlayer = userManager.currentPlayer
+        
+        // Загрузка настроек и установка их в GameManager
+        let savedSettings = storageManager.getSettings()
+        self.level = savedSettings.level
+        
         resetGame()
+        musicManager.playMusic()
     }
     
     // MARK: - Game Logic
     func processPlayerMove(for position: Int) {
-        guard !isSquareOccupied(in: moves, forIndex: position) else { return }
+        guard !isSquareOccupied(at: position) else { return }
         
-        if gameManager.makeMove(at: position, with: level, with: isPlayingAgainstAI) {
-            updateMoves()
-            
+        if gameManager.makeMove(at: position, currentPlayer: currentPlayer, opponentPlayer: player2) {
+            updateGameBoard()
+            musicManager.playSoundFor(.moveUser1)
             if gameManager.isGameOver {
-                let result = gameManager.getGameResult(isPlayingAgainstAI: isPlayingAgainstAI)
+                let result = gameManager.getGameResult(firstPlayer: player1, secondPlayer: player2)
                 handleGameResult(result)
             }
         }
     }
     
     func resetGame() {
-        gameManager.resetGame()
-        updateMoves()
-    }
-    
-    func updateMoves() {
-        moves = gameManager.gameBoard.enumerated().map { index, playerType in
-            guard let playerType = playerType else { return nil }
-            return Move(player: playerType == .cross ? .human : .computer, boardIndex: index)
-        }
+        // Получаем сохраненные настройки из StorageManager
+        let savedSettings = storageManager.getSettings()
         
-        if gameManager.isGameOver {
-            let result = gameManager.getGameResult(isPlayingAgainstAI: isPlayingAgainstAI)
-            handleGameResult(result)
-        }
+        // Установка настроек в GameManager
+        gameManager.setGameSettings(savedSettings)
+        gameManager.resetGame(gameMode: gameMode, firstPlayer: player1, secondPlayer: player2)
+        
+        // Обновление доски
+        updateGameBoard()
     }
     
-    func isSquareOccupied(in moves: [Move?], forIndex index: Int) -> Bool {
-        return moves.contains(where: { $0?.boardIndex == index })
+    func updateGameBoard() {
+        gameBoard = gameManager.gameBoard // Обновляем gameBoard напрямую
     }
     
-    func showResult() {
-        coordinator.updateNavigationState(action: .showResult(
-            winner: user,
-            playedAgainstAI: isPlayingAgainstAI)
-        )
+    func isSquareOccupied(at index: Int) -> Bool {
+        return gameBoard[index] != nil
     }
     
     private func handleGameResult(_ result: GameResult) {
         gameResult = result
+        musicManager.stopMusic()
         switch result {
-        case .win(_):
+        case .win:
             coordinator.updateNavigationState(
                 action: .showResult(
-                    winner: userManager.currentPlayer,
-                    playedAgainstAI: isPlayingAgainstAI)
+                    winner: gameManager.winner,
+                    playedAgainstAI: gameMode == .singlePlayer
+                )
             )
         case .lose:
             coordinator.updateNavigationState(
                 action: .showResult(
-                    winner: nil,
-                    playedAgainstAI: isPlayingAgainstAI)
+                    winner: player2,
+                    playedAgainstAI: gameMode == .singlePlayer
+                )
             )
         case .draw:
             coordinator.updateNavigationState(
                 action: .showResult(
                     winner: nil,
-                    playedAgainstAI: isPlayingAgainstAI)
+                    playedAgainstAI: gameMode == .singlePlayer
+                )
             )
         }
     }

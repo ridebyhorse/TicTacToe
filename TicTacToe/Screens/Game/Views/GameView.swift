@@ -30,7 +30,7 @@ struct GameView: View {
                 }
                 .padding(.top, 45)
                 GameFieldView(
-                    moves: viewModel.moves,
+                    gameBoard: viewModel.gameBoard,
                     action: viewModel.processPlayerMove(for:))
                     .padding(.top, 20)
                 Spacer()

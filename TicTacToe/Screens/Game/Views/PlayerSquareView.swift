@@ -17,7 +17,7 @@ struct PlayerSquareView: View {
                 .frame(width: 104, height: 104)
                 .foregroundColor(Color("basicLightBlue"))
             VStack(spacing: 10){
-                Image(player.type.rawValue)
+                Image(getPlayerImageName(for: player))
                     .resizable()
                     .frame(width: 54, height: 54)
                 Text(player.name)
@@ -27,6 +27,11 @@ struct PlayerSquareView: View {
             }
         }
     }
+    // MARK: - Helper to get player image based on style and type
+        private func getPlayerImageName(for player: User) -> String {
+            let imageNames = player.style.imageNames
+            return player.type == .cross ? imageNames.player1 : imageNames.player2
+        }
 }
 
 #Preview {

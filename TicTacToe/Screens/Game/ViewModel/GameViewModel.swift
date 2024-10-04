@@ -9,13 +9,13 @@ import Foundation
 import SwiftUI
 
 final class GameViewModel: ObservableObject {
-    // MARK: Properties
+    // MARK: - Properties
     private let coordinator: Coordinator
     private let userManager: UserManager
     private let gameManager: GameManager
     private let storageManager: StorageManager
 
-    @Published var moves: [Move?] = Array(repeating: nil, count: 9)
+    @Published var gameBoard: [PlayerSymbol?] = Array(repeating: nil, count: 9)
     @Published private(set) var gameResult: GameResult? = nil
     @Published var player1: User
     @Published var player2: User
@@ -24,7 +24,7 @@ final class GameViewModel: ObservableObject {
 
     private var level: DifficultyLevel = .standard
     
-    // MARK: Initialization
+    // MARK: - Initialization
     init(
         coordinator: Coordinator,
         userManager: UserManager = .shared,
@@ -44,15 +44,16 @@ final class GameViewModel: ObservableObject {
         // Загрузка настроек и установка их в GameManager
         let savedSettings = storageManager.getSettings()
         self.level = savedSettings.level
+        
         resetGame()
     }
     
     // MARK: - Game Logic
     func processPlayerMove(for position: Int) {
-        guard !isSquareOccupied(in: moves, forIndex: position) else { return }
+        guard !isSquareOccupied(at: position) else { return }
         
         if gameManager.makeMove(at: position, currentPlayer: currentPlayer, opponentPlayer: player2) {
-            updateMoves()
+            updateGameBoard()
             
             if gameManager.isGameOver {
                 let result = gameManager.getGameResult(firstPlayer: player1, secondPlayer: player2)
@@ -68,23 +69,17 @@ final class GameViewModel: ObservableObject {
         // Установка настроек в GameManager
         gameManager.setGameSettings(savedSettings)
         gameManager.resetGame(gameMode: gameMode, firstPlayer: player1, secondPlayer: player2)
-        updateMoves()
-    }
-    
-    func updateMoves() {
-        moves = gameManager.gameBoard.enumerated().map { index, playerType in
-            guard let playerType = playerType else { return nil }
-            return Move(player: playerType == .cross ? .human : .computer, boardIndex: index)
-        }
         
-        if gameManager.isGameOver {
-            let result = gameManager.getGameResult(firstPlayer: player1, secondPlayer: player2)
-            handleGameResult(result)
-        }
+        // Обновление доски
+        updateGameBoard()
     }
     
-    func isSquareOccupied(in moves: [Move?], forIndex index: Int) -> Bool {
-        return moves.contains(where: { $0?.boardIndex == index })
+    func updateGameBoard() {
+        gameBoard = gameManager.gameBoard // Обновляем gameBoard напрямую
+    }
+    
+    func isSquareOccupied(at index: Int) -> Bool {
+        return gameBoard[index] != nil
     }
     
     private func handleGameResult(_ result: GameResult) {
@@ -94,19 +89,22 @@ final class GameViewModel: ObservableObject {
             coordinator.updateNavigationState(
                 action: .showResult(
                     winner: gameManager.winner,
-                    playedAgainstAI: gameMode == .singlePlayer)
+                    playedAgainstAI: gameMode == .singlePlayer
+                )
             )
         case .lose:
             coordinator.updateNavigationState(
                 action: .showResult(
-                    winner: gameManager.winner,
-                    playedAgainstAI: gameMode == .singlePlayer)
+                    winner: player2,
+                    playedAgainstAI: gameMode == .singlePlayer
+                )
             )
         case .draw:
             coordinator.updateNavigationState(
                 action: .showResult(
                     winner: nil,
-                    playedAgainstAI: gameMode == .singlePlayer)
+                    playedAgainstAI: gameMode == .singlePlayer
+                )
             )
         }
     }

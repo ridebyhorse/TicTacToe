@@ -35,9 +35,9 @@ enum MusicStyle: String, Codable, CaseIterable {
 }
 
 enum DifficultyLevel: String, Codable, CaseIterable {
-    case easy
-    case standard
-    case hard
+    case easy = "Easy"
+    case normal = "Normal"
+    case hard = "Hard"
 }
 
 // Перечисление для стилей игроков
@@ -72,7 +72,7 @@ enum PlayerStyle: Codable, CaseIterable {
 extension GameSettings {
     static func defaultGameSettings() -> GameSettings {
         let settings = GameSettings(
-            level: .standard,
+            level: .normal,
             duration: .none,
             selectedStyle: .crossPinkCirclePurple,
             musicStyle: .none, 

@@ -18,6 +18,14 @@ final class GameManager {
     // MARK: - Init
     private init() {}
 
+    // Сброс игры с начальной настройкой игроков и символов
+    func resetGame(firstPlayer: Player, secondPlayer: Player) {
+        self.gameBoard = Array(repeating: nil, count: 9)
+        self.winner = nil
+        self.isGameOver = false
+
+    }
+    
     // MARK: - Player Move
     @discardableResult
     func makeMove(at position: Int, for player: Player, opponent: Player) -> Bool {
@@ -64,7 +72,7 @@ final class GameManager {
         switch level {
         case .easy:
             return findFirstAvailableMove()
-        case .standard:
+        case .normal:
             return findCenterMove() ?? findWinningMove(for: opponent.symbol) ?? findFirstAvailableMove()
         case .hard:
             return findWinningMove(for: opponent.symbol) ?? findWinningMove(for: player1.symbol) ?? findCenterMove() ?? findCornerMove() ?? findFirstAvailableMove()

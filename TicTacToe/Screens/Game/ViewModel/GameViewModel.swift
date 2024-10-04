@@ -24,7 +24,7 @@ final class GameViewModel: ObservableObject {
     
     @Published var gameMode: GameMode = .singlePlayer
     
-    var level: DifficultyLevel = .standard
+    var level: DifficultyLevel = .normal
     var playerStyle: PlayerStyle = .crossFilledPurpleCircleFilledPurple
     var player1Symbol: PlayerSymbol = .cross
     
@@ -53,6 +53,7 @@ final class GameViewModel: ObservableObject {
         self.playerStyle = savedSettings.selectedStyle
         self.player1Symbol = savedSettings.playerSymbol
         
+        
         updatePlayerData()
         resetGame()
         musicManager.playMusic()
@@ -63,7 +64,7 @@ final class GameViewModel: ObservableObject {
         // Установка символов и стилей для игроков
         player1.symbol = player1Symbol
         player2.symbol = player1.symbol == .cross ? .circle : .cross
-        
+        currentPlayer.style = playerStyle
         player1.style = playerStyle
         player2.style = playerStyle
     }
@@ -98,6 +99,7 @@ final class GameViewModel: ObservableObject {
     }
     
     func resetGame() {
+        gameManager.resetGame(firstPlayer: player1, secondPlayer: player2)
         // Обновление доски
         gameBoard = gameManager.gameBoard
     }

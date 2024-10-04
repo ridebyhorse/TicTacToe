@@ -12,6 +12,12 @@ struct GameSettings: Codable {
     let duration: Duration
     let selectedStyle: PlayerStyle
     let musicStyle: MusicStyle
+    let playerSymbol: PlayerSymbol
+}
+
+enum PlayerSymbol: String, Codable {
+    case cross
+    case circle
 }
 
 enum Duration: String, Codable, CaseIterable {
@@ -69,7 +75,8 @@ extension GameSettings {
             level: .standard,
             duration: .none,
             selectedStyle: .crossPinkCirclePurple,
-            musicStyle: .none
+            musicStyle: .none, 
+            playerSymbol: .cross
         )
         return settings
     }

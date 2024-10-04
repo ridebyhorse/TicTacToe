@@ -7,19 +7,16 @@
 
 import Foundation
 
-enum PlayerType {
-    case circle
-    case cross
-}
-
 struct User: Equatable {
-    let name: String
-    let type: PlayerType
+    var name: String
+    let type: PlayerSymbol
     var score = 0
+    var style: PlayerStyle
 
-//    MARK: Init
-    init(name: String, type: PlayerType) {
+    // MARK: Init
+    init(name: String, type: PlayerSymbol, style: PlayerStyle) {
         self.name = name
         self.type = type
+        self.style = style
     }
 }

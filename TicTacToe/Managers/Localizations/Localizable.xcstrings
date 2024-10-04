@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@  Player Name" : {
-
-    },
     "%@ победил!" : {
 
     },
@@ -19,13 +16,13 @@
     "OK" : {
 
     },
-    "Player" : {
-
-    },
     "Please enter your name" : {
 
     },
     "Select Game" : {
+
+    },
+    "Select Your Symbol:" : {
 
     },
     "Time" : {

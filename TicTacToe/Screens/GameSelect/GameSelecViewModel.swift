@@ -8,40 +8,37 @@
 import Foundation
 import SwiftUI
 
-
+@MainActor
 final class GameSelectViewModel: ObservableObject {
     // MARK: Properties
-    @AppStorage("singlePlayerName") var singlePlayerName: String = ""
-    @AppStorage("playerOneName") var playerOneName: String = ""
-    @AppStorage("playerTwoName") var playerTwoName: String = ""
+    @Published var singlePlayerName: String = ""
+    @Published var playerOneName: String = ""
+    @Published var playerTwoName: String = ""
     
-    @Published var selectedGameMode: String = UserDefaults.standard.string(forKey: "selectedGameMode") ?? "Standard"
-    @Published var selectedSymbol: String = UserDefaults.standard.string(forKey: "selectedSymbol") ?? "cross"
-    
-    func updateGameMode(_ mode: String) {
-        selectedGameMode = mode
-        UserDefaults.standard.set(mode, forKey: "selectedGameMode")
-    }
-
-
-    func updateSymbol(_ symbol: String) {
-        selectedSymbol = symbol
-        UserDefaults.standard.set(symbol, forKey: "selectedSymbol")
-    }
-    
-    
+    private let userManager: UserManager
     private let coordinator: Coordinator
-  
+    
     
     // MARK: Initialization
-    init(coordinator: Coordinator) {
-        self.coordinator = coordinator
+    init(
+        userManager: UserManager = .shared,
+        coordinator: Coordinator) {
+            self.userManager = userManager
+            self.coordinator = coordinator
+        }
+    
+    func setGameMode(_ mode: GameMode) {
+        userManager.setGameMode(mode)
     }
-        
-
-
+    
     // MARK: - NavigationState
     func startGame() {
+        if userManager.gameMode == .singlePlayer {
+            userManager.setPlayers(player1Name: singlePlayerName, player2Name: "AI")
+        } else {
+            userManager.setPlayers(player1Name: playerOneName, player2Name: playerTwoName)
+        }
+        
         coordinator.updateNavigationState(action: .startGame)
     }
     

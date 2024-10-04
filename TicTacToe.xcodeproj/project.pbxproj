@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		ADA899CA2CADAF8300363BDB /* GameSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA899C92CADAF7900363BDB /* GameSelectView.swift */; };
+		CB511C4B2CAFD1E5001454B5 /* classic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CB511C442CAFD1E5001454B5 /* classic.mp3 */; };
+		CB511C4C2CAFD1E5001454B5 /* final.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CB511C452CAFD1E5001454B5 /* final.mp3 */; };
+		CB511C4D2CAFD1E5001454B5 /* instrumental.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CB511C462CAFD1E5001454B5 /* instrumental.mp3 */; };
+		CB511C4E2CAFD1E5001454B5 /* move1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CB511C472CAFD1E5001454B5 /* move1.mp3 */; };
+		CB511C4F2CAFD1E5001454B5 /* move2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CB511C482CAFD1E5001454B5 /* move2.mp3 */; };
+		CB511C502CAFD1E5001454B5 /* nature.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CB511C492CAFD1E5001454B5 /* nature.mp3 */; };
 		CB6F3E552CA997AA005C2ED9 /* TicTacToeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6F3E542CA997AA005C2ED9 /* TicTacToeApp.swift */; };
 		CB6F3E572CA997AA005C2ED9 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6F3E562CA997AA005C2ED9 /* StartView.swift */; };
 		CB6F3E592CA997AB005C2ED9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB6F3E582CA997AB005C2ED9 /* Assets.xcassets */; };
@@ -55,6 +61,12 @@
 
 /* Begin PBXFileReference section */
 		ADA899C92CADAF7900363BDB /* GameSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSelectView.swift; sourceTree = "<group>"; };
+		CB511C442CAFD1E5001454B5 /* classic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = classic.mp3; sourceTree = "<group>"; };
+		CB511C452CAFD1E5001454B5 /* final.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = final.mp3; sourceTree = "<group>"; };
+		CB511C462CAFD1E5001454B5 /* instrumental.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = instrumental.mp3; sourceTree = "<group>"; };
+		CB511C472CAFD1E5001454B5 /* move1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = move1.mp3; sourceTree = "<group>"; };
+		CB511C482CAFD1E5001454B5 /* move2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = move2.mp3; sourceTree = "<group>"; };
+		CB511C492CAFD1E5001454B5 /* nature.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = nature.mp3; sourceTree = "<group>"; };
 		CB6F3E512CA997AA005C2ED9 /* TicTacToe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicTacToe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB6F3E542CA997AA005C2ED9 /* TicTacToeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeApp.swift; sourceTree = "<group>"; };
 		CB6F3E562CA997AA005C2ED9 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
@@ -112,6 +124,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CB511C4A2CAFD1E5001454B5 /* Music */ = {
+			isa = PBXGroup;
+			children = (
+				CB511C442CAFD1E5001454B5 /* classic.mp3 */,
+				CB511C452CAFD1E5001454B5 /* final.mp3 */,
+				CB511C462CAFD1E5001454B5 /* instrumental.mp3 */,
+				CB511C472CAFD1E5001454B5 /* move1.mp3 */,
+				CB511C482CAFD1E5001454B5 /* move2.mp3 */,
+				CB511C492CAFD1E5001454B5 /* nature.mp3 */,
+			);
+			name = Music;
+			path = TicTacToe/Resources/Music;
+			sourceTree = SOURCE_ROOT;
+		};
 		CB6F3E482CA997AA005C2ED9 = {
 			isa = PBXGroup;
 			children = (
@@ -315,6 +341,7 @@
 		E1E0BDBA2CA9F67000DB8D34 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CB511C4A2CAFD1E5001454B5 /* Music */,
 				E1E0BDBB2CA9F6B300DB8D34 /* Resources.swift */,
 				E1E0BDBD2CAA816A00DB8D34 /* TestGameView.swift */,
 				CB6F3E582CA997AB005C2ED9 /* Assets.xcassets */,
@@ -437,9 +464,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB511C4F2CAFD1E5001454B5 /* move2.mp3 in Resources */,
+				CB511C4D2CAFD1E5001454B5 /* instrumental.mp3 in Resources */,
+				CB511C4C2CAFD1E5001454B5 /* final.mp3 in Resources */,
+				CB511C4E2CAFD1E5001454B5 /* move1.mp3 in Resources */,
+				CB511C502CAFD1E5001454B5 /* nature.mp3 in Resources */,
 				CB6F3E5C2CA997AB005C2ED9 /* Preview Assets.xcassets in Resources */,
 				CB6F3E592CA997AB005C2ED9 /* Assets.xcassets in Resources */,
 				E1E0BDDB2CAA974700DB8D34 /* Localizable.xcstrings in Resources */,
+				CB511C4B2CAFD1E5001454B5 /* classic.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

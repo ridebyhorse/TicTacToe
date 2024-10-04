@@ -43,8 +43,8 @@ final class GameViewModel: ObservableObject {
         self.musicManager = musicManager
         
         // Инициализация игроков
-        self.player = userManager.player1
-        self.opponent = userManager.player2
+        self.player = userManager.player
+        self.opponent = userManager.opponent
         self.currentPlayer = userManager.currentPlayer
         self.gameMode = userManager.gameMode
         
@@ -65,6 +65,7 @@ final class GameViewModel: ObservableObject {
         // Установка символов и стилей для игроков
         player.symbol = player1Symbol
         opponent.symbol = player.symbol == .cross ? .circle : .cross
+        currentPlayer.symbol = player1Symbol
         currentPlayer.style = playerStyle
         player.style = playerStyle
         opponent.style = playerStyle
@@ -84,14 +85,13 @@ final class GameViewModel: ObservableObject {
                 level: level
             )
         case .twoPlayers:
-            moved = gameManager.makeMove(at: position, for: currentPlayer, opponent: opponentPlayer)
+            moved = gameManager.makeMove(at: position, for: player, opponent: opponent)
         }
         
         if moved {
             gameBoard = gameManager.gameBoard
-            
             if gameManager.isGameOver {
-                let result = gameManager.getGameResult(gameMode: gameMode, firstPlayer: player, secondPlayer: opponent)
+                let result = gameManager.getGameResult(gameMode: gameMode, player: player, opponent: opponent)
                 handleGameResult(result)
             } else {
                 togglePlayer()
@@ -102,6 +102,7 @@ final class GameViewModel: ObservableObject {
     // Метод для переключения между игроками
     private func togglePlayer() {
         gameManager.switchPlayer(with: player, opponent: opponent)
+        currentPlayer = gameManager.currentPlayer ?? player
     }
     
     func resetGame() {

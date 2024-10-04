@@ -33,6 +33,9 @@ final class GameManager {
         guard isValidMove(at: position) else { return false }
         gameBoard[position] = player.symbol
         evaluateGameState(for: player, opponent: opponent)
+        if !isGameOver {
+            switchPlayer(with: player, opponent: opponent)
+        }
         return true
     }
 
@@ -46,9 +49,9 @@ final class GameManager {
     }
     
         // Получение результата игры
-    func getGameResult(gameMode: GameMode, firstPlayer: Player, secondPlayer: Player) -> GameResult {
+    func getGameResult(gameMode: GameMode, player: Player, opponent: Player) -> GameResult {
             if let winner = winner {
-                if gameMode == .singlePlayer && winner == secondPlayer {
+                if gameMode == .singlePlayer && winner == opponent {
                     return .lose
                 } else {
                     return .win(name: winner.name)

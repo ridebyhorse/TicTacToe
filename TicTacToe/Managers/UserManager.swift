@@ -9,15 +9,15 @@ import Foundation
 final class UserManager {
     public static let shared = UserManager()
     
-    var player1: Player
-    var player2: Player
+    var player: Player
+    var opponent: Player
     private(set) var currentPlayer: Player
     private(set) var gameMode: GameMode = .singlePlayer
     
     private init() {
-        self.player1 = Player(name: "", symbol: .cross, style: .crossPinkCirclePurple)
-        self.player2 = Player(name: "", symbol: .circle, style: .crossPinkCirclePurple)
-        self.currentPlayer = player1
+        self.player = Player(name: "", symbol: .cross, style: .crossPinkCirclePurple)
+        self.opponent = Player(name: "", symbol: .circle, style: .crossPinkCirclePurple)
+        self.currentPlayer = player
     }
     
     // Устанавливаем режим игры
@@ -27,9 +27,9 @@ final class UserManager {
     
     // Устанавливаем имена игроков
     func setPlayers(player1Name: String, player2Name: String) {
-        self.player1.name = player1Name
-        self.player2.name = player2Name
-        self.currentPlayer = player1
+        self.player.name = player1Name
+        self.opponent.name = player2Name
+        self.currentPlayer = player
     }
     
     // Жребьевка для случайного выбора первого игрока

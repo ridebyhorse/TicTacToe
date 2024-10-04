@@ -34,6 +34,12 @@ final class UserManager {
         self.currentPlayer = player1
     }
     
+    // Set player styles based on settings
+    func setPlayerStyles(style: PlayerStyle) {
+        player1.style = style
+        player2.style = style
+    }
+    
     // Жребьевка для случайного выбора первого игрока
     func randomizeFirstPlayer() {
         currentPlayer = Bool.random() ? player1 : player2

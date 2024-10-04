@@ -45,6 +45,7 @@ final class SettingsViewModel: ObservableObject {
             playerSymbol: selectedPlayerSymbol
         )
         storageManager.saveSettings(gameSettings)
+        UserManager.shared.setPlayerStyles(style: selectedIndex)
     }
 
     func resetToDefault() {

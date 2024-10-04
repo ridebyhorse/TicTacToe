@@ -20,3 +20,8 @@ struct Player: Equatable {
         self.style = style
     }
 }
+
+struct LeaderboardUser: Codable {
+    let name: String
+    let score: Int
+}

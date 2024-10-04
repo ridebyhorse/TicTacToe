@@ -84,6 +84,7 @@ struct SettingGameView: View {
                                 withAnimation {
                                     viewModel.selectedIndex = style
                                     proxy.scrollTo(style, anchor: .center)
+                                    viewModel.selectedPlayerStyle = style
                                 }
                             }
                         )

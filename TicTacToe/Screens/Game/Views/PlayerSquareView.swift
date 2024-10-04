@@ -9,13 +9,16 @@ import SwiftUI
 
 
 struct PlayerSquareView: View {
+    
+    var playerIcon: String
+    
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
                 .frame(width: 104, height: 104)
                 .foregroundColor(Color("basicLightBlue"))
             VStack(spacing: 10){
-                Image("crossPink")
+                Image(playerIcon)
                     .resizable()
                     .frame(width: 54, height: 54)
                 Text("Player")
@@ -27,6 +30,6 @@ struct PlayerSquareView: View {
     }
 }
 
-#Preview {
-    PlayerSquareView()
-}
+//#Preview {
+//    PlayerSquareView()
+//}

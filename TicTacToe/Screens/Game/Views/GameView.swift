@@ -10,16 +10,17 @@ import SwiftUI
 struct GameView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
     @ObservedObject var viewModel: GameViewModel
+    @ObservedObject var settingsViewModel: SettingsViewModel
     
     var body: some View {
         ZStack{
             Color("basicBackground")
             VStack{
                 HStack(spacing: 32){
-                    PlayerSquareView()
+                    PlayerSquareView(playerIcon: settingsViewModel.selectedPlayerStyle.imageNames.player1)
                     Text("Time")
                         .font(.basicTitle)
-                    PlayerSquareView()
+                    PlayerSquareView(playerIcon: settingsViewModel.selectedPlayerStyle.imageNames.player2)
                 }
                 HStack{
                     Image("crossPink")
@@ -40,6 +41,6 @@ struct GameView: View {
     }
 }
 
-#Preview {
-    GameView(viewModel: GameViewModel(coordinator: Coordinator()))
-}
+//#Preview {
+//    GameView(viewModel: GameViewModel(coordinator: Coordinator()))
+//}

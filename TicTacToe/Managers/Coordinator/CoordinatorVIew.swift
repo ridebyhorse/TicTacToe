@@ -18,7 +18,10 @@ struct CoordinatorView: View {
             case .selectGame:
                 GameSelectView2(viewModel: GameSelectViewModel(coordinator: coordinator))
             case .game:
-                GameView(viewModel: GameViewModel(coordinator: coordinator))
+                GameView(
+                    viewModel: GameViewModel(coordinator: coordinator),
+                    settingsViewModel: SettingsViewModel(coordinator: coordinator)
+                )
             case .setting:
                 SettingGameView(viewModel: SettingsViewModel(coordinator: coordinator))
             case .rules:

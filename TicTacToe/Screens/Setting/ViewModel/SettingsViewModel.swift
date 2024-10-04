@@ -15,6 +15,7 @@ final class SettingsViewModel: ObservableObject {
     @Published var selectedDuration: Duration
     @Published var selectedMusic: MusicStyle
     @Published var selectedLevel: DifficultyLevel
+    @Published var selectedPlayerStyle: PlayerStyle
     
     private let coordinator: Coordinator
     private let storageManager: StorageManager
@@ -31,6 +32,7 @@ final class SettingsViewModel: ObservableObject {
         self.selectedDuration = gameSettings.duration
         self.selectedMusic = gameSettings.musicStyle
         self.selectedLevel = gameSettings.level
+        self.selectedPlayerStyle = gameSettings.selectedStyle
     }
 
     // MARK: Methods

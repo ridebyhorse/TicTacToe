@@ -33,7 +33,7 @@ final class UserManager {
     }
     
     // Жребьевка для случайного выбора первого игрока
-    func randomizeFirstPlayer() {
-        currentPlayer = Bool.random() ? player1 : player2
-    }
+//    func randomizeFirstPlayer() {
+//        currentPlayer = Bool.random() ? player1 : player2
+//    }
 }

@@ -10,6 +10,7 @@ import Foundation
 
 final class GameManager {
     public static let shared = GameManager()
+    
     private(set) var gameBoard: [PlayerSymbol?] = Array(repeating: nil, count: 9)
     private(set) var isGameOver: Bool = false
     var winner: Player?
@@ -95,7 +96,7 @@ final class GameManager {
         }
     }
 
-    private func switchPlayer(with player: Player, opponent: Player) {
+    func switchPlayer(with player: Player, opponent: Player) {
         currentPlayer = (currentPlayer == player) ? opponent : player
     }
 

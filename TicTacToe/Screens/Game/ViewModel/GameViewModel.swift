@@ -18,8 +18,8 @@ final class GameViewModel: ObservableObject {
     @Published var gameBoard: [PlayerSymbol?] = Array(repeating: nil, count: 9)
     @Published private(set) var gameResult: GameResult? = nil
     
-    @Published var player1: Player
-    @Published var player2: Player
+    @Published var player: Player
+    @Published var opponent: Player
     @Published var currentPlayer: Player
     
     @Published var gameMode: GameMode = .singlePlayer
@@ -43,9 +43,10 @@ final class GameViewModel: ObservableObject {
         self.musicManager = musicManager
         
         // Инициализация игроков
-        self.player1 = userManager.player1
-        self.player2 = userManager.player2
+        self.player = userManager.player1
+        self.opponent = userManager.player2
         self.currentPlayer = userManager.currentPlayer
+        self.gameMode = userManager.gameMode
         
         // Загрузка настроек и установка их в GameManager
         let savedSettings = storageManager.getSettings()
@@ -62,45 +63,50 @@ final class GameViewModel: ObservableObject {
     // MARK: - Player Configuration
     private func updatePlayerData() {
         // Установка символов и стилей для игроков
-        player1.symbol = player1Symbol
-        player2.symbol = player1.symbol == .cross ? .circle : .cross
+        player.symbol = player1Symbol
+        opponent.symbol = player.symbol == .cross ? .circle : .cross
         currentPlayer.style = playerStyle
-        player1.style = playerStyle
-        player2.style = playerStyle
+        player.style = playerStyle
+        opponent.style = playerStyle
     }
     
     
     // MARK: - Game Logic
     func processPlayerMove(for position: Int) {
-        let opponentPlayer = currentPlayer == player1 ? player2 : player1
+        let opponentPlayer = currentPlayer == player ? opponent : player
+        var moved = false
         switch gameMode {
-            
         case .singlePlayer:
-            
-            gameManager.makeMoveForSinglePlayerMode(
+            moved = gameManager.makeMoveForSinglePlayerMode(
                 at: position,
                 player1: currentPlayer,
                 player2: opponentPlayer,
                 level: level
             )
-            resetGame()
-            togglePlayer()
         case .twoPlayers:
-            gameManager.makeMove(at: position, for: currentPlayer, opponent: opponentPlayer)
-            resetGame()
-            togglePlayer()
+            moved = gameManager.makeMove(at: position, for: currentPlayer, opponent: opponentPlayer)
         }
         
+        if moved {
+            gameBoard = gameManager.gameBoard
+            
+            if gameManager.isGameOver {
+                let result = gameManager.getGameResult(gameMode: gameMode, firstPlayer: player, secondPlayer: opponent)
+                handleGameResult(result)
+            } else {
+                togglePlayer()
+            }
+        }
     }
     
     // Метод для переключения между игроками
     private func togglePlayer() {
-        currentPlayer = currentPlayer == player1 ? player2 : player1
+        gameManager.switchPlayer(with: player, opponent: opponent)
     }
     
     func resetGame() {
-        gameManager.resetGame(firstPlayer: player1, secondPlayer: player2)
-        // Обновление доски
+        gameManager.resetGame(firstPlayer: player, secondPlayer: opponent)
+        // Update the game board after resetting the game state
         gameBoard = gameManager.gameBoard
     }
     
@@ -119,7 +125,7 @@ final class GameViewModel: ObservableObject {
         case .lose:
             coordinator.updateNavigationState(
                 action: .showResult(
-                    winner: player2,
+                    winner: opponent,
                     playedAgainstAI: gameMode == .singlePlayer
                 )
             )

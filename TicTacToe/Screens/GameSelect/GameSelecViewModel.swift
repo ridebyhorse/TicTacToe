@@ -27,6 +27,7 @@ final class GameSelectViewModel: ObservableObject {
     // MARK: - Game Logic
     func setGameMode(_ mode: GameMode) {
         selectedGameMode = mode
+        userManager.setGameMode(mode)
     }
     
     func startGame() {

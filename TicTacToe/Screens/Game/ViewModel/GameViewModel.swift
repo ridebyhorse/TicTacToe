@@ -24,6 +24,7 @@ final class GameViewModel: ObservableObject {
     @Published var gameMode: GameMode = .singlePlayer
 
     private var level: DifficultyLevel = .standard
+    var playerStyle: PlayerStyle = .crossFilledPurpleCircleFilledPurple
     
     // MARK: - Initialization
     init(
@@ -43,11 +44,14 @@ final class GameViewModel: ObservableObject {
         self.player1 = userManager.player1
         self.player2 = userManager.player2
         self.currentPlayer = userManager.currentPlayer
-        
         // Загрузка настроек и установка их в GameManager
         let savedSettings = storageManager.getSettings()
         self.level = savedSettings.level
+        self.playerStyle = savedSettings.selectedStyle
         
+        self.player1.style = self.playerStyle 
+        self.player2.style = self.playerStyle
+        self.currentPlayer.style = self.playerStyle
         resetGame()
         musicManager.playMusic()
     }

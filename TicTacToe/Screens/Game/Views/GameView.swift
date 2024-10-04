@@ -15,11 +15,6 @@ struct GameView: View {
         ZStack{
             Color("basicBackground").ignoresSafeArea(.all)
             VStack{
-                ToolBarView(
-                    showBackButton: true,
-                    backButtonAction: { print("Back button pressed") },
-                    title: ""
-                )
                 HStack(spacing: 32){
                     PlayerSquareView(player: viewModel.player1)
                     Text("Time")
@@ -35,7 +30,8 @@ struct GameView: View {
                 }
                 .padding(.top, 45)
                 GameFieldView(
-                    gameBoard: viewModel.gameBoard,
+                    gameBoard: viewModel.gameBoard, 
+                    playerStyle: viewModel.playerStyle,
                     action: viewModel.processPlayerMove(for:))
                     .padding(.top, 20)
                 Spacer()

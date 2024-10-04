@@ -18,13 +18,14 @@ final class GameViewModel: ObservableObject {
 
     @Published var gameBoard: [PlayerSymbol?] = Array(repeating: nil, count: 9)
     @Published private(set) var gameResult: GameResult? = nil
-    @Published var player1: User
-    @Published var player2: User
-    @Published var currentPlayer: User
+    @Published var player1: Player
+    @Published var player2: Player
+    @Published var currentPlayer: Player
     @Published var gameMode: GameMode = .singlePlayer
 
-    private var level: DifficultyLevel = .standard
+    var level: DifficultyLevel = .standard
     var playerStyle: PlayerStyle = .crossFilledPurpleCircleFilledPurple
+    var player1Symbol: PlayerSymbol = .cross
     
     // MARK: - Initialization
     init(
@@ -48,12 +49,21 @@ final class GameViewModel: ObservableObject {
         let savedSettings = storageManager.getSettings()
         self.level = savedSettings.level
         self.playerStyle = savedSettings.selectedStyle
+        self.player1Symbol = savedSettings.playerSymbol
         
-        self.player1.style = self.playerStyle 
-        self.player2.style = self.playerStyle
-        self.currentPlayer.style = self.playerStyle
+        updatePlayerData() 
+        
         resetGame()
         musicManager.playMusic()
+    }
+    
+    // MARK: - Player Configuration
+    private func updatePlayerData() {
+        player1.symbol = player1Symbol
+        player2.symbol = player1.symbol == .cross ? .circle : .cross 
+        player1.style = playerStyle
+        player2.style = playerStyle
+        currentPlayer.style = playerStyle
     }
     
     // MARK: - Game Logic

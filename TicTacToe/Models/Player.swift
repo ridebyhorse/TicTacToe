@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  Player.swift
 //  TicTacToe
 //
 //  Created by Келлер Дмитрий on 29.09.2024.
@@ -7,16 +7,16 @@
 
 import Foundation
 
-struct User: Equatable {
+struct Player: Equatable {
     var name: String
-    let type: PlayerSymbol
-    var score = 0
+    var symbol: PlayerSymbol
     var style: PlayerStyle
+    var score = 0
 
     // MARK: Init
-    init(name: String, type: PlayerSymbol, style: PlayerStyle) {
+    init(name: String, symbol: PlayerSymbol, style: PlayerStyle) {
         self.name = name
-        self.type = type
+        self.symbol = symbol
         self.style = style
     }
 }

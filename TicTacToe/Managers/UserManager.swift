@@ -9,14 +9,14 @@ import Foundation
 final class UserManager {
     public static let shared = UserManager()
     
-    var player1: User
-    var player2: User
-    private(set) var currentPlayer: User
+    var player1: Player
+    var player2: Player
+    private(set) var currentPlayer: Player
     private(set) var gameMode: GameMode = .singlePlayer
     
     private init() {
-        self.player1 = User(name: "", type: .cross, style: .crossPinkCirclePurple)
-        self.player2 = User(name: "", type: .circle, style: .crossPinkCirclePurple)
+        self.player1 = Player(name: "", symbol: .cross, style: .crossPinkCirclePurple)
+        self.player2 = Player(name: "", symbol: .circle, style: .crossPinkCirclePurple)
         self.currentPlayer = player1
     }
     

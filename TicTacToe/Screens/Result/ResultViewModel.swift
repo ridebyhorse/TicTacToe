@@ -16,7 +16,7 @@ final class ResultViewModel: ObservableObject {
     // MARK: Initialization
     init(
         coordinator: Coordinator,
-        winner: User?,
+        winner: Player?,
         playedAgainstAI: Bool,
         musicManager: MusicManager = .shared
     ) {

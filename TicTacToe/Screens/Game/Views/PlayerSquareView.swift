@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct PlayerSquareView: View {
-    let player: User
+    let player: Player
     
     var body: some View {
         ZStack{
@@ -28,12 +28,12 @@ struct PlayerSquareView: View {
         }
     }
     // MARK: - Helper to get player image based on style and type
-        private func getPlayerImageName(for player: User) -> String {
+        private func getPlayerImageName(for player: Player) -> String {
             let imageNames = player.style.imageNames
-            return player.type == .cross ? imageNames.player1 : imageNames.player2
+            return player.symbol == .cross ? imageNames.player1 : imageNames.player2
         }
 }
 
 #Preview {
-    PlayerSquareView(player: User(name: "Im", type: .circle, style: .cakeIcecream))
+    PlayerSquareView(player: Player(name: "Im", symbol: .circle, style: .cakeIcecream))
 }

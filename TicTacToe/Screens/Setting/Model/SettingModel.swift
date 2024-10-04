@@ -22,9 +22,9 @@ enum PlayerSymbol: String, Codable {
 
 enum Duration: String, Codable, CaseIterable {
     case none = "none"
-    case fast = "30 min"
-    case normal = "60 min"
-    case long = "120 min"
+    case fast = "30 sec"
+    case normal = "60 sec"
+    case long = "120 sec"
 }
 
 enum MusicStyle: String, Codable, CaseIterable {

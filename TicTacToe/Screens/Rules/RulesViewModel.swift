@@ -8,6 +8,7 @@
 import Foundation
 
 final class RulesViewModel: ObservableObject {
+    
     // MARK: Properties
     @Published var rules = [Resources.Text.rule1, Resources.Text.rule2, Resources.Text.rule3, Resources.Text.rule4]
     private let coordinator: Coordinator

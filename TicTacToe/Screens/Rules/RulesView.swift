@@ -22,7 +22,7 @@ struct RulesView: View {
                     .frame(width: 30, height: 22)
             })
             Spacer()
-            Text(Resources.Text.rulesNavigationTitle)
+            Text(Resources.Text.rulesNavigationTitle.localized(language))
                 .font(.navigationTitle)
                 .foregroundStyle(.basicBlack)
                 .padding(.trailing, 30)
@@ -37,13 +37,13 @@ struct RulesView: View {
                         Circle()
                             .fill(.secondaryPurple)
                             .frame(width: 45, height: 45)
-                        Text("\(index + 1)")
+                        Text("\(index + 1)".localized(language))
                             .font(.number)
                             .foregroundStyle(.basicBlack)
                         
                     }
                     .padding(.trailing, 44)
-                    Text(viewModel.rules[index])
+                    Text(viewModel.rules[index].localized(language))
                         .font(.basicBody)
                         .foregroundStyle(.basicBlack)
                         .background {

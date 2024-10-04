@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 final class GameViewModel: ObservableObject {
     // MARK: - Properties
@@ -15,14 +14,16 @@ final class GameViewModel: ObservableObject {
     private let gameManager: GameManager
     private let storageManager: StorageManager
     private let musicManager: MusicManager
-
+    
     @Published var gameBoard: [PlayerSymbol?] = Array(repeating: nil, count: 9)
     @Published private(set) var gameResult: GameResult? = nil
+    
     @Published var player1: Player
     @Published var player2: Player
     @Published var currentPlayer: Player
+    
     @Published var gameMode: GameMode = .singlePlayer
-
+    
     var level: DifficultyLevel = .standard
     var playerStyle: PlayerStyle = .crossFilledPurpleCircleFilledPurple
     var player1Symbol: PlayerSymbol = .cross
@@ -40,66 +41,68 @@ final class GameViewModel: ObservableObject {
         self.gameManager = gameManager
         self.storageManager = storageManager
         self.musicManager = musicManager
-
+        
         // Инициализация игроков
         self.player1 = userManager.player1
         self.player2 = userManager.player2
         self.currentPlayer = userManager.currentPlayer
+        
         // Загрузка настроек и установка их в GameManager
         let savedSettings = storageManager.getSettings()
         self.level = savedSettings.level
         self.playerStyle = savedSettings.selectedStyle
         self.player1Symbol = savedSettings.playerSymbol
         
-        updatePlayerData() 
-        
+        updatePlayerData()
         resetGame()
         musicManager.playMusic()
     }
     
     // MARK: - Player Configuration
     private func updatePlayerData() {
+        // Установка символов и стилей для игроков
         player1.symbol = player1Symbol
-        player2.symbol = player1.symbol == .cross ? .circle : .cross 
+        player2.symbol = player1.symbol == .cross ? .circle : .cross
+        
         player1.style = playerStyle
         player2.style = playerStyle
-        currentPlayer.style = playerStyle
     }
+    
     
     // MARK: - Game Logic
     func processPlayerMove(for position: Int) {
-        guard !isSquareOccupied(at: position) else { return }
-        
-        if gameManager.makeMove(at: position, currentPlayer: currentPlayer, opponentPlayer: player2) {
-            updateGameBoard()
-            musicManager.playSoundFor(.moveUser1)
-            if gameManager.isGameOver {
-                let result = gameManager.getGameResult(firstPlayer: player1, secondPlayer: player2)
-                handleGameResult(result)
-            }
+        let opponentPlayer = currentPlayer == player1 ? player2 : player1
+        switch gameMode {
+            
+        case .singlePlayer:
+            
+            gameManager.makeMoveForSinglePlayerMode(
+                at: position,
+                player1: currentPlayer,
+                player2: opponentPlayer,
+                level: level
+            )
+            resetGame()
+            togglePlayer()
+        case .twoPlayers:
+            gameManager.makeMove(at: position, for: currentPlayer, opponent: opponentPlayer)
+            resetGame()
+            togglePlayer()
         }
+        
+    }
+    
+    // Метод для переключения между игроками
+    private func togglePlayer() {
+        currentPlayer = currentPlayer == player1 ? player2 : player1
     }
     
     func resetGame() {
-        // Получаем сохраненные настройки из StorageManager
-        let savedSettings = storageManager.getSettings()
-        
-        // Установка настроек в GameManager
-        gameManager.setGameSettings(savedSettings)
-        gameManager.resetGame(gameMode: gameMode, firstPlayer: player1, secondPlayer: player2)
-        
         // Обновление доски
-        updateGameBoard()
+        gameBoard = gameManager.gameBoard
     }
     
-    func updateGameBoard() {
-        gameBoard = gameManager.gameBoard // Обновляем gameBoard напрямую
-    }
-    
-    func isSquareOccupied(at index: Int) -> Bool {
-        return gameBoard[index] != nil
-    }
-    
+
     private func handleGameResult(_ result: GameResult) {
         gameResult = result
         musicManager.stopMusic()

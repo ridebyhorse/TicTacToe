@@ -21,7 +21,7 @@ struct Player: Equatable {
     }
 }
 
-struct LeaderboardUser: Codable {
+struct LeaderboardPlayer: Codable {
     let name: String
     let score: Int
 }

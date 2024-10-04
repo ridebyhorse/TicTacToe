@@ -7,14 +7,51 @@
     "%lld" : {
 
     },
+    "Choose" : {
+      "extractionState" : "manual"
+    },
     "Difficulty level - %@" : {
 
+    },
+    "Enter your name" : {
+      "extractionState" : "manual"
+    },
+    "How to Play" : {
+      "extractionState" : "manual"
     },
     "Key" : {
       "extractionState" : "manual"
     },
+    "Key 1" : {
+      "extractionState" : "manual"
+    },
+    "Let's play" : {
+      "extractionState" : "manual"
+    },
+    "Next" : {
+      "extractionState" : "manual"
+    },
     "OK" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оk"
+          }
+        }
+      }
+    },
+    "Picked" : {
+      "extractionState" : "manual"
+    },
+    "Please enter your name" : {
+      "extractionState" : "manual"
+    },
+    "Second Player" : {
+      "extractionState" : "manual"
+    },
+    "Select Game" : {
+      "extractionState" : "manual"
     },
     "Select Music Style:" : {
       "extractionState" : "manual",
@@ -60,6 +97,12 @@
         }
       }
     },
+    "Single Player" : {
+      "extractionState" : "manual"
+    },
+    "TIC-TAC-TOE" : {
+      "extractionState" : "manual"
+    },
     "Time" : {
       "localizations" : {
         "ru" : {
@@ -69,6 +112,15 @@
           }
         }
       }
+    },
+    "Two Players" : {
+      "extractionState" : "manual"
+    },
+    "Win!" : {
+      "extractionState" : "manual"
+    },
+    "You" : {
+      "extractionState" : "manual"
     },
     "Начать заново" : {
 

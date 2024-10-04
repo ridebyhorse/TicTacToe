@@ -26,7 +26,7 @@ enum Resources {
         static let howToPlay = "How to Play"
         static let ticTacToe = "TIC-TAC-TOE"
         static let letsPlay = "Let's play"
-        static let winResult = " Win!"
+        static let winResult = "Win!"
         static let loseResult = "You lose!"
         static let drawResult = "Draw!"
         static let playAgain = "Play again"

@@ -44,6 +44,7 @@ enum Resources {
         static let selectMusicStyle = "Select Music Style:"
         static let selectDifficultyLevel = "Select difficulty level:"
         static let selectPlayerStyle = "Select Player Style:"
+        static let selectedLanguage = "Select Language:"
     }
     
     enum Image {

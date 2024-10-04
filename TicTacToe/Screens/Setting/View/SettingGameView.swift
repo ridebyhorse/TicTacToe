@@ -41,6 +41,11 @@ struct SettingGameView: View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack {
                 SettingPickerView(
+                    selectedValue: $language,
+                    title: Resources.Text.selectedLanguage.localized(language)
+                )
+                
+                SettingPickerView(
                     selectedValue: $viewModel.selectedDuration,
                     title: Resources.Text.turnOnTime.localized(language)
                 )

@@ -9,12 +9,10 @@ import SwiftUI
 
 // MARK: - Language Enum
 // Enum representing supported languages, conforming to CaseIterable and Identifiable protocols
-enum Language: String, CaseIterable, Identifiable {
+enum Language: String, CaseIterable, Codable, Identifiable {
     var id: String { self.rawValue }  // Identifier for each language case
     case ru = "ru"  // Russian
     case en = "en"  // English
-    case de = "de"  // German
-    case it = "it"  // Italian
 }
 
 // MARK: - LocalizationService

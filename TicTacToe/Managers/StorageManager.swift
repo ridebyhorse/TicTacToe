@@ -37,4 +37,32 @@ final class StorageManager {
        }
     
     // MARK: - Leaderboard
+    
+    func saveUsersScore(_ users: [User]) {
+        var decodedUsers = getLeaderboard()
+        for user in users {
+            guard user.name != Resources.Text.secondPlayer else { return }
+            
+            let leaderboardUser = LeaderboardUser(name: user.name, score: user.score)
+            if let indexOfSavedUser = decodedUsers.firstIndex(where: { $0.name == leaderboardUser.name }) {
+                decodedUsers.remove(at: indexOfSavedUser)
+                decodedUsers.insert(leaderboardUser, at: indexOfSavedUser)
+            } else {
+                decodedUsers.append(leaderboardUser)
+            }
+        }
+        
+        if let encodedUsers = try? JSONEncoder().encode(decodedUsers) {
+            userDefaults.set(encodedUsers, forKey: UserDefaultKeys.savedLeaderboard)
+        }
+    }
+    
+    func getLeaderboard() -> [LeaderboardUser] {
+        if let savedData = userDefaults.data(forKey: UserDefaultKeys.savedLeaderboard),
+           let savedLeaderboard = try? JSONDecoder().decode([LeaderboardUser].self, from: savedData) {
+            return savedLeaderboard
+        } else {
+            return []
+        }
+    }
 }

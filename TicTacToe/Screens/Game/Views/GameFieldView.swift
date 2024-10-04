@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GameFieldView: View {
     let gameBoard: [PlayerSymbol?]
+    let playerStyle: PlayerStyle
     let action: (_ index: Int) -> Void
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 10),
@@ -25,7 +26,10 @@ struct GameFieldView: View {
 
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(0..<9) { index in
-                    GameSquareView(playerSymbol: gameBoard[index])
+                    GameSquareView(
+                        playerSymbol: gameBoard[index],
+                        playerStyle: playerStyle
+                    )
                         .onTapGesture {
                             action(index)
                         }
@@ -37,5 +41,5 @@ struct GameFieldView: View {
 }
 
 #Preview {
-    GameFieldView(gameBoard: Array(repeating: nil, count: 9), action: { index in index + 1 })
+    GameFieldView(gameBoard: Array(repeating: nil, count: 9), playerStyle: .cakeIcecream, action: { index in index + 1 })
 }

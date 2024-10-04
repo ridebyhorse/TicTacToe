@@ -15,7 +15,7 @@ final class GameManager {
 
     var gameBoard: [PlayerSymbol?] = Array(repeating: nil, count: 9)
     private(set) var isGameOver: Bool = false
-    private(set) var winner: User? = nil
+    private(set) var winner: Player? = nil
     private(set) var gameMode: GameMode = .singlePlayer
     private var currentPlayerSymbol: PlayerSymbol = .cross
     private var aiSymbol: PlayerSymbol = .circle
@@ -33,7 +33,7 @@ final class GameManager {
     }
 
     // Сброс игры с начальной настройкой игроков и символов
-    func resetGame(gameMode: GameMode, firstPlayer: User, secondPlayer: User) {
+    func resetGame(gameMode: GameMode, firstPlayer: Player, secondPlayer: Player) {
         guard let settings = self.settings else { return }
         self.gameMode = gameMode
         self.gameBoard = Array(repeating: nil, count: 9)
@@ -43,7 +43,7 @@ final class GameManager {
     }
 
     // Получение результата игры
-    func getGameResult(firstPlayer: User, secondPlayer: User) -> GameResult {
+    func getGameResult(firstPlayer: Player, secondPlayer: Player) -> GameResult {
         if let winner = winner {
             if gameMode == .singlePlayer && winner == secondPlayer {
                 return .lose
@@ -58,7 +58,7 @@ final class GameManager {
 
     // Ход игрока
     @discardableResult
-    func makeMove(at position: Int, currentPlayer: User, opponentPlayer: User) -> Bool {
+    func makeMove(at position: Int, currentPlayer: Player, opponentPlayer: Player) -> Bool {
         guard isValidMove(at: position) else { return false }
 
         gameBoard[position] = currentPlayerSymbol
@@ -126,10 +126,10 @@ final class GameManager {
     }
 
     // Логика проверки состояния игры после хода
-    private func evaluateGameState(currentPlayer: User?, opponentPlayer: User?) {
+    private func evaluateGameState(currentPlayer: Player?, opponentPlayer: Player?) {
         if checkWin(for: currentPlayerSymbol) {
             if let currentPlayer = currentPlayer, let opponentPlayer = opponentPlayer {
-                winner = currentPlayerSymbol == currentPlayer.type ? currentPlayer : opponentPlayer
+                winner = currentPlayerSymbol == currentPlayer.symbol ? currentPlayer : opponentPlayer
             }
             isGameOver = true
         } else if isBoardFull() {

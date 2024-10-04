@@ -12,15 +12,12 @@ struct GameView: View {
     @ObservedObject var viewModel: GameViewModel
     
     var body: some View {
-        ZStack{
+        ZStack {
             Color("basicBackground").ignoresSafeArea(.all)
-            VStack{
-                ToolBarView(
-                    showBackButton: true,
-                    backButtonAction: { print("Back button pressed") },
-                    title: ""
-                )
-                HStack(spacing: 32){
+            VStack {
+                Text("Difficulty level - \(viewModel.level.rawValue)")
+                    .padding(.top)
+                HStack(spacing: 32) {
                     PlayerSquareView(player: viewModel.player1)
                     Text("Time")
                         .font(.basicTitle)
@@ -35,7 +32,8 @@ struct GameView: View {
                 }
                 .padding(.top, 45)
                 GameFieldView(
-                    gameBoard: viewModel.gameBoard,
+                    gameBoard: viewModel.gameBoard, 
+                    playerStyle: viewModel.playerStyle,
                     action: viewModel.processPlayerMove(for:))
                     .padding(.top, 20)
                 Spacer()
@@ -47,9 +45,9 @@ struct GameView: View {
     }
     
     // MARK: - Helper to get player image based on style and type
-        private func getPlayerImageName(for player: User) -> String {
+        private func getPlayerImageName(for player: Player) -> String {
             let imageNames = player.style.imageNames
-            return player.type == .cross ? imageNames.player1 : imageNames.player2
+            return player.symbol == .cross ? imageNames.player1 : imageNames.player2
         }
 }
 

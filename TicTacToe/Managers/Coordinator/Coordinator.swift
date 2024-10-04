@@ -15,7 +15,7 @@ final class Coordinator: ObservableObject {
         case game
         case setting
         case rules
-        case result(winner: User?, playedAgainstAI: Bool)
+        case result(winner: Player?, playedAgainstAI: Bool)
         case leaderboard
     }
     
@@ -25,7 +25,7 @@ final class Coordinator: ObservableObject {
         case startGame
         case showSettings
         case showRules
-        case showResult(winner: User?, playedAgainstAI: Bool)
+        case showResult(winner: Player?, playedAgainstAI: Bool)
         case leaderboard
     }
     

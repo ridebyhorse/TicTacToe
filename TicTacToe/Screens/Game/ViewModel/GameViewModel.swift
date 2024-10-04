@@ -14,6 +14,7 @@ final class GameViewModel: ObservableObject {
     private let userManager: UserManager
     private let gameManager: GameManager
     private let storageManager: StorageManager
+    private let musicManager: MusicManager
 
     @Published var gameBoard: [PlayerSymbol?] = Array(repeating: nil, count: 9)
     @Published private(set) var gameResult: GameResult? = nil
@@ -29,12 +30,14 @@ final class GameViewModel: ObservableObject {
         coordinator: Coordinator,
         userManager: UserManager = .shared,
         gameManager: GameManager = .shared,
-        storageManager: StorageManager = .shared
+        storageManager: StorageManager = .shared,
+        musicManager: MusicManager = .shared
     ) {
         self.coordinator = coordinator
         self.userManager = userManager
         self.gameManager = gameManager
         self.storageManager = storageManager
+        self.musicManager = musicManager
 
         // Инициализация игроков
         self.player1 = userManager.player1
@@ -46,6 +49,7 @@ final class GameViewModel: ObservableObject {
         self.level = savedSettings.level
         
         resetGame()
+        musicManager.playMusic()
     }
     
     // MARK: - Game Logic
@@ -54,7 +58,7 @@ final class GameViewModel: ObservableObject {
         
         if gameManager.makeMove(at: position, currentPlayer: currentPlayer, opponentPlayer: player2) {
             updateGameBoard()
-            
+            musicManager.playSoundFor(.moveUser1)
             if gameManager.isGameOver {
                 let result = gameManager.getGameResult(firstPlayer: player1, secondPlayer: player2)
                 handleGameResult(result)
@@ -84,8 +88,9 @@ final class GameViewModel: ObservableObject {
     
     private func handleGameResult(_ result: GameResult) {
         gameResult = result
+        musicManager.stopMusic()
         switch result {
-        case .win(let name):
+        case .win:
             coordinator.updateNavigationState(
                 action: .showResult(
                     winner: gameManager.winner,

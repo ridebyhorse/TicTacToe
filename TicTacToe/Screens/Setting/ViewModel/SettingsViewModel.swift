@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 final class SettingsViewModel: ObservableObject {
     // MARK: Properties
     @Published var selectedIndex: PlayerStyle

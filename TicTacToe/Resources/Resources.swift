@@ -9,6 +9,15 @@ import Foundation
 
 enum Resources {
     enum Text {
+        static let selectGame = "Select Game"
+        static let singlePlayer = "Single Player"
+        static let twoPlayers = "Two Players"
+        static let next = "Next"
+        static let enterYourName = "Enter your name"
+        static let enterYourNameAlert = "Please enter your name"
+        static let player1Name = "Player 1 Name"
+        static let player2Name = "Player 2 Name"
+        static let ai = "AI"
         static let choose = "Choose"
         static let picked = "Picked"
         static let you = "You"
@@ -17,7 +26,7 @@ enum Resources {
         static let howToPlay = "How to Play"
         static let ticTacToe = "TIC-TAC-TOE"
         static let letsPlay = "Let's play"
-        static let winResult = " Win!"
+        static let winResult = "Win!"
         static let loseResult = "You lose!"
         static let drawResult = "Draw!"
         static let playAgain = "Play again"
@@ -35,6 +44,7 @@ enum Resources {
         static let selectMusicStyle = "Select Music Style:"
         static let selectDifficultyLevel = "Select difficulty level:"
         static let selectPlayerStyle = "Select Player Style:"
+        static let selectedLanguage = "Select Language:"
     }
     
     enum Image {

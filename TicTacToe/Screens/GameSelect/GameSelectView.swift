@@ -1,13 +1,16 @@
-import SwiftUI
+//
+//  GameSelectView.swift
+//  TicTacToe
+//
+//  Created by Ylyas Abdywahytow on 10/1/24.
+//
 
 import SwiftUI
 
 struct GameSelectView: View {
     @ObservedObject var viewModel: GameSelectViewModel
-    
-    @State private var selectedGameMode: GameMode = .singlePlayer 
-    @State private var showingAlert: Bool = false
-    
+    @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
+
     var body: some View {
         ZStack {
             Color.basicBackground.ignoresSafeArea(.all)
@@ -27,12 +30,15 @@ struct GameSelectView: View {
                 Spacer()
             }
         }
+        .alert(Resources.Text.enterYourNameAlert.localized(language), isPresented: $viewModel.showingAlert) {
+            Button("OK", role: .cancel) { }
+        }
     }
     
     // MARK: - Game Selection Card
     private var gameSelectionCard: some View {
         VStack {
-            Text("Select Game")
+            Text(Resources.Text.selectGame.localized(language))
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundColor(.basicBlack)
@@ -42,28 +48,42 @@ struct GameSelectView: View {
                 Spacer()
                 
                 // Выбор между одиночной игрой и игрой на двоих
-                gameModeButton(icon: "singlePlayerIcon", title: "Single Player", isSelected: selectedGameMode == .singlePlayer) {
-                    selectedGameMode = .singlePlayer
+                gameModeButton(
+                    icon: "singlePlayerIcon",
+                    title: Resources.Text.singlePlayer.localized(language),
+                    isSelected: viewModel.selectedGameMode == .singlePlayer
+                ) {
+                    viewModel.setGameMode(.singlePlayer)
                 }
                 
-                if selectedGameMode == .singlePlayer {
-                    playerNameTextField(placeholder: "Enter your name", text: $viewModel.singlePlayerName, onSubmit: startSinglePlayerGame)
-                        .alert("Please enter your name", isPresented: $showingAlert) {
-                            Button("OK", role: .cancel) { }
-                        }
+                if viewModel.selectedGameMode == .singlePlayer {
+                    playerNameTextField(
+                        placeholder: Resources.Text.enterYourName.localized(language),
+                        text: $viewModel.singlePlayerName,
+                        onSubmit: viewModel.startGame
+                    )
                 }
                 
-                gameModeButton(icon: "twoPlayersIcon", title: "Two Players", isSelected: selectedGameMode == .twoPlayers) {
-                    selectedGameMode = .twoPlayers
+                gameModeButton(
+                    icon: "twoPlayersIcon",
+                    title: Resources.Text.twoPlayers.localized(language),
+                    isSelected: viewModel.selectedGameMode == .twoPlayers
+                ) {
+                    viewModel.setGameMode(.twoPlayers)
                 }
                 
-                if selectedGameMode == .twoPlayers {
-                    playerNameTextField(placeholder: "Player 1 Name", text: $viewModel.playerOneName)
-                    playerNameTextField(placeholder: "Player 2 Name", text: $viewModel.playerTwoName)
+                if viewModel.selectedGameMode == .twoPlayers {
+                    playerNameTextField(
+                        placeholder: Resources.Text.player1Name.localized(language),
+                        text: $viewModel.playerOneName
+                    )
+                    playerNameTextField(
+                        placeholder: Resources.Text.player2Name.localized(language),
+                        text: $viewModel.playerTwoName
+                    )
                 }
                 
                 nextButton
-                
             }
         }
         .padding()
@@ -91,11 +111,8 @@ struct GameSelectView: View {
     }
     
     private var nextButton: some View {
-        Button(action: {
-            viewModel.setGameMode(selectedGameMode)
-            viewModel.startGame()
-        }) {
-            Text("Next")
+        Button(action: viewModel.startGame) {
+            Text(Resources.Text.next.localized(language))
                 .font(.title3)
                 .foregroundColor(.white)
                 .fontWeight(.semibold)
@@ -126,26 +143,13 @@ struct GameSelectView: View {
     
     // MARK: - Computed Properties
     private var cardHeight: CGFloat {
-        switch selectedGameMode {
+        switch viewModel.selectedGameMode {
         case .singlePlayer: return 450
         case .twoPlayers: return 514
         }
     }
-    
-    // MARK: - Private Methods
-    private func startSinglePlayerGame() {
-        if viewModel.singlePlayerName.isEmpty {
-            showingAlert = true
-        } else {
-            viewModel.playerTwoName = "AI"  // Если одиночная игра, то второй игрок - AI
-            dismissKeyboard()
-        }
-    }
-    
-    private func dismissKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
 }
+    
 
 #Preview {
     GameSelectView(viewModel: GameSelectViewModel(coordinator: Coordinator()))

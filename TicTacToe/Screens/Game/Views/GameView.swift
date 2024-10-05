@@ -15,14 +15,20 @@ struct GameView: View {
         ZStack {
             Color("basicBackground").ignoresSafeArea(.all)
             VStack {
-                Text("Difficulty level - \(viewModel.level.rawValue)")
-                    .padding(.top)
-                Text("mode - \(viewModel.gameMode)")
-                    .padding(.top)
+                Color(.basicBackground)
+                    .frame(height: 80)
                 HStack(spacing: 32) {
                     PlayerSquareView(player: viewModel.player)
-                    Text("Time")
-                        .font(.basicTitle)
+                    VStack(spacing: 8) {
+                        Text("Time")
+                            .font(.basicTitle)
+                        Text(
+                            String(viewModel.secondsCount / 60)
+                            + ":"
+                            + String(viewModel.secondsCount % 60)
+                        )
+                            .font(.basicSubtitle)
+                    }
                     PlayerSquareView(player: viewModel.opponent)
                 }
                 HStack{
@@ -42,7 +48,6 @@ struct GameView: View {
                     .padding(.bottom, 50)
             }
             .padding(.bottom, 60)
-            
         }
     }
     

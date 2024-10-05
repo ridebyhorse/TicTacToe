@@ -15,12 +15,14 @@ final class GameViewModel: ObservableObject {
     @Published var player: Player
     @Published var opponent: Player
     @Published var currentPlayer: Player
+    @Published var secondsCount = 0
     
     private let coordinator: Coordinator
     private let userManager: UserManager
     private let gameManager: GameManager
     private let storageManager: StorageManager
     private let musicManager: MusicManager
+    private let timerManager: TimerManager
     private var boardBlocked = false
     
     var gameMode: GameMode { userManager.gameMode }
@@ -34,13 +36,15 @@ final class GameViewModel: ObservableObject {
         userManager: UserManager = .shared,
         gameManager: GameManager = .shared,
         storageManager: StorageManager = .shared,
-        musicManager: MusicManager = .shared
+        musicManager: MusicManager = .shared,
+        timerManager: TimerManager = .shared
     ) {
         self.coordinator = coordinator
         self.userManager = userManager
         self.gameManager = gameManager
         self.storageManager = storageManager
         self.musicManager = musicManager
+        self.timerManager = timerManager
         
         // Инициализация игроков
         self.player = userManager.getPlayer()
@@ -48,9 +52,10 @@ final class GameViewModel: ObservableObject {
         self.currentPlayer = userManager.getOpponent()
         
         gameManager.aiMoveHandler = processMoveResult
+        timerManager.outOfTime = handleOutOfTime
+        timerManager.onTimeChange = { [weak self] in self?.secondsCount = $0 }
         resetGame()
         musicManager.playMusic()
-        
     }
     
     // Метод для случайного выбора первого хода
@@ -131,6 +136,8 @@ final class GameViewModel: ObservableObject {
     
     func resetGame() {
         gameManager.resetGame(firstPlayer: player, secondPlayer: opponent)
+        timerManager.startTimer()
+        secondsCount = timerManager.secondsCount
         getFirstMove()  // Случайный выбор первого игрока
         gameBoard = Array(repeating: nil, count: 9)
     }
@@ -138,6 +145,7 @@ final class GameViewModel: ObservableObject {
     private func handleGameResult(_ result: GameResult) {
         gameResult = result
         musicManager.stopMusic()
+        timerManager.stopTimer()
         if let leaderboardWinner = gameManager.winner {
             storageManager.saveUsersScore([player, opponent], winner: leaderboardWinner)
         }
@@ -164,5 +172,15 @@ final class GameViewModel: ObservableObject {
                 )
             )
         }
+    }
+    
+    private func handleOutOfTime() {
+        timerManager.stopTimer()
+        coordinator.updateNavigationState(
+            action: .showResult(
+                winner: nil,
+                playedAgainstAI: gameMode == .singlePlayer
+            )
+        )
     }
 }

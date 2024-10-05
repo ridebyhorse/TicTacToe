@@ -65,6 +65,7 @@
       }
     },
     "Select Your Symbol:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -96,6 +97,18 @@
     },
     "TIC-TAC-TOE" : {
       "extractionState" : "manual"
+    },
+    "Time" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Время"
+          }
+        }
+      }
+
     },
     "Time" : {
       "localizations" : {

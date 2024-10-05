@@ -74,6 +74,7 @@ final class GameViewModel: ObservableObject {
     
     // MARK: - Game Logic
     func processPlayerMove(for position: Int) {
+        gameManager.setCurrentPlayer(currentPlayer)
         let opponentPlayer = currentPlayer == player ? opponent : player
         var moved = false
         switch gameMode {
@@ -85,13 +86,13 @@ final class GameViewModel: ObservableObject {
                 level: level
             )
         case .twoPlayers:
-            moved = gameManager.makeMove(at: position, for: player, opponent: opponent)
+            moved = gameManager.makeMove(at: position, for: currentPlayer, opponent: opponentPlayer)
         }
         
         if moved {
             gameBoard = gameManager.gameBoard
             if gameManager.isGameOver {
-                let result = gameManager.getGameResult(gameMode: gameMode, player: player, opponent: opponent)
+                let result = gameManager.getGameResult(gameMode: gameMode, player: currentPlayer, opponent: opponentPlayer)
                 handleGameResult(result)
             } else {
                 togglePlayer()

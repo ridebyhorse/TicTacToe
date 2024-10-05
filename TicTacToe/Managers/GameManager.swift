@@ -27,6 +27,10 @@ final class GameManager {
 
     }
     
+    func setCurrentPlayer(_ currentPlayer: Player) {
+        self.currentPlayer = currentPlayer
+    }
+    
     // MARK: - Player Move
     @discardableResult
     func makeMove(at position: Int, for player: Player, opponent: Player) -> Bool {

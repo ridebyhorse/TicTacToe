@@ -21,8 +21,12 @@ struct GameView: View {
                     .padding(.top)
                 HStack(spacing: 32) {
                     PlayerSquareView(player: viewModel.player)
-                    Text("Time")
-                        .font(.basicTitle)
+                    if viewModel.timeManager.timeRemaining > 0 {
+                        Text(formatTime(viewModel.timeManager.timeRemaining))
+                            .font(.basicTitle)
+                    } else {
+                        Text("")
+                    }
                     PlayerSquareView(player: viewModel.opponent)
                 }
                 HStack{
@@ -42,6 +46,12 @@ struct GameView: View {
                     .padding(.bottom, 50)
             }
             .padding(.bottom, 60)
+            .onAppear {
+                viewModel.startGame()  // Start the timer when the view appears
+            }
+            .onDisappear {
+                viewModel.endGame()  // Stop the timer when the game ends
+            }
             
         }
     }
@@ -51,8 +61,14 @@ struct GameView: View {
             let imageNames = player.style.imageNames
             return player.symbol == .cross ? imageNames.player1 : imageNames.player2
         }
+    
+    private func formatTime(_ time: TimeInterval) -> String {
+        let minutes = Int(time) / 60
+        let seconds = Int(time) % 60
+        return String(format: "%02d:%02d", minutes, seconds)
+    }
 }
 
-#Preview {
-    GameView(viewModel: GameViewModel(coordinator: Coordinator()))
-}
+//#Preview {
+//    GameView(viewModel: GameViewModel(coordinator: Coordinator()))
+//}

@@ -14,6 +14,7 @@ final class GameViewModel: ObservableObject {
     private let gameManager: GameManager
     private let storageManager: StorageManager
     private let musicManager: MusicManager
+    var timeManager: TimeManager
     
     @Published var gameBoard: [PlayerSymbol?] = Array(repeating: nil, count: 9)
     @Published private(set) var gameResult: GameResult? = nil
@@ -34,13 +35,15 @@ final class GameViewModel: ObservableObject {
         userManager: UserManager = .shared,
         gameManager: GameManager = .shared,
         storageManager: StorageManager = .shared,
-        musicManager: MusicManager = .shared
+        musicManager: MusicManager = .shared,
+        timeManager: TimeManager = .shared
     ) {
         self.coordinator = coordinator
         self.userManager = userManager
         self.gameManager = gameManager
         self.storageManager = storageManager
         self.musicManager = musicManager
+        self.timeManager = timeManager
         
         // Инициализация игроков
         self.player = userManager.player
@@ -54,13 +57,23 @@ final class GameViewModel: ObservableObject {
         self.playerStyle = savedSettings.selectedStyle
         self.player1Symbol = savedSettings.playerSymbol
         
+        let duration = TimeManager.convertDurationToTimeInterval(savedSettings.duration)
+        self.timeManager = TimeManager(duration: duration)
         
         updatePlayerData()
         resetGame()
         musicManager.playMusic()
+//        timeManager.startTimer()
     }
     
     // MARK: - Player Configuration
+    func startGame() {
+        timeManager.startTimer()
+    }
+
+    func endGame() {
+        timeManager.stopTimer()
+    }
     private func updatePlayerData() {
         // Установка символов и стилей для игроков
         player.symbol = player1Symbol
@@ -116,6 +129,7 @@ final class GameViewModel: ObservableObject {
     private func handleGameResult(_ result: GameResult) {
         gameResult = result
         musicManager.stopMusic()
+        timeManager.stopTimer()
         switch result {
         case .win:
             coordinator.updateNavigationState(

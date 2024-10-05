@@ -9,9 +9,20 @@ import SwiftUI
 
 @main
 struct TicTacToeApp: App {
+    @State private var isLoading: Bool = true
+    
     var body: some Scene {
         WindowGroup {
-            CoordinatorView()
+            if isLoading {
+                LaunchScreen()
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                            isLoading = false
+                        }
+                    }
+            } else {
+                CoordinatorView()
+            }
         }
     }
 }

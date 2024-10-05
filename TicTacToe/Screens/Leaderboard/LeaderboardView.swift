@@ -24,7 +24,7 @@ struct LeaderboardView: View {
                     ToolBarView(
                         showBackButton: true,
                         backButtonAction: { viewModel.dismissLeaderboard() },
-                        title: Resources.Text.leaderboardNavigationTitle
+                        title: Resources.Text.leaderboard
                     )
                     
                     .padding(.horizontal)

@@ -17,11 +17,13 @@ struct GameView: View {
             VStack {
                 Text("Difficulty level - \(viewModel.level.rawValue)")
                     .padding(.top)
+                Text("mode - \(viewModel.gameMode)")
+                    .padding(.top)
                 HStack(spacing: 32) {
-                    PlayerSquareView(player: viewModel.player1)
+                    PlayerSquareView(player: viewModel.player)
                     Text("Time")
                         .font(.basicTitle)
-                    PlayerSquareView(player: viewModel.player2)
+                    PlayerSquareView(player: viewModel.opponent)
                 }
                 HStack{
                     Image(getPlayerImageName(for: viewModel.currentPlayer))

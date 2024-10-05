@@ -24,7 +24,6 @@ final class GameManager {
         self.gameBoard = Array(repeating: nil, count: 9)
         self.winner = nil
         self.isGameOver = false
-
     }
     
     func setCurrentPlayer(_ currentPlayer: Player) {

@@ -22,11 +22,18 @@ final class GameViewModel: ObservableObject {
     @Published var opponent: Player
     @Published var currentPlayer: Player
     
-    @Published var gameMode: GameMode = .singlePlayer
+    var gameMode: GameMode {
+        userManager.gameMode
+    }
     
-    var level: DifficultyLevel = .normal
-    var playerStyle: PlayerStyle = .crossFilledPurpleCircleFilledPurple
-    var player1Symbol: PlayerSymbol = .cross
+    var level: DifficultyLevel {
+        storageManager.getSettings().level
+    }
+    
+    var playerStyle: PlayerStyle {
+        player.style
+    }
+
     
     // MARK: - Initialization
     init(
@@ -43,35 +50,20 @@ final class GameViewModel: ObservableObject {
         self.musicManager = musicManager
         
         // Инициализация игроков
-        self.player = userManager.player
-        self.opponent = userManager.opponent
-        self.currentPlayer = userManager.currentPlayer
-        self.gameMode = userManager.gameMode
-        
-        // Загрузка настроек и установка их в GameManager
-        let savedSettings = storageManager.getSettings()
-        self.level = savedSettings.level
-        self.playerStyle = savedSettings.selectedStyle
-        self.player1Symbol = savedSettings.playerSymbol
+        self.player = userManager.getPlayer()
+        self.opponent = userManager.getOpponent()
+        self.currentPlayer = userManager.getOpponent()
         
         
-        updatePlayerData()
         resetGame()
         musicManager.playMusic()
     }
     
-    // MARK: - Player Configuration
-    private func updatePlayerData() {
-        // Установка символов и стилей для игроков
-        player.symbol = player1Symbol
-        opponent.symbol = player.symbol == .cross ? .circle : .cross
-        currentPlayer.symbol = player1Symbol
-        currentPlayer.style = playerStyle
-        player.style = playerStyle
-        opponent.style = playerStyle
+    // Метод для случайного выбора первого хода
+    private func getFirstMove() {
+        currentPlayer = Bool.random() ? player : opponent
     }
-    
-    
+
     // MARK: - Game Logic
     func processPlayerMove(for position: Int) {
         gameManager.setCurrentPlayer(currentPlayer)
@@ -108,10 +100,9 @@ final class GameViewModel: ObservableObject {
     
     func resetGame() {
         gameManager.resetGame(firstPlayer: player, secondPlayer: opponent)
-        // Update the game board after resetting the game state
+        getFirstMove()  // Случайный выбор первого игрока
         gameBoard = gameManager.gameBoard
     }
-    
 
     private func handleGameResult(_ result: GameResult) {
         gameResult = result

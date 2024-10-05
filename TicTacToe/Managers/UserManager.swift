@@ -8,16 +8,20 @@ import Foundation
 
 final class UserManager {
     public static let shared = UserManager()
+    private let storageManager: StorageManager
     
-    var player: Player
-    var opponent: Player
-    private(set) var currentPlayer: Player
+    private var player: Player
+    private var opponent: Player
+    
     private(set) var gameMode: GameMode = .singlePlayer
     
-    private init() {
+    private init(storageManager: StorageManager = .shared) {
+        self.storageManager = storageManager
+        
+        // Инициализируем игроков
         self.player = Player(name: "", symbol: .cross, style: .crossPinkCirclePurple)
         self.opponent = Player(name: "", symbol: .circle, style: .crossPinkCirclePurple)
-        self.currentPlayer = player
+        
     }
     
     // Устанавливаем режим игры
@@ -29,11 +33,20 @@ final class UserManager {
     func setPlayers(player1Name: String, player2Name: String) {
         self.player.name = player1Name
         self.opponent.name = player2Name
-        self.currentPlayer = player
     }
     
-    // Жребьевка для случайного выбора первого игрока
-//    func randomizeFirstPlayer() {
-//        currentPlayer = Bool.random() ? player1 : player2
-//    }
+    func getPlayer() -> Player {
+        let settings = storageManager.getSettings()
+        player.symbol = settings.playerSymbol            
+        player.style = settings.selectedStyle
+        return player
+    }
+    
+    // Получаем оппонента с противоположным символом и тем же стилем
+    func getOpponent() -> Player {
+        let settings = storageManager.getSettings()
+        opponent.symbol = player.symbol == .cross ? .circle : .cross
+        opponent.style = settings.selectedStyle
+        return opponent
+    }
 }

@@ -36,7 +36,7 @@ final class GameSelectViewModel: ObservableObject {
                 showingAlert = true
                 return
             }
-            userManager.setPlayers(player1Name: singlePlayerName, player2Name: "AI")
+            userManager.setPlayers(player1Name: singlePlayerName)
         } else {
             userManager.setPlayers(player1Name: playerOneName, player2Name: playerTwoName)
         }

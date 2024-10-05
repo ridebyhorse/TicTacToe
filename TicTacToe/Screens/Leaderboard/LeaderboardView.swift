@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-struct LeaderboardViewItem {
-    let username: String
-    let winNumber: Int
-}
 struct LeaderboardView: View {
     @ObservedObject var viewModel: LeaderboardViewModel
     
@@ -59,7 +55,7 @@ struct LeaderboardView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 30)
                                         .fill(.basicLightBlue)
-                                    Text(viewModel.gameResults[index].username)
+                                    Text(viewModel.gameResults[index].name)
                                         .font(.basicBody)
                                         .foregroundStyle(.basicBlack)
                                        
@@ -69,7 +65,7 @@ struct LeaderboardView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 30)
                                         .fill(.basicBlue)
-                                    Text("\(viewModel.gameResults[index].winNumber)")
+                                    Text("\(viewModel.gameResults[index].score)")
                                         .font(.number)
                                         .foregroundStyle(.white)
                                         

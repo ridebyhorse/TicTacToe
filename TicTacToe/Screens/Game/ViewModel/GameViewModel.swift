@@ -9,25 +9,26 @@ import Foundation
 
 final class GameViewModel: ObservableObject {
     // MARK: - Properties
-    private let coordinator: Coordinator
-    private let userManager: UserManager
-    private let gameManager: GameManager
-    private let storageManager: StorageManager
-    private let musicManager: MusicManager
-    var timeManager: TimeManager
-    
     @Published var gameBoard: [PlayerSymbol?] = Array(repeating: nil, count: 9)
     @Published private(set) var gameResult: GameResult? = nil
     
     @Published var player: Player
     @Published var opponent: Player
     @Published var currentPlayer: Player
+    @Published var secondsCount = 0
     
-    @Published var gameMode: GameMode = .singlePlayer
+    private let coordinator: Coordinator
+    private let userManager: UserManager
+    private let gameManager: GameManager
+    private let storageManager: StorageManager
+    private let musicManager: MusicManager
+    private let timerManager: TimerManager
+    private var boardBlocked = false
     
-    var level: DifficultyLevel = .normal
-    var playerStyle: PlayerStyle = .crossFilledPurpleCircleFilledPurple
-    var player1Symbol: PlayerSymbol = .cross
+    var gameMode: GameMode { userManager.gameMode }
+    var level: DifficultyLevel { storageManager.getSettings().level }
+    var playerStyle: PlayerStyle { player.style }
+
     
     // MARK: - Initialization
     init(
@@ -36,57 +37,39 @@ final class GameViewModel: ObservableObject {
         gameManager: GameManager = .shared,
         storageManager: StorageManager = .shared,
         musicManager: MusicManager = .shared,
-        timeManager: TimeManager = .shared
+        timerManager: TimerManager = .shared
     ) {
         self.coordinator = coordinator
         self.userManager = userManager
         self.gameManager = gameManager
         self.storageManager = storageManager
         self.musicManager = musicManager
-        self.timeManager = timeManager
+        self.timerManager = timerManager
         
         // Инициализация игроков
-        self.player = userManager.player
-        self.opponent = userManager.opponent
-        self.currentPlayer = userManager.currentPlayer
-        self.gameMode = userManager.gameMode
+        self.player = userManager.getPlayer()
+        self.opponent = userManager.getOpponent()
+        self.currentPlayer = userManager.getOpponent()
         
-        // Загрузка настроек и установка их в GameManager
-        let savedSettings = storageManager.getSettings()
-        self.level = savedSettings.level
-        self.playerStyle = savedSettings.selectedStyle
-        self.player1Symbol = savedSettings.playerSymbol
-        
-        let duration = TimeManager.convertDurationToTimeInterval(savedSettings.duration)
-        self.timeManager = TimeManager(duration: duration)
-        
-        updatePlayerData()
+        gameManager.aiMoveHandler = processMoveResult
+        timerManager.outOfTime = handleOutOfTime
+        timerManager.onTimeChange = { [weak self] in self?.secondsCount = $0 }
         resetGame()
         musicManager.playMusic()
 //        timeManager.startTimer()
     }
     
-    // MARK: - Player Configuration
-    func startGame() {
-        timeManager.startTimer()
+    // Метод для случайного выбора первого хода
+    private func getFirstMove() {
+        currentPlayer = Bool.random() ? player : opponent
+        if gameMode == .singlePlayer && currentPlayer == opponent  {
+            gameManager.makeFirstMoveForSinglePlayerMode(player1: player, player2: opponent, level: level)
+        }
     }
 
-    func endGame() {
-        timeManager.stopTimer()
-    }
-    private func updatePlayerData() {
-        // Установка символов и стилей для игроков
-        player.symbol = player1Symbol
-        opponent.symbol = player.symbol == .cross ? .circle : .cross
-        currentPlayer.symbol = player1Symbol
-        currentPlayer.style = playerStyle
-        player.style = playerStyle
-        opponent.style = playerStyle
-    }
-    
-    
     // MARK: - Game Logic
     func processPlayerMove(for position: Int) {
+        guard !boardBlocked else { return }
         gameManager.setCurrentPlayer(currentPlayer)
         let opponentPlayer = currentPlayer == player ? opponent : player
         var moved = false
@@ -103,16 +86,49 @@ final class GameViewModel: ObservableObject {
         }
         
         if moved {
-            gameBoard = gameManager.gameBoard
             if gameManager.isGameOver {
-                let result = gameManager.getGameResult(gameMode: gameMode, player: currentPlayer, opponent: opponentPlayer)
-                handleGameResult(result)
+                let result = gameManager.getGameResult(
+                    gameMode: gameMode,
+                    player: currentPlayer,
+                    opponent: opponentPlayer
+                )
+                boardBlocked = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+                    self?.handleGameResult(result)
+                }
             } else {
                 togglePlayer()
             }
         }
+        if gameMode == .twoPlayers {
+            processMoveResult()
+        }
     }
     
+    func processMoveResult() {
+        if gameMode == .twoPlayers {
+            gameBoard = gameManager.gameBoard
+        } else {
+            boardBlocked = true
+            let playerSymbol = opponent.name == Resources.Text.ai ? player.symbol : opponent.symbol
+            for (index, symbol) in gameManager.gameBoard.enumerated() {
+                if symbol == playerSymbol {
+                    gameBoard[index] = symbol
+                }
+            }
+            togglePlayer()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+                guard
+                    let player = self?.player,
+                    let gameManager = self?.gameManager
+                else { return }
+                self?.gameBoard = gameManager.gameBoard
+                self?.currentPlayer = player
+                self?.boardBlocked = false
+            }
+        }
+    }
+
     // Метод для переключения между игроками
     private func togglePlayer() {
         gameManager.switchPlayer(with: player, opponent: opponent)
@@ -121,15 +137,19 @@ final class GameViewModel: ObservableObject {
     
     func resetGame() {
         gameManager.resetGame(firstPlayer: player, secondPlayer: opponent)
-        // Update the game board after resetting the game state
-        gameBoard = gameManager.gameBoard
+        timerManager.startTimer()
+        secondsCount = timerManager.secondsCount
+        getFirstMove()  // Случайный выбор первого игрока
+        gameBoard = Array(repeating: nil, count: 9)
     }
-    
 
     private func handleGameResult(_ result: GameResult) {
         gameResult = result
         musicManager.stopMusic()
-        timeManager.stopTimer()
+        timerManager.stopTimer()
+        if let leaderboardWinner = gameManager.winner {
+            storageManager.saveUsersScore([player, opponent], winner: leaderboardWinner)
+        }
         switch result {
         case .win:
             coordinator.updateNavigationState(
@@ -153,5 +173,15 @@ final class GameViewModel: ObservableObject {
                 )
             )
         }
+    }
+    
+    private func handleOutOfTime() {
+        timerManager.stopTimer()
+        coordinator.updateNavigationState(
+            action: .showResult(
+                winner: nil,
+                playedAgainstAI: gameMode == .singlePlayer
+            )
+        )
     }
 }

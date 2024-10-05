@@ -15,17 +15,19 @@ struct GameView: View {
         ZStack {
             Color("basicBackground").ignoresSafeArea(.all)
             VStack {
-                Text("Difficulty level - \(viewModel.level.rawValue)")
-                    .padding(.top)
-                Text("mode - \(viewModel.gameMode)")
-                    .padding(.top)
+                Color(.basicBackground)
+                    .frame(height: 80)
                 HStack(spacing: 32) {
                     PlayerSquareView(player: viewModel.player)
-                    if viewModel.timeManager.timeRemaining > 0 {
-                        Text(formatTime(viewModel.timeManager.timeRemaining))
+                    VStack(spacing: 8) {
+                        Text(Resources.Text.time)
                             .font(.basicTitle)
-                    } else {
-                        Text("")
+                        Text(
+                            String(viewModel.secondsCount / 60)
+                            + ":"
+                            + String(viewModel.secondsCount % 60)
+                        )
+                            .font(.basicSubtitle)
                     }
                     PlayerSquareView(player: viewModel.opponent)
                 }
@@ -46,13 +48,6 @@ struct GameView: View {
                     .padding(.bottom, 50)
             }
             .padding(.bottom, 60)
-            .onAppear {
-                viewModel.startGame()  // Start the timer when the view appears
-            }
-            .onDisappear {
-                viewModel.endGame()  // Stop the timer when the game ends
-            }
-            
         }
     }
     
@@ -61,14 +56,8 @@ struct GameView: View {
             let imageNames = player.style.imageNames
             return player.symbol == .cross ? imageNames.player1 : imageNames.player2
         }
-    
-    private func formatTime(_ time: TimeInterval) -> String {
-        let minutes = Int(time) / 60
-        let seconds = Int(time) % 60
-        return String(format: "%02d:%02d", minutes, seconds)
-    }
 }
 
-//#Preview {
-//    GameView(viewModel: GameViewModel(coordinator: Coordinator()))
-//}
+#Preview {
+    GameView(viewModel: GameViewModel(coordinator: Coordinator()))
+}

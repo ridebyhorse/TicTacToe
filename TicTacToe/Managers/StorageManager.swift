@@ -44,13 +44,15 @@ final class StorageManager {
         
         for user in users {
             //если бот - не сохраняем score
-            guard user.name != Resources.Text.secondPlayer else { return }
+            guard user.name != Resources.Text.ai else { return }
             
             if let indexOfSavedUser = decodedUsers.firstIndex(where: { $0.name == user.name }) {
                 decodedUsers[indexOfSavedUser].score += (winnerName == user.name) ? 1 : 0
             } else {
                 let leaderboardUser = LeaderboardPlayer(name: user.name, score: (winnerName == user.name) ? 1 : 0)
-                decodedUsers.append(leaderboardUser)
+                if leaderboardUser.score != 0 {
+                    decodedUsers.append(leaderboardUser)
+                }
             }
         }
         

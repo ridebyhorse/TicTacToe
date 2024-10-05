@@ -21,7 +21,6 @@ enum Resources {
         static let choose = "Choose"
         static let picked = "Picked"
         static let you = "You"
-        static let secondPlayer = "Second Player"
         static let settings = "Settings"
         static let howToPlay = "How to Play"
         static let ticTacToe = "TIC-TAC-TOE"
@@ -44,6 +43,8 @@ enum Resources {
         static let selectDifficultyLevel = "Difficulty:"
         static let selectPlayerStyle = "Player Style:"
         static let selectedLanguage = "Language:"
+        static let time = "Time"
+        static let selectSymbol = "Select Your Symbol:"
     }
     
     enum Image {

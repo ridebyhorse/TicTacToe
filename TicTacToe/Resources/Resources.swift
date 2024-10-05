@@ -39,11 +39,11 @@ enum Resources {
         static let rule4 = "The first player to align three of their markers horizontally, vertically, or diagonally wins.\nExamples of Winning Combinations:\nHorizontal: Squares 1, 2, 3 or 4, 5, 6 or 7, 8, 9\nVertical: Squares 1, 4, 7 or 2, 5, 8 or 3, 6, 9\nDiagonal: Squares 1, 5, 9 or 3, 5, 7"
         static let leaderboardEmptyMessage = "No game history"
         
-        static let turnOnTime = "Turn on the time:"
-        static let selectMusicStyle = "Select Music Style:"
-        static let selectDifficultyLevel = "Select difficulty level:"
-        static let selectPlayerStyle = "Select Player Style:"
-        static let selectedLanguage = "Select Language:"
+        static let turnOnTime = "Time:"
+        static let selectMusicStyle = "Music:"
+        static let selectDifficultyLevel = "Difficulty:"
+        static let selectPlayerStyle = "Player Style:"
+        static let selectedLanguage = "Language:"
     }
     
     enum Image {

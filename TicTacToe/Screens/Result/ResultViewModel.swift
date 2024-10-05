@@ -24,7 +24,7 @@ final class ResultViewModel: ObservableObject {
         self.musicManager = musicManager
         
         if let winner {
-            let aiWin = playedAgainstAI && winner.name == Resources.Text.secondPlayer
+            let aiWin = playedAgainstAI && winner.name == Resources.Text.ai
             gameResult = aiWin ? .lose : .win(name: winner.name)
         } else {
             gameResult = .draw

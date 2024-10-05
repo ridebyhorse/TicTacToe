@@ -5,7 +5,6 @@
 //  Created by Келлер Дмитрий on 29.09.2024.
 //
 
-
 import Foundation
 
 final class GameManager {
@@ -15,6 +14,7 @@ final class GameManager {
     private(set) var isGameOver: Bool = false
     var winner: Player?
     var currentPlayer: Player?
+    var aiMoveHandler: (() -> Void)?
     
     // MARK: - Init
     private init() {}
@@ -48,21 +48,28 @@ final class GameManager {
         if !isGameOver {
             aiMove(player1: player1, player2: player2, with: level)
         }
+        aiMoveHandler?()
+        return true
+    }
+    
+    @discardableResult
+    func makeFirstMoveForSinglePlayerMode(player1: Player, player2: Player, level: DifficultyLevel) -> Bool {
+        aiMove(player1: player1, player2: player2, with: level)
+        aiMoveHandler?()
         return true
     }
     
         // Получение результата игры
     func getGameResult(gameMode: GameMode, player: Player, opponent: Player) -> GameResult {
-            if let winner = winner {
+            if let winner {
                 if gameMode == .singlePlayer && winner == opponent {
                     return .lose
                 } else {
                     return .win(name: winner.name)
                 }
-            } else if isBoardFull() {
+            } else {
                 return .draw
             }
-            return .draw
         }
     
     // MARK: - AI Move
@@ -70,7 +77,7 @@ final class GameManager {
         guard !isGameOver else { return }
         
         let move = aiDecision(for: player1, opponent: player2, level: level)
-        if let move = move {
+        if let move {
             performAIMove(player1: player1, player2: player2, at: move)
         }
     }
@@ -94,6 +101,9 @@ final class GameManager {
     private func evaluateGameState(for player: Player, opponent: Player) {
         if checkWin(for: player.symbol) {
             winner = player
+            isGameOver = true
+        } else if checkWin(for: opponent.symbol) {
+            winner = opponent
             isGameOver = true
         } else if isBoardFull() {
             isGameOver = true

@@ -92,7 +92,7 @@ final class GameViewModel: ObservableObject {
                     opponent: opponentPlayer
                 )
                 boardBlocked = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
                     self?.handleGameResult(result)
                 }
             } else {

@@ -12,21 +12,21 @@ struct GameSymbolSelectionView: View {
     let imageNameForPlayer2: String
     
     var body: some View {
-        VStack(spacing: 20) {
+        HStack(spacing: 20) {
             Text("Select Your Symbol:")
                 .font(.headline)
                 .foregroundColor(.basicBlack)
             
-            HStack(spacing: 30) {
+            HStack(spacing: 20) {
                 symbolButton(symbol: .cross, imageName: imageNameForPlayer1)
                 symbolButton(symbol: .circle, imageName: imageNameForPlayer2)
             }
         }
         .padding()
-        .frame(width: 270, height: 120)
+        .frame(width: 300, height: 100)
         .background(Color.white)
-        .cornerRadius(30)
-        .shadow(radius: 5)
+        .cornerRadius(25)
+        .shadow(color: Color(red: 0.6, green: 0.62, blue: 0.76).opacity(0.3), radius: 15, x: 4, y: 4)
     }
 
     // MARK: - Private Methods

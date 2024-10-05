@@ -75,8 +75,10 @@ struct SettingGameView: View {
                         .padding(.leading)
                     
                     playerStylesScrollView
+                        .padding(.top, -10)
                 }
             }
+            .padding(.top, 10)
         }
     }
     

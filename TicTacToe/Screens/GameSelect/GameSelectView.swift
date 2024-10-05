@@ -90,7 +90,7 @@ struct GameSelectView: View {
         .frame(width: 285, height: cardHeight)
         .background(Color.white)
         .cornerRadius(30)
-        .shadow(radius: 5)
+        .shadow(color: Color(red: 0.6, green: 0.62, blue: 0.76).opacity(0.3), radius: 15, x: 4, y: 4)
     }
     
     // MARK: - Buttons

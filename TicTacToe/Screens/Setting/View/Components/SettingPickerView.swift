@@ -20,24 +20,26 @@ struct SettingPickerView<Value: RawRepresentable & CaseIterable & Hashable>: Vie
             }
             .pickerStyle(MenuPickerStyle())
             .styledFrame(title)
+            .frame(alignment: .trailing)
+//            .padding(20)
     }
 }
 
 
 private extension View {
     func styledFrame(_ title: String) -> some View {
-        VStack {
-            Spacer()
+        HStack {
             Text(title)
                 .font(.headline)
                 .foregroundColor(Color.basicBlack)
-            
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(20)
+//            Spacer()
             self
-            Spacer()
         }
-        .frame(width: 270, height: 90)
+        .frame(width: 300, height: 60)
         .background(Color.white)
-        .cornerRadius(30)
-        .shadow(radius: 5)
+        .cornerRadius(20)
+        .shadow(color: Color(red: 0.6, green: 0.62, blue: 0.76).opacity(0.3), radius: 15, x: 4, y: 4)
     }
 }

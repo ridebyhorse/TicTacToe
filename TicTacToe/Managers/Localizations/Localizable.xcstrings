@@ -10,24 +10,7 @@
     "Difficulty level - %@" : {
 
     },
-    "Draw a grid with three rows and three columns, creating nine squares in total." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Нарисуйте сетку из трех строк и трех колонок, создавая в общей сложности девять квадратов."
-          }
-        }
-      }
-    },
-    "Draw!" : {
-      "extractionState" : "manual"
-    },
     "Enter your name" : {
-      "extractionState" : "manual"
-    },
-    "How to play" : {
       "extractionState" : "manual"
     },
     "How to Play" : {
@@ -39,22 +22,10 @@
     "Key 1" : {
       "extractionState" : "manual"
     },
-    "Key 2" : {
-      "extractionState" : "manual"
-    },
-    "Key 3" : {
-      "extractionState" : "manual"
-    },
-    "Leaderboard" : {
-      "extractionState" : "manual"
-    },
     "Let's play" : {
       "extractionState" : "manual"
     },
     "Next" : {
-      "extractionState" : "manual"
-    },
-    "No game history" : {
       "extractionState" : "manual"
     },
     "OK" : {
@@ -70,44 +41,13 @@
     "Picked" : {
       "extractionState" : "manual"
     },
-    "Play again" : {
-      "extractionState" : "manual"
-    },
-    "Player X starts by choosing a square (e.g., square 5).\\nPlayer O follows by choosing an empty square (e.g., square 1).\\nContinue alternating turns until the game ends." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Игрок X начинает, выбирая квадрат (например, квадрат 5).\\nИгрок O продолжает, выбирая пустой квадрат (например, квадрат 1).\\nПродолжайте поочередно делать ходы, пока игра не закончится."
-          }
-        }
-      }
-    },
-    "Players take turns placing their marker (X or O) in an empty square.\\nTo make a move, a player selects a number corresponding to the square where they want to place their marker." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Игроки поочередно ставят свои маркеры (X или O) в пустой квадрат.\\nЧтобы сделать ход, игрок выбирает номер, соответствующий квадрату, в который он хочет поставить свой маркер."
-          }
-        }
-      }
-    },
     "Please enter your name" : {
       "extractionState" : "manual"
     },
     "Second Player" : {
       "extractionState" : "manual"
     },
-    "Select difficulty level:" : {
-      "extractionState" : "manual"
-    },
     "Select Game" : {
-      "extractionState" : "manual"
-    },
-    "Select Language:" : {
       "extractionState" : "manual"
     },
     "Select Music Style:" : {
@@ -126,9 +66,6 @@
           }
         }
       }
-    },
-    "Select Player Style:" : {
-      "extractionState" : "manual"
     },
     "Select Your Symbol:" : {
       "localizations" : {
@@ -160,9 +97,6 @@
     "Single Player" : {
       "extractionState" : "manual"
     },
-    "The first player to align three of their markers horizontally, vertically, or diagonally wins.\\nExamples of Winning Combinations:\\nHorizontal: Squares 1, 2, 3 or 4, 5, 6 or 7, 8, 9\\nVertical: Squares 1, 4, 7 or 2, 5, 8 or 3, 6, 9\\nDiagonal: Squares 1, 5, 9 or 3, 5, 7" : {
-      "extractionState" : "manual"
-    },
     "TIC-TAC-TOE" : {
       "extractionState" : "manual"
     },
@@ -176,9 +110,6 @@
         }
       }
     },
-    "Turn on the time:" : {
-      "extractionState" : "manual"
-    },
     "Two Players" : {
       "extractionState" : "manual"
     },
@@ -186,9 +117,6 @@
       "extractionState" : "manual"
     },
     "You" : {
-      "extractionState" : "manual"
-    },
-    "You lose!" : {
       "extractionState" : "manual"
     }
   },

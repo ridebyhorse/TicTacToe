@@ -11,7 +11,6 @@ struct Player: Equatable {
     var name: String
     var symbol: PlayerSymbol
     var style: PlayerStyle
-    var score = 0
 
     // MARK: Init
     init(name: String, symbol: PlayerSymbol, style: PlayerStyle) {
@@ -23,5 +22,5 @@ struct Player: Equatable {
 
 struct LeaderboardPlayer: Codable {
     let name: String
-    let score: Int
+    var score: Int
 }

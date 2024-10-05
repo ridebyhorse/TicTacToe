@@ -13,7 +13,7 @@ struct GameSymbolSelectionView: View {
     
     var body: some View {
         HStack(spacing: 20) {
-            Text("Select Your Symbol:")
+            Text(Resources.Text.selectSymbol)
                 .font(.headline)
                 .foregroundColor(.basicBlack)
             

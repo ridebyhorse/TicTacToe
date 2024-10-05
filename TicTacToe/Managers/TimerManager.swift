@@ -13,10 +13,12 @@ class TimerManager {
     var outOfTime: (() -> Void)?
     var onTimeChange: ((Int) -> Void)?
     private var timer = Timer()
-    private let duration: Duration
+    private var duration: Duration = .none
     var secondsCount: Int = 0
     
-    private init() {
+    private init() {}
+    
+    func startTimer() {
         duration = StorageManager.shared.getSettings().duration
         
         switch duration {
@@ -29,9 +31,7 @@ class TimerManager {
         case .long:
             secondsCount = 120
         }
-    }
-    
-    func startTimer() {
+        
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCount), userInfo: nil, repeats: true)
     }
     

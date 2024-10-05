@@ -36,7 +36,7 @@ struct StartView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 38, height: 29)
-                            Text(Resources.Text.leaderboard)
+                            Text(Resources.Text.leaderboard.localized(language))
                                 .font(.buttonTitle)
                                 .foregroundStyle(.basicBlack)
                         }
@@ -68,7 +68,7 @@ struct StartView: View {
             Spacer()
             BasicButton(
                 styleType: .primary,
-                title: Resources.Text.letsPlay,
+                title: Resources.Text.letsPlay.localized(language),
                 tapHandler: { viewModel.startGame() }
             )
             .padding(.bottom, 30)

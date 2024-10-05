@@ -32,7 +32,7 @@ struct SettingGameView: View {
                 viewModel.saveSettings()
                 viewModel.dissmisSettings()
             },
-            title: Resources.Text.settings
+            title: Resources.Text.settings.localized(language)
         )
         .frame(height: 44)
     }

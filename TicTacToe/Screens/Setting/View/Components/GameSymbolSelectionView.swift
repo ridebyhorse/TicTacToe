@@ -7,13 +7,15 @@
 import SwiftUI
 
 struct GameSymbolSelectionView: View {
+    @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
+    
     @Binding var selectedSymbol: PlayerSymbol
     let imageNameForPlayer1: String
     let imageNameForPlayer2: String
     
     var body: some View {
         HStack(spacing: 20) {
-            Text(Resources.Text.selectSymbol)
+            Text(Resources.Text.selectSymbol.localized(language))
                 .font(.headline)
                 .foregroundColor(.basicBlack)
             

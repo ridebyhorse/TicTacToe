@@ -43,7 +43,7 @@ struct LaunchScreen: View {
             }
             .onAppear {
                 withAnimation(
-                    .spring(response: 1, dampingFraction: 0.5).delay(0.2)
+                    .spring(response: 1, dampingFraction: 0.5).delay(0.1)
                 ) {
                     isAnimating = true
                 }
@@ -56,7 +56,7 @@ struct LaunchScreen: View {
                     ForEach(0..<textArray.count, id: \.self) { index in
                         Text(String(textArray[index]))
                             .font(.mainTitle)
-                            .foregroundColor(colorsArray[index % colorsArray.count])  // Цвет для каждой буквы
+                            .foregroundColor(colorsArray[index % colorsArray.count])
                             .opacity(textIndex >= index ? 1 : 0)
                             .animation(.easeInOut(duration: 0.1).delay(0.05 * Double(index)), value: textIndex)
                     }

@@ -42,7 +42,7 @@ struct StartView: View {
                                 .frame(width: 38, height: 29)
                             Text(Resources.Text.leaderboard.localized(language))
                                 .font(.buttonTitle)
-                                .foregroundStyle(.basicBlack)
+                                .foregroundStyle(.purple)
                         }
                         .padding(.trailing, 10)
                     }

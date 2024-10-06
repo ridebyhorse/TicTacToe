@@ -370,7 +370,19 @@
         }
       }
     },
+    "not so fast" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "не так быстро"
+          }
+        }
+      }
+    },
     "OK" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -505,19 +517,19 @@
         }
       }
     },
-    "Please enter your name" : {
+    "Please enter name" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Please enter your name"
+            "value" : "Please enter name"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Введите ваше имя"
+            "value" : "Введите имя"
           }
         }
       }
@@ -716,6 +728,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Два игрока"
+          }
+        }
+      }
+    },
+    "Warning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предупреждение"
           }
         }
       }

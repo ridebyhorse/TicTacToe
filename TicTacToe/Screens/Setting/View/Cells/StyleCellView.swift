@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct StyleCellView: View {
+    @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
+    
     let styleImageForPlayer1: String
     let styleImageForPlayer2: String
     let isSelected: Bool
@@ -33,7 +35,7 @@ struct StyleCellView: View {
             Button(action: {
                 action()
             }) {
-                Text(isSelected ? Resources.Text.picked : Resources.Text.choose)
+                Text(isSelected ? Resources.Text.picked.localized(language) : Resources.Text.choose.localized(language))
                     .padding(.horizontal, 30)
                     .padding(.vertical, 12)
                     .background(isSelected ? Color.basicBlue : Color.basicLightBlue)

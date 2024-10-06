@@ -56,6 +56,7 @@ final class GameViewModel: ObservableObject {
         timerManager.onTimeChange = { [weak self] in self?.secondsCount = $0 }
         resetGame()
         musicManager.playMusic()
+//        timeManager.startTimer()
     }
     
     // Метод для случайного выбора первого хода

@@ -40,9 +40,10 @@ struct GameView: View {
                 }
                 .padding(.top, 45)
                 GameFieldView(
-                    gameBoard: viewModel.gameBoard, 
+                    gameBoard: viewModel.gameBoard,
                     playerStyle: viewModel.playerStyle,
-                    action: viewModel.processPlayerMove(for:))
+                    action: viewModel.processPlayerMove(for:),
+                    winningPattern: viewModel.winningPattern)
                     .padding(.top, 20)
                 Spacer()
                     .padding(.bottom, 50)

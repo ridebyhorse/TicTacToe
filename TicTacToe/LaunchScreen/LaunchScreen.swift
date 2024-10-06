@@ -12,7 +12,7 @@ struct LaunchScreen: View {
     @State private var textIndex = 0
     @State private var isTextVisible = false
     let textArray = Array(Resources.Text.ticTacToe)  
-    let colorsArray: [Color] = [.basicBlack]
+ 
     
     var body: some View {
         ZStack {
@@ -53,7 +53,7 @@ struct LaunchScreen: View {
                     ForEach(0..<textArray.count, id: \.self) { index in
                         Text(String(textArray[index]))
                             .font(.mainTitle)
-                            .foregroundColor(colorsArray[index % colorsArray.count])
+                            .foregroundColor(.basicBlack)
                             .opacity(textIndex >= index ? 1 : 0)
                             .animation(.easeInOut(duration: 0.1).delay(0.05 * Double(index)), value: textIndex)
                             .padding(.horizontal, -1)

@@ -115,7 +115,9 @@ final class GameManager {
     func switchPlayer(with player: Player, opponent: Player) {
         currentPlayer = (currentPlayer == player) ? opponent : player
     }
+    
 
+    
     private func performAIMove(player1: Player, player2: Player, at position: Int) {
         gameBoard[position] = player2.symbol
         evaluateGameState(for: player1, opponent: player2)
@@ -123,7 +125,7 @@ final class GameManager {
 
     // MARK: - Winning Logic
     private func findWinningMove(for type: PlayerSymbol) -> Int? {
-        for pattern in winningPatterns {
+        for pattern in winningCombinations {
             let values = pattern.map { gameBoard[$0] }
             if values.filter({ $0 == type }).count == 2, let emptyIndex = pattern.first(where: { gameBoard[$0] == nil }) {
                 return emptyIndex
@@ -152,17 +154,37 @@ final class GameManager {
 
     // MARK: - Check for Win
     private func checkWin(for type: PlayerSymbol) -> Bool {
-        return winningPatterns.contains { pattern in
+        return winningCombinations.contains { pattern in
             pattern.allSatisfy { gameBoard[$0] == type }
         }
     }
-
+    
     // MARK: - Win Patterns
-    private var winningPatterns: [[Int]] {
+    var winningCombinations: [[Int]] {
         return [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Horizontal
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Vertical
-            [0, 4, 8], [2, 4, 6]             // Diagonal
+            [0, 1, 2], // Верхняя горизонтальная линия
+            [3, 4, 5], // Средняя горизонтальная линия
+            [6, 7, 8], // Нижняя горизонтальная линия
+            [0, 3, 6], // Левая вертикальная линия
+            [1, 4, 7], // Средняя вертикальная линия
+            [2, 5, 8], // Правая вертикальная линия
+            [0, 4, 8], // Диагональ сверху слева направо
+            [2, 4, 6]  // Диагональ сверху справа налево
         ]
     }
+
+    // MARK: - Функция для получения выигрышного паттерна
+    func getWinningPattern() -> [Int]? {
+        for combination in winningCombinations {
+            let (a, b, c) = (combination[0], combination[1], combination[2])
+            
+            // Проверяем, что все три клетки в комбинации заняты одним и тем же символом
+            if gameBoard[a] != nil, gameBoard[a] == gameBoard[b], gameBoard[b] == gameBoard[c] {
+                return combination // Возвращаем индексы выигрышной комбинации
+            }
+        }
+        return nil // Если нет выигрышной комбинации
+    }
+    
+
 }

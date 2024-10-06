@@ -16,7 +16,7 @@ struct ResultView: View {
             Spacer()
             switch viewModel.gameResult {
             case .win(let name):
-                Text(name + Resources.Text.winResult)
+                Text(name + " " + Resources.Text.winResult.localized(language))
                     .font(.basicTitle)
                     .padding(10)
                 Image(.winIcon)
@@ -24,7 +24,7 @@ struct ResultView: View {
                     .aspectRatio(contentMode: .fit)
                     .padding(.horizontal, 60)
             case .lose:
-                Text(Resources.Text.loseResult)
+                Text(Resources.Text.loseResult.localized(language))
                     .font(.basicTitle)
                     .padding(10)
                 Image(.loseIcon)
@@ -32,7 +32,7 @@ struct ResultView: View {
                     .aspectRatio(contentMode: .fit)
                     .padding(.horizontal, 60)
             case .draw:
-                Text(Resources.Text.drawResult)
+                Text(Resources.Text.drawResult.localized(language))
                     .font(.basicTitle)
                     .padding(10)
                 Image(.drawIcon)
@@ -43,12 +43,12 @@ struct ResultView: View {
             Spacer()
             BasicButton(
                 styleType: .primary,
-                title: Resources.Text.playAgain,
+                title: Resources.Text.playAgain.localized(language),
                 tapHandler: viewModel.restartGame
             )
             BasicButton(
                 styleType: .secondary,
-                title: Resources.Text.back,
+                title: Resources.Text.back.localized(language),
                 tapHandler: viewModel.openLaunch
             )
         }

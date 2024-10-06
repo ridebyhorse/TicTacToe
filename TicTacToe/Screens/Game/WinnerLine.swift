@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LinePoints {
+struct WinnerLine {
     var start: CGPoint
     var end: CGPoint
 }

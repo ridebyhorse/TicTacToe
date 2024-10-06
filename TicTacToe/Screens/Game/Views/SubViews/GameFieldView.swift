@@ -12,31 +12,56 @@ struct GameFieldView: View {
     let playerStyle: PlayerStyle
     let action: (_ index: Int) -> Void
     let columns: [GridItem] = [
-        GridItem(.flexible(), spacing: 10),
-        GridItem(.flexible(), spacing: 10),
-        GridItem(.flexible(), spacing: 10)
+        GridItem(.flexible(), spacing: Drawing.spacing),
+        GridItem(.flexible(), spacing: Drawing.spacing),
+        GridItem(.flexible(), spacing: Drawing.spacing)
     ]
     var winningPattern: [Int]?
     
+    @State private var animateLine = false
+    @Namespace private var symbolNamespace // Для анимации символов
+    
+    // MARK: - Drawing Constants
+    enum Drawing {
+        static let gridSize: CGFloat = 300
+        static let cornerRadius: CGFloat = 30
+        static let shadowRadius: CGFloat = 15
+        static let shadowOffsetX: CGFloat = 4
+        static let shadowOffsetY: CGFloat = 4
+        static let lineWidth: CGFloat = 5
+        static let animationDuration: Double = 0.5
+        static let gridPadding: CGFloat = 60
+        static let spacing: CGFloat = 20
+        static let cellTransitionScale: CGFloat = 0.9
+    }
+    
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 30)
-                .frame(width: 300, height: 300)
+            // Фон игрового поля
+            RoundedRectangle(cornerRadius: Drawing.cornerRadius)
+                .frame(width: Drawing.gridSize, height: Drawing.gridSize)
                 .foregroundColor(.white)
-                .shadow(color: Color(red: 0.6, green: 0.62, blue: 0.76).opacity(0.3), radius: 15, x: 4, y: 4)
+                .shadow(color: Color(red: 0.6, green: 0.62, blue: 0.76).opacity(0.3),
+                        radius: Drawing.shadowRadius, x: Drawing.shadowOffsetX, y: Drawing.shadowOffsetY)
             
-            LazyVGrid(columns: columns, spacing: 20) {
+            // Сетка игрового поля
+            LazyVGrid(columns: columns, spacing: Drawing.spacing) {
                 ForEach(0..<9) { index in
                     GameSquareView(
                         playerSymbol: gameBoard[index],
                         playerStyle: playerStyle
                     )
                     .onTapGesture {
-                        action(index)
+                        withAnimation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.5)) {
+                            action(index)
+                        }
                     }
+                    .transition(.scale(scale: Drawing.cellTransitionScale).combined(with: .opacity))
+                    .animation(.easeInOut(duration: Drawing.animationDuration), value: gameBoard[index]) 
                 }
             }
-            .padding(60)
+            .padding(Drawing.gridPadding)
+            
             // Отрисовка линии выигрыша
             if let pattern = winningPattern {
                 GeometryReader { geometry in
@@ -45,52 +70,57 @@ struct GameFieldView: View {
                         path.move(to: linePoints.start)
                         path.addLine(to: linePoints.end)
                     }
-                    .stroke(Color.pink, lineWidth: 5)
+                    .trim(from: 0, to: animateLine ? 1 : 0)
+                    .stroke(Color.pink, lineWidth: Drawing.lineWidth)
+                    .onAppear {
+                        withAnimation(.easeInOut(duration: Drawing.animationDuration)) {
+                            animateLine = true
+                        }
+                    }
                 }
             }
         }
     }
     
-    private func getLinePoints(for pattern: [Int], gridSize: CGFloat) -> LinePoints {
+    // MARK: - Определяем стартовые и конечные точки линии
+    private func getLinePoints(for pattern: [Int], gridSize: CGFloat) -> WinnerLine {
         let cellSize = gridSize / 3
-        let lineExtension: CGFloat = 0.3 // Amount to extend the lines beyond the grid
         
-        // Определяем стартовые и конечные точки в зависимости от паттерна
         switch pattern {
         case [0, 1, 2]: // Горизонтальная первая линия
-            return LinePoints(start: CGPoint(x: -lineExtension, y: cellSize / 1.5),
-                              end: CGPoint(x: gridSize + lineExtension, y: cellSize / 1.3))
+            return WinnerLine(start: CGPoint(x: cellSize / 2, y: cellSize / 1.45),
+                              end: CGPoint(x: cellSize * 2.5, y: cellSize / 1.45))
             
         case [3, 4, 5]: // Горизонтальная вторая линия
-            return LinePoints(start: CGPoint(x: -lineExtension, y: cellSize * 1.5),
-                              end: CGPoint(x: gridSize + lineExtension, y: cellSize * 1.5))
+            return WinnerLine(start: CGPoint(x: cellSize / 2, y: cellSize * 1.45),
+                              end: CGPoint(x: cellSize * 2.5, y: cellSize * 1.45))
             
         case [6, 7, 8]: // Горизонтальная третья линия
-            return LinePoints(start: CGPoint(x: -lineExtension, y: cellSize * 2.1),
-                              end: CGPoint(x: gridSize + lineExtension, y: cellSize * 2.3))
-        
+            return WinnerLine(start: CGPoint(x: cellSize / 2, y: cellSize * 2.15),
+                              end: CGPoint(x: cellSize * 2.5, y: cellSize * 2.15))
+            
         case [0, 3, 6]: // Вертикальная первая линия
-            return LinePoints(start: CGPoint(x: cellSize * 0.8, y: -lineExtension),
-                                      end: CGPoint(x: cellSize * 0.9, y: gridSize + lineExtension))
+            return WinnerLine(start:  CGPoint(x: cellSize / 1.25, y: cellSize / 2),
+                              end: CGPoint(x: cellSize / 1.25, y: cellSize * 2.5))
             
         case [1, 4, 7]: // Вертикальная вторая линия
-            return LinePoints(start: CGPoint(x: cellSize * 1.5, y: -lineExtension),
-                              end: CGPoint(x: cellSize * 1.6, y: gridSize + lineExtension))
+            return WinnerLine(start: CGPoint(x: cellSize * 1.5, y: cellSize / 2),
+                              end: CGPoint(x: cellSize * 1.5, y: cellSize * 2.5))
             
         case [2, 5, 8]: // Вертикальная третья линия
-            return LinePoints(start: CGPoint(x: cellSize * 2.2, y: -lineExtension),
-                              end: CGPoint(x: cellSize * 2.3, y: gridSize + lineExtension))
+            return WinnerLine(start: CGPoint(x: cellSize * 2.22, y: cellSize / 2),
+                              end: CGPoint(x: cellSize * 2.22, y: cellSize * 2.5))
             
         case [0, 4, 8]: // Диагональ с верхнего левого угла
-            return LinePoints(start: CGPoint(x: -lineExtension, y: -lineExtension),
-                              end: CGPoint(x: gridSize + lineExtension, y: gridSize + lineExtension))
+            return WinnerLine(start: CGPoint(x: cellSize / 2, y: cellSize / 2),
+                              end: CGPoint(x: cellSize * 2.5, y: cellSize * 2.5))
             
         case [2, 4, 6]: // Диагональ с верхнего правого угла
-            return LinePoints(start: CGPoint(x: gridSize + lineExtension, y: -lineExtension),
-                              end: CGPoint(x: -lineExtension, y: gridSize + lineExtension))
+            return WinnerLine(start: CGPoint(x: cellSize * 2.5, y: cellSize / 2),
+                              end: CGPoint(x: cellSize / 2, y: cellSize * 2.5))
             
         default:
-            return LinePoints(start: CGPoint.zero, end: CGPoint.zero) // Паттерн не найден
+            return WinnerLine(start: CGPoint.zero, end: CGPoint.zero) // Паттерн не найден
         }
     }
 }

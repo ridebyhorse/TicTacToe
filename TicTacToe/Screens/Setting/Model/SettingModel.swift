@@ -35,9 +35,9 @@ enum MusicStyle: String, Codable, CaseIterable {
 }
 
 enum DifficultyLevel: String, Codable, CaseIterable {
-    case easy = "Easy"
-    case normal = "Normal"
-    case hard = "Hard"
+    case easy
+    case normal
+    case hard
 }
 
 // Перечисление для стилей игроков

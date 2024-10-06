@@ -12,24 +12,16 @@ struct RulesView: View {
     @ObservedObject var viewModel: RulesViewModel
     
     var body: some View {
-        HStack {
-            Button(action: {
-                viewModel.dismissRules()
-            }, label: {
-                Image(.backIcon)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 30, height: 22)
-            })
-            Spacer()
-            Text(Resources.Text.rulesNavigationTitle.localized(language))
-                .font(.navigationTitle)
-                .foregroundStyle(.basicBlack)
-                .padding(.trailing, 30)
-            Spacer()
-        }
-        .padding(.horizontal, 21)
-        .padding(.top, 8)
+       
+        ToolBarView(
+            showBackButton: true,
+            backButtonAction: viewModel.dismissRules,
+            title: Resources.Text.rulesNavigationTitle.localized(language)
+        )
+        .frame(height: 44)
+        .background(Color.white)
+        .zIndex(1)
+        
         ScrollView {
             ForEach(0..<viewModel.rules.count, id: \.self) { index in
                 HStack {

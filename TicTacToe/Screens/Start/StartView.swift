@@ -4,7 +4,6 @@
 //
 //  Created by Мария Нестерова on 29.09.2024.
 //
-
 import SwiftUI
 
 struct StartView: View {
@@ -12,6 +11,11 @@ struct StartView: View {
     
     @ObservedObject var viewModel: StartViewModel
     
+    let textArray = Array(Resources.Text.ticTacToe)
+    let colorsArray: [Color] = [
+        .basicBlue, .secondaryPurple, .blue, .purple, .secondaryPink, .yellow.opacity(0.5), .pink.opacity(0.5), .cyan, .mint
+    ]
+
     var body: some View {
         VStack {
             HStack {
@@ -56,16 +60,25 @@ struct StartView: View {
                 })
             }
             .padding(.top, 8)
+            
             Spacer()
+            
             Image(.mainIcon)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .padding(.horizontal, 48)
-            Text(Resources.Text.ticTacToe)
-                .font(.mainTitle)
-                .foregroundStyle(.basicBlack)
-                .padding(30)
+            
+            HStack(spacing: 2) {
+                ForEach(0..<textArray.count, id: \.self) { index in
+                    Text(String(textArray[index]))
+                        .font(.mainTitle)
+                        .foregroundColor(colorsArray[index % colorsArray.count])  // Применяем цвет из массива
+                }
+            }
+            .padding(30)
+            
             Spacer()
+            
             BasicButton(
                 styleType: .primary,
                 title: Resources.Text.letsPlay.localized(language),
@@ -74,10 +87,5 @@ struct StartView: View {
             .padding(.bottom, 30)
         }
         .padding(.horizontal, 21)
-        
     }
-}
-
-#Preview {
-    StartView(viewModel: StartViewModel(coordinator: Coordinator()))
 }

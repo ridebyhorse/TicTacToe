@@ -59,7 +59,7 @@ struct GameSelectView: View {
                 if viewModel.selectedGameMode == .singlePlayer {
                     playerNameTextField(
                         placeholder: Resources.Text.enterYourName.localized(language),
-                        text: $viewModel.singlePlayerName,
+                        text: $viewModel.player,
                         onSubmit: viewModel.startGame
                     )
                 }
@@ -75,11 +75,11 @@ struct GameSelectView: View {
                 if viewModel.selectedGameMode == .twoPlayers {
                     playerNameTextField(
                         placeholder: Resources.Text.player1Name.localized(language),
-                        text: $viewModel.playerOneName
+                        text: $viewModel.player
                     )
                     playerNameTextField(
                         placeholder: Resources.Text.player2Name.localized(language),
-                        text: $viewModel.playerTwoName
+                        text: $viewModel.opponent
                     )
                 }
                 

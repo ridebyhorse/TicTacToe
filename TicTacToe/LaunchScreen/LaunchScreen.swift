@@ -1,10 +1,21 @@
+//
+//  LaunchScreen.swift
+//  TicTacToe
+//
+//  Created by Ylyas Abdywahytow on 10/1/24.
+//
+
 import SwiftUI
 
 struct LaunchScreen: View {
     @State private var isAnimating = false
     @State private var textIndex = 0
     @State private var isTextVisible = false
-    let textArray = Array("Tic-Tac-Toe")
+    let textArray = Array(Resources.Text.ticTacToe)  
+    let colorsArray: [Color] = [
+        .basicBlue, .secondaryPurple, .blue, .purple, .secondaryPink, .yellow.opacity(0.5), .pink.opacity(0.5), .cyan, .mint
+    ]
+
     
     var body: some View {
         ZStack {
@@ -44,16 +55,14 @@ struct LaunchScreen: View {
                 HStack(spacing: 2) {
                     ForEach(0..<textArray.count, id: \.self) { index in
                         Text(String(textArray[index]))
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.basicBlack)
-                            .opacity(isTextVisible && textIndex >= index ? 1 : 0)
-                            .animation(.easeIn(duration: 0.1).delay(0.05 * Double(index)), value: isTextVisible)
+                            .font(.mainTitle)
+                            .foregroundColor(colorsArray[index % colorsArray.count])  // Цвет для каждой буквы
+                            .opacity(textIndex >= index ? 1 : 0)
+                            .animation(.easeInOut(duration: 0.1).delay(0.05 * Double(index)), value: textIndex)
                     }
                 }
                 .onAppear {
-                    isTextVisible = true
-                    Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+                    Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
                         if textIndex < textArray.count {
                             textIndex += 1
                         } else {

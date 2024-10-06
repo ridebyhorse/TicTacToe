@@ -22,7 +22,7 @@ enum Resources {
         static let picked = "Picked"
         static let you = "You"
         static let settings = "Settings"
-        static let howToPlay = "How to Play"
+       
         static let ticTacToe = "TIC-TAC-TOE"
         static let letsPlay = "Let's play"
         static let winResult = " Win!"

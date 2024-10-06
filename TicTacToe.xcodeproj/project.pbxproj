@@ -10,6 +10,8 @@
 		93166CE52CB1383600100B84 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93166CE42CB1383600100B84 /* TimeManager.swift */; };
 		ADA899CA2CADAF8300363BDB /* GameSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA899C92CADAF7900363BDB /* GameSelectView.swift */; };
 		CB33F1372CB174070008A39F /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB33F1362CB174070008A39F /* TimerManager.swift */; };
+		CB33F13B2CB19C210008A39F /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB33F13A2CB19C210008A39F /* TimerManager.swift */; };
+		CB33F13E2CB19C400008A39F /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB33F13C2CB19C400008A39F /* LaunchScreen.swift */; };
 		CB511C4B2CAFD1E5001454B5 /* classic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CB511C442CAFD1E5001454B5 /* classic.mp3 */; };
 		CB511C4C2CAFD1E5001454B5 /* final.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CB511C452CAFD1E5001454B5 /* final.mp3 */; };
 		CB511C4D2CAFD1E5001454B5 /* instrumental.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CB511C462CAFD1E5001454B5 /* instrumental.mp3 */; };
@@ -63,6 +65,9 @@
 		93166CE42CB1383600100B84 /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
 		ADA899C92CADAF7900363BDB /* GameSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSelectView.swift; sourceTree = "<group>"; };
 		CB33F1362CB174070008A39F /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
+		CB33F13A2CB19C210008A39F /* TimerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
+		CB33F13C2CB19C400008A39F /* LaunchScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
+		CB33F13F2CB19C590008A39F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB511C442CAFD1E5001454B5 /* classic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = classic.mp3; sourceTree = "<group>"; };
 		CB511C452CAFD1E5001454B5 /* final.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = final.mp3; sourceTree = "<group>"; };
 		CB511C462CAFD1E5001454B5 /* instrumental.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = instrumental.mp3; sourceTree = "<group>"; };
@@ -124,6 +129,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CB33F13D2CB19C400008A39F /* LaunchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				CB33F13C2CB19C400008A39F /* LaunchScreen.swift */,
+			);
+			path = LaunchScreen;
+			sourceTree = "<group>";
+		};
 		CB511C4A2CAFD1E5001454B5 /* Music */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,7 +170,9 @@
 		CB6F3E532CA997AA005C2ED9 /* TicTacToe */ = {
 			isa = PBXGroup;
 			children = (
+				CB33F13F2CB19C590008A39F /* Info.plist */,
 				CB6F3E542CA997AA005C2ED9 /* TicTacToeApp.swift */,
+				CB33F13D2CB19C400008A39F /* LaunchScreen */,
 				E1E0BDB52CA9EFCC00DB8D34 /* Models */,
 				CB6F3E6C2CA9AF33005C2ED9 /* Screens */,
 				CB6F3E652CA9A527005C2ED9 /* Base */,
@@ -318,6 +333,7 @@
 				E1392EEC2CAD2E6C00112013 /* UserManager.swift */,
 				E1E0BDB32CA9EC4900DB8D34 /* GameManager.swift */,
 				CB33F1362CB174070008A39F /* TimerManager.swift */,
+				CB33F13A2CB19C210008A39F /* TimerManager.swift */,
 				E1E0BDCF2CAA8DBE00DB8D34 /* Coordinator */,
 				E1E0BDDC2CAA976500DB8D34 /* Localizations */,
 			);
@@ -484,12 +500,14 @@
 				E1E0BDD92CAA94FC00DB8D34 /* RulesViewModel.swift in Sources */,
 				93166CE52CB1383600100B84 /* TimeManager.swift in Sources */,
 				CB86AF3B2CAC95EE00C025FA /* LeaderboardViewModel.swift in Sources */,
+				CB33F13B2CB19C210008A39F /* TimerManager.swift in Sources */,
 				CB33F1372CB174070008A39F /* TimerManager.swift in Sources */,
 				E1392EF12CAD2E6C00112013 /* StorageManager.swift in Sources */,
 				E1392EF62CAD2E8300112013 /* GameSymbolSelectionView.swift in Sources */,
 				E1392EFA2CAD367F00112013 /* SettingModel.swift in Sources */,
 				E1E0BDBC2CA9F6B300DB8D34 /* Resources.swift in Sources */,
 				E1E0BDCE2CAA8AE500DB8D34 /* String + Extension.swift in Sources */,
+				CB33F13E2CB19C400008A39F /* LaunchScreen.swift in Sources */,
 				E1E0BDB42CA9EC4900DB8D34 /* GameManager.swift in Sources */,
 				E1392EF82CAD2E8300112013 /* GameSelecViewModel.swift in Sources */,
 				E1392F052CAD5B7800112013 /* SettingPickerView.swift in Sources */,
@@ -653,9 +671,9 @@
 				DEVELOPMENT_TEAM = Y5B46GH7KM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TicTacToe/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -687,9 +705,9 @@
 				DEVELOPMENT_TEAM = Y5B46GH7KM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TicTacToe/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;

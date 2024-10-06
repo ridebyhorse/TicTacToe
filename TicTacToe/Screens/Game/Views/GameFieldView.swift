@@ -41,5 +41,5 @@ struct GameFieldView: View {
 }
 
 #Preview {
-    GameFieldView(gameBoard: Array(repeating: nil, count: 9), playerStyle: .cakeIcecream, action: { index in index + 1 })
+    GameFieldView(gameBoard: Array(repeating: nil, count: 9), playerStyle: .cakeIcecream, action: { index in })
 }

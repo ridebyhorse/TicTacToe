@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LeaderboardView: View {
     @ObservedObject var viewModel: LeaderboardViewModel
+    @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
     
     var body: some View {
         ZStack {
@@ -20,7 +21,7 @@ struct LeaderboardView: View {
                     ToolBarView(
                         showBackButton: true,
                         backButtonAction: { viewModel.dismissLeaderboard() },
-                        title: Resources.Text.leaderboard
+                        title: Resources.Text.leaderboard.localized(language)
                     )
                     
                     .padding(.horizontal)

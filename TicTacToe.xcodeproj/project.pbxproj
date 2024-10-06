@@ -42,6 +42,7 @@
 		E1392F1B2CADEAD200112013 /* MusicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1392F182CADEAD200112013 /* MusicManager.swift */; };
 		E1392F1C2CADEAD200112013 /* MusicStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1392F192CADEAD200112013 /* MusicStorage.swift */; };
 		E148E8682CAF420800018E70 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E148E8672CAF420800018E70 /* GameMode.swift */; };
+		E148E8782CB282D300018E70 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E148E8772CB282D300018E70 /* CustomAlertView.swift */; };
 		E1E0BDB42CA9EC4900DB8D34 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDB32CA9EC4900DB8D34 /* GameManager.swift */; };
 		E1E0BDB92CA9F03400DB8D34 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDB82CA9F03400DB8D34 /* Player.swift */; };
 		E1E0BDBC2CA9F6B300DB8D34 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDBB2CA9F6B300DB8D34 /* Resources.swift */; };
@@ -97,6 +98,7 @@
 		E1392F182CADEAD200112013 /* MusicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicManager.swift; sourceTree = "<group>"; };
 		E1392F192CADEAD200112013 /* MusicStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicStorage.swift; sourceTree = "<group>"; };
 		E148E8672CAF420800018E70 /* GameMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
+		E148E8772CB282D300018E70 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		E1E0BDB32CA9EC4900DB8D34 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 		E1E0BDB82CA9F03400DB8D34 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		E1E0BDBB2CA9F6B300DB8D34 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				CB6F3E662CA9A539005C2ED9 /* BasicButton.swift */,
 				CB6F3E6A2CA9A5FD005C2ED9 /* BasicButtonStyle.swift */,
 				E1392F012CAD47D400112013 /* ToolBarView.swift */,
+				E148E8772CB282D300018E70 /* CustomAlertView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				E1392F1B2CADEAD200112013 /* MusicManager.swift in Sources */,
 				E1392F022CAD47D400112013 /* ToolBarView.swift in Sources */,
 				E1392F0E2CADD9E700112013 /* GameResult.swift in Sources */,
+				E148E8782CB282D300018E70 /* CustomAlertView.swift in Sources */,
 				E1392F1C2CADEAD200112013 /* MusicStorage.swift in Sources */,
 				E1392F072CADA88500112013 /* GameView.swift in Sources */,
 				CB6F3E672CA9A539005C2ED9 /* BasicButton.swift in Sources */,

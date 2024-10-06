@@ -30,9 +30,9 @@ final class UserManager {
     }
     
     // Устанавливаем имена игроков
-    func setPlayers(player1Name: String, player2Name: String = Resources.Text.ai) {
+    func setPlayers(player1Name: String, player2Name: String?) {
         self.player.name = player1Name
-        self.opponent.name = player2Name
+        self.opponent.name = player2Name ?? Resources.Text.ai
     }
     
     func getPlayer() -> Player {

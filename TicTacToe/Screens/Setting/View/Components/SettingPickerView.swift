@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingPickerView<Value: RawRepresentable & CaseIterable & Hashable>: View where Value.RawValue == String {
+    @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
     
     @Binding var selectedValue: Value
     let title: String
@@ -15,13 +16,12 @@ struct SettingPickerView<Value: RawRepresentable & CaseIterable & Hashable>: Vie
     var body: some View {
             Picker(title, selection: $selectedValue) {
                 ForEach(Value.allCases.map { $0 }, id: \.self) { value in
-                    Text(value.rawValue).tag(value)
+                    Text(value.rawValue.localized(language)).tag(value)
                 }
             }
             .pickerStyle(MenuPickerStyle())
             .styledFrame(title)
             .frame(alignment: .trailing)
-//            .padding(20)
     }
 }
 
@@ -34,7 +34,6 @@ private extension View {
                 .foregroundColor(Color.basicBlack)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(20)
-//            Spacer()
             self
         }
         .frame(width: 300, height: 60)

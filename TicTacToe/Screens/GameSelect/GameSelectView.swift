@@ -10,6 +10,7 @@ import SwiftUI
 struct GameSelectView: View {
     @ObservedObject var viewModel: GameSelectViewModel
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
+    @State private var showCustomAlert = false
 
     var body: some View {
         ZStack {
@@ -29,9 +30,24 @@ struct GameSelectView: View {
                 gameSelectionCard
                 Spacer()
             }
+            .blur(radius: showCustomAlert ? 5 : 0)
+            
+            // Показ кастомного алерта
+            if showCustomAlert {
+                CustomAlertView(message: Resources.Text.enterYourNameAlert.localized(language)) {
+                    showCustomAlert = false
+                }
+                .background(Color.black.opacity(0.4).edgesIgnoringSafeArea(.all))
+                .transition(.opacity)
+                .zIndex(2)
+                .frame(maxWidth: 300, maxHeight: 200)
+                .cornerRadius(30)
+            }
         }
-        .alert(Resources.Text.enterYourNameAlert.localized(language), isPresented: $viewModel.showingAlert) {
-            Button("OK", role: .cancel) { }
+        .onChange(of: viewModel.showingAlert) { newValue in
+            if newValue {
+                showCustomAlert = true
+            }
         }
     }
     
@@ -41,7 +57,7 @@ struct GameSelectView: View {
             Text(Resources.Text.selectGame.localized(language))
                 .font(.title)
                 .fontWeight(.bold)
-                .foregroundColor(.basicBlack)
+                .foregroundColor(.basicBlue)
                 .padding(10)
             
             VStack(alignment: .center) {
@@ -59,8 +75,14 @@ struct GameSelectView: View {
                 if viewModel.selectedGameMode == .singlePlayer {
                     playerNameTextField(
                         placeholder: Resources.Text.enterYourName.localized(language),
-                        text: $viewModel.singlePlayerName,
-                        onSubmit: viewModel.startGame
+                        text: $viewModel.player,
+                        onSubmit: {
+                            if viewModel.player.isEmpty {
+                                showCustomAlert = true
+                            } else {
+                                viewModel.startGame()
+                            }
+                        }
                     )
                 }
                 
@@ -75,11 +97,11 @@ struct GameSelectView: View {
                 if viewModel.selectedGameMode == .twoPlayers {
                     playerNameTextField(
                         placeholder: Resources.Text.player1Name.localized(language),
-                        text: $viewModel.playerOneName
+                        text: $viewModel.player
                     )
                     playerNameTextField(
                         placeholder: Resources.Text.player2Name.localized(language),
-                        text: $viewModel.playerTwoName
+                        text: $viewModel.opponent
                     )
                 }
                 
@@ -111,7 +133,13 @@ struct GameSelectView: View {
     }
     
     private var nextButton: some View {
-        Button(action: viewModel.startGame) {
+        Button(action: {
+            if viewModel.player.isEmpty {
+                showCustomAlert = true
+            } else {
+                viewModel.startGame()
+            }
+        }) {
             Text(Resources.Text.next.localized(language))
                 .font(.title3)
                 .foregroundColor(.white)
@@ -149,7 +177,6 @@ struct GameSelectView: View {
         }
     }
 }
-    
 
 #Preview {
     GameSelectView(viewModel: GameSelectViewModel(coordinator: Coordinator()))

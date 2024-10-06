@@ -5,16 +5,15 @@
 //  Created by Ylyas Abdywahytow on 10/1/24.
 //
 import Foundation
-@MainActor
 
+@MainActor
 final class GameSelectViewModel: ObservableObject {
     // MARK: Properties
-    @Published var singlePlayerName: String = ""
-    @Published var playerOneName: String = ""
-    @Published var playerTwoName: String = ""
+    @Published var player: String = ""
+    @Published var opponent: String = ""
     @Published var selectedGameMode: GameMode = .singlePlayer
     @Published var showingAlert: Bool = false
-
+    
     private let userManager: UserManager
     private let coordinator: Coordinator
     
@@ -31,19 +30,35 @@ final class GameSelectViewModel: ObservableObject {
     }
     
     func startGame() {
-        if selectedGameMode == .singlePlayer {
-            if singlePlayerName.isEmpty {
-                showingAlert = true
-                return
-            }
-            userManager.setPlayers(player1Name: singlePlayerName)
+        if validatePlayerInput() {
+            setPlayers()
+            coordinator.updateNavigationState(action: .startGame)
         } else {
-            userManager.setPlayers(player1Name: playerOneName, player2Name: playerTwoName)
+            showingAlert = true
         }
-        coordinator.updateNavigationState(action: .startGame)
     }
-
+    
+    //MARK: - NavigationState
     func showSettings() {
         coordinator.updateNavigationState(action: .showSettings)
+    }
+    
+    // MARK: - Private Methods
+    private func validatePlayerInput() -> Bool {
+        switch selectedGameMode {
+        case .singlePlayer:
+            return !player.isEmpty
+        case .twoPlayers:
+            return !player.isEmpty && !opponent.isEmpty
+        }
+    }
+    
+    private func setPlayers() {
+        switch selectedGameMode {
+        case .singlePlayer:
+            userManager.setPlayers(player1Name: player, player2Name: nil)
+        case .twoPlayers:
+            userManager.setPlayers(player1Name: player, player2Name: opponent)
+        }
     }
 }

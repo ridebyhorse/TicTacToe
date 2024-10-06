@@ -11,6 +11,39 @@
         }
       }
     },
+    "30 sec" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 сек"
+          }
+        }
+      }
+    },
+    "60 sec" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "60 сек"
+          }
+        }
+      }
+    },
+    "120 sec" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "120 сек"
+          }
+        }
+      }
+    },
     "AI" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -58,6 +91,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Выберите"
+          }
+        }
+      }
+    },
+    "classical" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "классика"
           }
         }
       }
@@ -113,6 +157,28 @@
         }
       }
     },
+    "easy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "легкий"
+          }
+        }
+      }
+    },
+    "en" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "английский"
+          }
+        }
+      }
+    },
     "Enter your name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -130,7 +196,18 @@
         }
       }
     },
-    "How to Play" : {
+    "hard" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "тяжелый"
+          }
+        }
+      }
+    },
+    "How to play" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -143,6 +220,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Правила"
+          }
+        }
+      }
+    },
+    "instrumentals" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "инструментальная"
           }
         }
       }
@@ -215,6 +303,17 @@
         }
       }
     },
+    "nature" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "природа"
+          }
+        }
+      }
+    },
     "Next" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -249,7 +348,41 @@
         }
       }
     },
+    "none" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "пустое значение"
+          }
+        }
+      }
+    },
+    "normal" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "средний"
+          }
+        }
+      }
+    },
+    "not so fast" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "не так быстро"
+          }
+        }
+      }
+    },
     "OK" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -384,19 +517,30 @@
         }
       }
     },
-    "Please enter your name" : {
+    "Please enter name" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Please enter your name"
+            "value" : "Please enter name"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Введите ваше имя"
+            "value" : "Введите имя"
+          }
+        }
+      }
+    },
+    "ru" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "русский"
           }
         }
       }
@@ -446,8 +590,8 @@
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Символ для игры"
+            "state" : "translated",
+            "value" : "Твой символ "
           }
         }
       }
@@ -584,6 +728,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Два игрока"
+          }
+        }
+      }
+    },
+    "Warning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предупреждение"
           }
         }
       }

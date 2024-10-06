@@ -12,14 +12,13 @@ final class MusicManager {
     private let storageManager = StorageManager.shared
     private var musicPlayer = AVAudioPlayer()
     private var soundPlayer = AVAudioPlayer()
-    private let settings: GameSettings
+    private var settings: GameSettings?
     
-    private init() {
-        settings = storageManager.getSettings()
-    }
+    private init() {}
     
     func playMusic() {
-        guard !musicPlayer.isPlaying else { return }
+        settings = storageManager.getSettings()
+        guard let settings, !musicPlayer.isPlaying else { return }
         if let urlMusic = MusicStorage.getMusicFor(settings.musicStyle) {
             do {
                 musicPlayer = try AVAudioPlayer(contentsOf: urlMusic)

@@ -11,17 +11,14 @@ final class ResultViewModel: ObservableObject {
     // MARK: Properties
     @Published var gameResult: GameResult
     private let coordinator: Coordinator
-    private let musicManager: MusicManager
     
     // MARK: Initialization
     init(
         coordinator: Coordinator,
         winner: Player?,
-        playedAgainstAI: Bool,
-        musicManager: MusicManager = .shared
+        playedAgainstAI: Bool
     ) {
         self.coordinator = coordinator
-        self.musicManager = musicManager
         
         if let winner {
             let aiWin = playedAgainstAI && winner.name == Resources.Text.ai
@@ -29,8 +26,6 @@ final class ResultViewModel: ObservableObject {
         } else {
             gameResult = .draw
         }
-        
-        musicManager.playSoundFor(.final)
     }
     
     //MARK: - NavigationState

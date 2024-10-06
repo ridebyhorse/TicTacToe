@@ -35,5 +35,5 @@ struct PlayerSquareView: View {
 }
 
 #Preview {
-    PlayerSquareView(player: Player(name: "Im", symbol: .circle, style: .cakeIcecream))
+    PlayerSquareView(player: Player(name: "Im", score: 0, symbol: .circle, style: .cakeIcecream))
 }

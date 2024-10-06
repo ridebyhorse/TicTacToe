@@ -31,7 +31,6 @@ final class GameViewModel: ObservableObject {
     var level: DifficultyLevel { storageManager.getSettings().level }
     var playerStyle: PlayerStyle { player.style }
     
-    
     // MARK: - Initialization
     init(
         coordinator: Coordinator,
@@ -58,7 +57,6 @@ final class GameViewModel: ObservableObject {
         timerManager.onTimeChange = { [weak self] in self?.secondsCount = $0 }
         resetGame()
         musicManager.playMusic()
-        //        timeManager.startTimer()
     }
     
     // Метод для случайного выбора первого хода
@@ -95,7 +93,7 @@ final class GameViewModel: ObservableObject {
                     opponent: opponentPlayer
                 )
                 if let winningPattern = gameManager.getWinningPattern() {
-                    self.winningPattern = winningPattern // Сохранение индексов выигрышных клеток
+                    self.winningPattern = winningPattern
                 }
                 
                 boardBlocked = true
@@ -164,7 +162,14 @@ final class GameViewModel: ObservableObject {
         gameResult = result
         musicManager.stopMusic()
         timerManager.stopTimer()
+        
         if let leaderboardWinner = gameManager.winner {
+            if leaderboardWinner == player {
+                player.score += 1
+            } else if leaderboardWinner == opponent {
+                opponent.score += 1
+            }
+            // Сохраняем обновленные данные игроков в хранилище
             storageManager.saveUsersScore([player, opponent], winner: leaderboardWinner)
         }
         switch result {

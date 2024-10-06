@@ -27,6 +27,14 @@ struct GameView: View {
                             + ":"
                             + String(viewModel.secondsCount % 60)
                         )
+                        Text(Resources.Text.score)
+                            .font(.basicTitle)
+                        Text(
+                            String(viewModel.player.score)
+                            + ":"
+                            + String(viewModel.opponent.score)
+                        )
+                        
                             .font(.basicSubtitle)
                     }
                     PlayerSquareView(player: viewModel.opponent)

@@ -18,10 +18,9 @@ final class UserManager {
     private init(storageManager: StorageManager = .shared) {
         self.storageManager = storageManager
         
-        // Инициализируем игроков
-        self.player = Player(name: "", symbol: .cross, style: .crossPinkCirclePurple)
-        self.opponent = Player(name: "", symbol: .circle, style: .crossPinkCirclePurple)
-        
+        // Инициализируем игроков с их счётами
+        self.player = Player(name: "", score: 0, symbol: .cross, style: .crossPinkCirclePurple)
+        self.opponent = Player(name: "", score: 0, symbol: .circle, style: .crossPinkCirclePurple)
     }
     
     // Устанавливаем режим игры
@@ -37,8 +36,9 @@ final class UserManager {
     
     func getPlayer() -> Player {
         let settings = storageManager.getSettings()
-        player.symbol = settings.playerSymbol            
+        player.symbol = settings.playerSymbol
         player.style = settings.selectedStyle
+        player.score = storageManager.getScoreFor(playerName: player.name)
         return player
     }
     
@@ -47,6 +47,7 @@ final class UserManager {
         let settings = storageManager.getSettings()
         opponent.symbol = player.symbol == .cross ? .circle : .cross
         opponent.style = settings.selectedStyle
+        opponent.score = storageManager.getScoreFor(playerName: opponent.name)
         return opponent
     }
 }

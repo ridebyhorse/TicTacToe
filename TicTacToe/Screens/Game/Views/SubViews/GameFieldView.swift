@@ -19,7 +19,7 @@ struct GameFieldView: View {
     var winningPattern: [Int]?
     
     @State private var animateLine = false
-    @Namespace private var symbolNamespace // Для анимации символов
+    @Namespace private var symbolNamespace 
     
     // MARK: - Drawing Constants
     enum Drawing {
@@ -57,7 +57,7 @@ struct GameFieldView: View {
                         }
                     }
                     .transition(.scale(scale: Drawing.cellTransitionScale).combined(with: .opacity))
-                    .animation(.easeInOut(duration: Drawing.animationDuration), value: gameBoard[index]) 
+                    .animation(.easeInOut(duration: Drawing.animationDuration), value: gameBoard[index])
                 }
             }
             .padding(Drawing.gridPadding)

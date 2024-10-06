@@ -93,9 +93,18 @@ final class GameViewModel: ObservableObject {
                     opponent: opponentPlayer
                 )
                 boardBlocked = true
-                musicManager.playSoundFor(.final)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
-                    self?.handleGameResult(result)
+                if gameMode == .singlePlayer && gameManager.winner?.name == Resources.Text.ai {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+                        self?.musicManager.playSoundFor(.final)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+                            self?.handleGameResult(result)
+                        }
+                    }
+                } else {
+                    musicManager.playSoundFor(.final)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+                        self?.handleGameResult(result)
+                    }
                 }
             } else {
                 togglePlayer()

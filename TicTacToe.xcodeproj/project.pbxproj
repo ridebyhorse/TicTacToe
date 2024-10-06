@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		93166CE52CB1383600100B84 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93166CE42CB1383600100B84 /* TimeManager.swift */; };
 		ADA899CA2CADAF8300363BDB /* GameSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA899C92CADAF7900363BDB /* GameSelectView.swift */; };
 		CB33F1372CB174070008A39F /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB33F1362CB174070008A39F /* TimerManager.swift */; };
-		CB33F13B2CB19C210008A39F /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB33F13A2CB19C210008A39F /* TimerManager.swift */; };
 		CB33F13E2CB19C400008A39F /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB33F13C2CB19C400008A39F /* LaunchScreen.swift */; };
 		CB511C4B2CAFD1E5001454B5 /* classic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CB511C442CAFD1E5001454B5 /* classic.mp3 */; };
 		CB511C4C2CAFD1E5001454B5 /* final.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CB511C452CAFD1E5001454B5 /* final.mp3 */; };
@@ -62,10 +60,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		93166CE42CB1383600100B84 /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
 		ADA899C92CADAF7900363BDB /* GameSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSelectView.swift; sourceTree = "<group>"; };
 		CB33F1362CB174070008A39F /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
-		CB33F13A2CB19C210008A39F /* TimerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		CB33F13C2CB19C400008A39F /* LaunchScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		CB33F13F2CB19C590008A39F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB511C442CAFD1E5001454B5 /* classic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = classic.mp3; sourceTree = "<group>"; };
@@ -329,11 +325,9 @@
 			children = (
 				E1392F1A2CADEAD200112013 /* Music */,
 				E1392EEE2CAD2E6C00112013 /* StorageManager.swift */,
-				93166CE42CB1383600100B84 /* TimeManager.swift */,
 				E1392EEC2CAD2E6C00112013 /* UserManager.swift */,
 				E1E0BDB32CA9EC4900DB8D34 /* GameManager.swift */,
 				CB33F1362CB174070008A39F /* TimerManager.swift */,
-				CB33F13A2CB19C210008A39F /* TimerManager.swift */,
 				E1E0BDCF2CAA8DBE00DB8D34 /* Coordinator */,
 				E1E0BDDC2CAA976500DB8D34 /* Localizations */,
 			);
@@ -498,9 +492,7 @@
 				E1392F162CADE80300112013 /* PlayerSquareView.swift in Sources */,
 				CB6F3E572CA997AA005C2ED9 /* StartView.swift in Sources */,
 				E1E0BDD92CAA94FC00DB8D34 /* RulesViewModel.swift in Sources */,
-				93166CE52CB1383600100B84 /* TimeManager.swift in Sources */,
 				CB86AF3B2CAC95EE00C025FA /* LeaderboardViewModel.swift in Sources */,
-				CB33F13B2CB19C210008A39F /* TimerManager.swift in Sources */,
 				CB33F1372CB174070008A39F /* TimerManager.swift in Sources */,
 				E1392EF12CAD2E6C00112013 /* StorageManager.swift in Sources */,
 				E1392EF62CAD2E8300112013 /* GameSymbolSelectionView.swift in Sources */,

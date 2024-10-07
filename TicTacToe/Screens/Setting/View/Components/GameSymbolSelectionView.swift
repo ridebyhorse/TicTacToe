@@ -4,6 +4,7 @@
 //
 //  Created by Ylyas Abdywahytow on 10/1/24.
 //
+
 import SwiftUI
 
 struct GameSymbolSelectionView: View {
@@ -14,25 +15,23 @@ struct GameSymbolSelectionView: View {
     let imageNameForPlayer2: String
     
     var body: some View {
-        HStack(spacing: 20) {
-            Text(Resources.Text.selectSymbol.localized(language))
-                .font(.headline)
-                .foregroundColor(.basicBlack)
-            
+        LightBlueBackgroundView {
             HStack(spacing: 20) {
+                Text(Resources.Text.selectSymbol.localized(language))
+                    .font(.headline)
+                    .foregroundColor(.basicBlack)
+                
+                Spacer()
+                
                 symbolButton(symbol: .cross, imageName: imageNameForPlayer1)
                 symbolButton(symbol: .circle, imageName: imageNameForPlayer2)
             }
+            .frame(height: 80)
         }
-        .padding()
-        .frame(width: 300, height: 100)
-        .background(Color.white)
-        .cornerRadius(25)
-        .shadow(color: Color(red: 0.6, green: 0.62, blue: 0.76).opacity(0.3), radius: 15, x: 4, y: 4)
     }
-
+    
     // MARK: - Private Methods
-
+    
     private func symbolButton(symbol: PlayerSymbol, imageName: String) -> some View {
         Button(action: {
             selectPlayerSymbol(symbol)
@@ -46,13 +45,19 @@ struct GameSymbolSelectionView: View {
                 .shadow(radius: 0.2)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(selectedSymbol == symbol ? Color.basicBlue.opacity(0.2) : Color.clear, lineWidth: 2)
+                        .stroke(selectedSymbol == symbol ? Color.secondaryPurple : Color.clear, lineWidth: 2)
                 )
         }
     }
-
+    
     private func selectPlayerSymbol(_ symbol: PlayerSymbol) {
         selectedSymbol = symbol
     }
 }
 
+#Preview {
+    GameSymbolSelectionView(
+        selectedSymbol: .constant(PlayerSymbol.circle),
+        imageNameForPlayer1: "1",
+        imageNameForPlayer2: "2")
+}

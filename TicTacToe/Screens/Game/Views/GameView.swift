@@ -20,8 +20,7 @@ struct GameView: View {
                 HStack(spacing: 32) {
                     PlayerSquareView(player: viewModel.player)
                     VStack(spacing: 8) {
-                        Text(Resources.Text.time)
-                            .font(.basicTitle)
+
                         Text(
                             String(viewModel.secondsCount / 60)
                             + ":"
@@ -29,6 +28,7 @@ struct GameView: View {
                         )
                         Text(Resources.Text.score)
                             .font(.basicTitle)
+                        
                         Text(
                             String(viewModel.player.score)
                             + ":"

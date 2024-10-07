@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 final class SettingsViewModel: ObservableObject {
     // MARK: Properties
     @Published var selectedIndex: PlayerStyle
@@ -14,6 +13,12 @@ final class SettingsViewModel: ObservableObject {
     @Published var selectedMusic: MusicStyle
     @Published var selectedLevel: DifficultyLevel
     @Published var selectedPlayerSymbol: PlayerSymbol
+    
+    @Published var raundDuration: Int = 0 {
+        didSet {
+            updateDuration(isTimerEnabled: raundDuration > 0)
+        }
+    }
     
     private let coordinator: Coordinator
     private let storageManager: StorageManager
@@ -23,17 +28,25 @@ final class SettingsViewModel: ObservableObject {
     init(storageManager: StorageManager = .shared, coordinator: Coordinator) {
         self.storageManager = storageManager
         self.coordinator = coordinator
-
         self.gameSettings = storageManager.getSettings()
-        
-        self.selectedIndex = gameSettings.selectedStyle
+
+        self.selectedIndex = gameSettings.selectedStyle ?? .crossFilledPurpleCircleFilledPurple
         self.selectedDuration = gameSettings.duration
         self.selectedMusic = gameSettings.musicStyle
         self.selectedLevel = gameSettings.level
-        self.selectedPlayerSymbol = gameSettings.playerSymbol
+        self.selectedPlayerSymbol = gameSettings.playerSymbol ?? .cross
     }
 
     // MARK: Methods
+    func updateDuration(isTimerEnabled: Bool) {
+        if isTimerEnabled {
+            selectedDuration = .value
+        } else {
+            selectedDuration = .none
+            raundDuration = 0
+        }
+    }
+    
     func saveSettings() {
         gameSettings = GameSettings(
             level: selectedLevel,
@@ -47,11 +60,12 @@ final class SettingsViewModel: ObservableObject {
 
     func resetToDefault() {
         let defaultSettings = GameSettings.defaultGameSettings()
-        selectedIndex = defaultSettings.selectedStyle
+        selectedIndex = defaultSettings.selectedStyle ?? .crossFilledPurpleCircleFilledPurple
         selectedDuration = defaultSettings.duration
         selectedMusic = defaultSettings.musicStyle
         selectedLevel = defaultSettings.level
-        selectedPlayerSymbol = defaultSettings.playerSymbol
+        selectedPlayerSymbol = defaultSettings.playerSymbol ?? .cross
+        raundDuration = (defaultSettings.duration == .value) ? 60 : 0
         saveSettings()
     }
     

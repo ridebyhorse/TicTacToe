@@ -7,12 +7,14 @@
 
 import Foundation
 
+import Foundation
+
 struct GameSettings: Codable {
     let level: DifficultyLevel
     let duration: Duration
-    let selectedStyle: PlayerStyle
+    let selectedStyle: PlayerStyle?
     let musicStyle: MusicStyle
-    let playerSymbol: PlayerSymbol
+    let playerSymbol: PlayerSymbol?
 }
 
 enum PlayerSymbol: String, Codable {
@@ -20,11 +22,9 @@ enum PlayerSymbol: String, Codable {
     case circle
 }
 
-enum Duration: String, Codable, CaseIterable {
-    case none = "none"
-    case fast = "30 sec"
-    case normal = "60 sec"
-    case long = "120 sec"
+enum Duration: Int, Codable, CaseIterable {
+    case none
+    case value
 }
 
 enum MusicStyle: String, Codable, CaseIterable {
@@ -40,7 +40,6 @@ enum DifficultyLevel: String, Codable, CaseIterable {
     case hard
 }
 
-// Перечисление для стилей игроков
 enum PlayerStyle: Codable, CaseIterable {
     case crossPinkCirclePurple
     case crossYellowCircleGreen
@@ -48,8 +47,7 @@ enum PlayerStyle: Codable, CaseIterable {
     case starPurpleHeartPink
     case cakeIcecream
     case burgerFries
-
-    // Возвращает изображение для каждого стиля (для игрока 1 и игрока 2)
+    
     var imageNames: (player1: String, player2: String) {
         switch self {
         case .crossPinkCirclePurple:
@@ -68,16 +66,14 @@ enum PlayerStyle: Codable, CaseIterable {
     }
 }
 
-// Расширение для создания настроек по умолчанию
 extension GameSettings {
     static func defaultGameSettings() -> GameSettings {
-        let settings = GameSettings(
+        return GameSettings(
             level: .normal,
             duration: .none,
             selectedStyle: .crossPinkCirclePurple,
             musicStyle: .none, 
             playerSymbol: .cross
         )
-        return settings
     }
 }

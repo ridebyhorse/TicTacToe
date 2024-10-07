@@ -24,12 +24,8 @@ class TimerManager {
         switch duration {
         case .none:
             secondsCount = 0
-        case .fast:
-            secondsCount = 30
-        case .normal:
-            secondsCount = 60
-        case .long:
-            secondsCount = 120
+        case .value:
+            secondsCount = 10
         }
         
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCount), userInfo: nil, repeats: true)

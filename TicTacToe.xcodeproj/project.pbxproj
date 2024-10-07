@@ -43,6 +43,7 @@
 		E1392F1C2CADEAD200112013 /* MusicStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1392F192CADEAD200112013 /* MusicStorage.swift */; };
 		E148E8682CAF420800018E70 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E148E8672CAF420800018E70 /* GameMode.swift */; };
 		E148E8782CB282D300018E70 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E148E8772CB282D300018E70 /* CustomAlertView.swift */; };
+		E148E87D2CB2C79100018E70 /* WinnerLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E148E87C2CB2C79100018E70 /* WinnerLine.swift */; };
 		E1E0BDB42CA9EC4900DB8D34 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDB32CA9EC4900DB8D34 /* GameManager.swift */; };
 		E1E0BDB92CA9F03400DB8D34 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDB82CA9F03400DB8D34 /* Player.swift */; };
 		E1E0BDBC2CA9F6B300DB8D34 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDBB2CA9F6B300DB8D34 /* Resources.swift */; };
@@ -99,6 +100,7 @@
 		E1392F192CADEAD200112013 /* MusicStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicStorage.swift; sourceTree = "<group>"; };
 		E148E8672CAF420800018E70 /* GameMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
 		E148E8772CB282D300018E70 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
+		E148E87C2CB2C79100018E70 /* WinnerLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinnerLine.swift; sourceTree = "<group>"; };
 		E1E0BDB32CA9EC4900DB8D34 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 		E1E0BDB82CA9F03400DB8D34 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		E1E0BDBB2CA9F6B300DB8D34 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
@@ -298,9 +300,7 @@
 		E1392F082CADC2ED00112013 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E1392F122CADE80300112013 /* GameFieldView.swift */,
-				E1392F142CADE80300112013 /* GameSquareView.swift */,
-				E1392F132CADE80300112013 /* PlayerSquareView.swift */,
+				E148E8792CB2C4EA00018E70 /* SubViews */,
 				E1392F062CADA88400112013 /* GameView.swift */,
 			);
 			path = Views;
@@ -321,6 +321,24 @@
 				E1392F192CADEAD200112013 /* MusicStorage.swift */,
 			);
 			path = Music;
+			sourceTree = "<group>";
+		};
+		E148E8792CB2C4EA00018E70 /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				E1392F122CADE80300112013 /* GameFieldView.swift */,
+				E1392F142CADE80300112013 /* GameSquareView.swift */,
+				E1392F132CADE80300112013 /* PlayerSquareView.swift */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
+		E148E87E2CB32D1F00018E70 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E148E87C2CB2C79100018E70 /* WinnerLine.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		E1E0BDB22CA9EC3300DB8D34 /* Managers */ = {
@@ -407,6 +425,7 @@
 			children = (
 				E1392F082CADC2ED00112013 /* Views */,
 				E1392F092CADC2F500112013 /* ViewModel */,
+				E148E87E2CB32D1F00018E70 /* Model */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -489,6 +508,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E148E87D2CB2C79100018E70 /* WinnerLine.swift in Sources */,
 				E1392F172CADE80300112013 /* GameSquareView.swift in Sources */,
 				E1392F112CADE7DD00112013 /* GameViewModel.swift in Sources */,
 				E1392F152CADE80300112013 /* GameFieldView.swift in Sources */,

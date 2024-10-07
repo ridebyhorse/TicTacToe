@@ -40,6 +40,7 @@ enum Resources {
         static let singlePlayer = "Single Player"
         static let ticTacToe = "TIC-TAC-TOE"
         static let time = "Time"
+        static let score = "Score"
         static let turnOnTime = "Time:"
         static let twoPlayers = "Two Players"
         static let winResult = " Win!"

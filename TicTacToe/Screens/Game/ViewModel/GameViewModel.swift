@@ -12,6 +12,8 @@ final class GameViewModel: ObservableObject {
     @Published var gameBoard: [PlayerSymbol?] = Array(repeating: nil, count: 9)
     @Published private(set) var gameResult: GameResult? = nil
     
+    @Published var winningPattern: [Int]? = nil
+    
     @Published var player: Player
     @Published var opponent: Player
     @Published var currentPlayer: Player
@@ -28,7 +30,6 @@ final class GameViewModel: ObservableObject {
     var gameMode: GameMode { userManager.gameMode }
     var level: DifficultyLevel { storageManager.getSettings().level }
     var playerStyle: PlayerStyle { player.style }
-
     
     // MARK: - Initialization
     init(
@@ -56,7 +57,6 @@ final class GameViewModel: ObservableObject {
         timerManager.onTimeChange = { [weak self] in self?.secondsCount = $0 }
         resetGame()
         musicManager.playMusic()
-//        timeManager.startTimer()
     }
     
     // Метод для случайного выбора первого хода
@@ -66,7 +66,7 @@ final class GameViewModel: ObservableObject {
             gameManager.makeFirstMoveForSinglePlayerMode(player1: player, player2: opponent, level: level)
         }
     }
-
+    
     // MARK: - Game Logic
     func processPlayerMove(for position: Int) {
         guard !boardBlocked else { return }
@@ -92,6 +92,10 @@ final class GameViewModel: ObservableObject {
                     player: currentPlayer,
                     opponent: opponentPlayer
                 )
+                if let winningPattern = gameManager.getWinningPattern() {
+                    self.winningPattern = winningPattern
+                }
+                
                 boardBlocked = true
                 if gameMode == .singlePlayer && gameManager.winner?.name == Resources.Text.ai {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
@@ -138,7 +142,7 @@ final class GameViewModel: ObservableObject {
             }
         }
     }
-
+    
     // Метод для переключения между игроками
     private func togglePlayer() {
         gameManager.switchPlayer(with: player, opponent: opponent)
@@ -149,15 +153,23 @@ final class GameViewModel: ObservableObject {
         gameManager.resetGame(firstPlayer: player, secondPlayer: opponent)
         timerManager.startTimer()
         secondsCount = timerManager.secondsCount
-        getFirstMove()  // Случайный выбор первого игрока
+        getFirstMove()
         gameBoard = Array(repeating: nil, count: 9)
+        winningPattern = nil
     }
-
+    
     private func handleGameResult(_ result: GameResult) {
         gameResult = result
         musicManager.stopMusic()
         timerManager.stopTimer()
+        
         if let leaderboardWinner = gameManager.winner {
+            if leaderboardWinner == player {
+                player.score += 1
+            } else if leaderboardWinner == opponent {
+                opponent.score += 1
+            }
+            // Сохраняем обновленные данные игроков в хранилище
             storageManager.saveUsersScore([player, opponent], winner: leaderboardWinner)
         }
         switch result {

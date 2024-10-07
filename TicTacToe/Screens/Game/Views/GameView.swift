@@ -27,6 +27,14 @@ struct GameView: View {
                             + ":"
                             + String(viewModel.secondsCount % 60)
                         )
+                        Text(Resources.Text.score)
+                            .font(.basicTitle)
+                        Text(
+                            String(viewModel.player.score)
+                            + ":"
+                            + String(viewModel.opponent.score)
+                        )
+                        
                             .font(.basicSubtitle)
                     }
                     PlayerSquareView(player: viewModel.opponent)
@@ -40,9 +48,10 @@ struct GameView: View {
                 }
                 .padding(.top, 45)
                 GameFieldView(
-                    gameBoard: viewModel.gameBoard, 
+                    gameBoard: viewModel.gameBoard,
                     playerStyle: viewModel.playerStyle,
-                    action: viewModel.processPlayerMove(for:))
+                    action: viewModel.processPlayerMove(for:),
+                    winningPattern: viewModel.winningPattern)
                     .padding(.top, 20)
                 Spacer()
                     .padding(.bottom, 50)

@@ -57,5 +57,5 @@ struct ResultView: View {
 }
 
 #Preview {
-    ResultView(viewModel: ResultViewModel(coordinator: Coordinator(), winner: Player(name: Resources.Text.ai, symbol: .cross, style: .burgerFries), playedAgainstAI: true))
+    ResultView(viewModel: ResultViewModel(coordinator: Coordinator(), winner: Player(name: Resources.Text.ai, score: 0, symbol: .cross, style: .burgerFries), playedAgainstAI: true))
 }

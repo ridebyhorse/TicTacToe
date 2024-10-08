@@ -23,6 +23,7 @@
 		CB6F3E632CA99EFC005C2ED9 /* Font+ProjectFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6F3E622CA99EFC005C2ED9 /* Font+ProjectFonts.swift */; };
 		CB6F3E672CA9A539005C2ED9 /* BasicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6F3E662CA9A539005C2ED9 /* BasicButton.swift */; };
 		CB6F3E6B2CA9A5FD005C2ED9 /* BasicButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6F3E6A2CA9A5FD005C2ED9 /* BasicButtonStyle.swift */; };
+		CB7C6CE22CB5102600EF1DA9 /* ShadowViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7C6CE12CB5102600EF1DA9 /* ShadowViewModifier.swift */; };
 		CB86AF392CAC95DF00C025FA /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB86AF382CAC95DF00C025FA /* LeaderboardView.swift */; };
 		CB86AF3B2CAC95EE00C025FA /* LeaderboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB86AF3A2CAC95EE00C025FA /* LeaderboardViewModel.swift */; };
 		E1392EEF2CAD2E6C00112013 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1392EEC2CAD2E6C00112013 /* UserManager.swift */; };
@@ -80,6 +81,7 @@
 		CB6F3E622CA99EFC005C2ED9 /* Font+ProjectFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+ProjectFonts.swift"; sourceTree = "<group>"; };
 		CB6F3E662CA9A539005C2ED9 /* BasicButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicButton.swift; sourceTree = "<group>"; };
 		CB6F3E6A2CA9A5FD005C2ED9 /* BasicButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicButtonStyle.swift; sourceTree = "<group>"; };
+		CB7C6CE12CB5102600EF1DA9 /* ShadowViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowViewModifier.swift; sourceTree = "<group>"; };
 		CB86AF382CAC95DF00C025FA /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
 		CB86AF3A2CAC95EE00C025FA /* LeaderboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardViewModel.swift; sourceTree = "<group>"; };
 		E1392EEC2CAD2E6C00112013 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 			children = (
 				CB6F3E622CA99EFC005C2ED9 /* Font+ProjectFonts.swift */,
 				E1E0BDCD2CAA8AE500DB8D34 /* String + Extension.swift */,
+				CB7C6CE12CB5102600EF1DA9 /* ShadowViewModifier.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -247,9 +250,9 @@
 		E1392EF52CAD2E8300112013 /* GameSelect */ = {
 			isa = PBXGroup;
 			children = (
-				E1392EF42CAD2E8300112013 /* GameSelecViewModel.swift */,
-				ADA899C92CADAF7900363BDB /* GameSelectView.swift */,
 				E148E8672CAF420800018E70 /* GameMode.swift */,
+				ADA899C92CADAF7900363BDB /* GameSelectView.swift */,
+				E1392EF42CAD2E8300112013 /* GameSelecViewModel.swift */,
 			);
 			path = GameSelect;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				E1E0BDCC2CAA89A400DB8D34 /* LocalizationManager.swift in Sources */,
 				E1E0BDD32CAA94A500DB8D34 /* StartViewModel.swift in Sources */,
 				E1392F1B2CADEAD200112013 /* MusicManager.swift in Sources */,
+				CB7C6CE22CB5102600EF1DA9 /* ShadowViewModifier.swift in Sources */,
 				E1392F022CAD47D400112013 /* ToolBarView.swift in Sources */,
 				E1392F0E2CADD9E700112013 /* GameResult.swift in Sources */,
 				E148E8782CB282D300018E70 /* CustomAlertView.swift in Sources */,

@@ -39,6 +39,6 @@ private extension View {
         .frame(width: 300, height: 60)
         .background(Color.white)
         .cornerRadius(20)
-        .shadow(color: Color(red: 0.6, green: 0.62, blue: 0.76).opacity(0.3), radius: 15, x: 4, y: 4)
+        .basicShadow()
     }
 }

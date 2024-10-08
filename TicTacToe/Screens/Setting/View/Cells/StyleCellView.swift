@@ -46,7 +46,7 @@ struct StyleCellView: View {
         .padding()
         .background(Color.white)
         .cornerRadius(20)
-        .shadow(color: Color(red: 0.6, green: 0.62, blue: 0.76).opacity(0.3), radius: 15, x: 4, y: 4)
+        .basicShadow()
         .frame(width: isSelected ? 250 : 200, height: isSelected ? 250 : 200) 
     }
 }

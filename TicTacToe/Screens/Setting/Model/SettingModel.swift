@@ -11,8 +11,10 @@ import Foundation
 
 struct GameSettings: Codable {
     let level: DifficultyLevel
+    let isSelectedDuration: Bool
     let duration: Duration
     let selectedStyle: PlayerStyle?
+    let isSelecttedMusic: Bool
     let musicStyle: MusicStyle
     let playerSymbol: PlayerSymbol?
 }
@@ -70,9 +72,11 @@ extension GameSettings {
     static func defaultGameSettings() -> GameSettings {
         return GameSettings(
             level: .normal,
+            isSelectedDuration: false,
             duration: .none,
             selectedStyle: .crossPinkCirclePurple,
-            musicStyle: .none, 
+            isSelecttedMusic: false,
+            musicStyle: .none,
             playerSymbol: .cross
         )
     }

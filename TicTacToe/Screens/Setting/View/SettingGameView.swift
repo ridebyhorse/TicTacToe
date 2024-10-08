@@ -11,10 +11,8 @@ struct SettingGameView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
     @ObservedObject var viewModel: SettingsViewModel
     
-    @State private var isTimeState = false
     @State private var isLanguageState = false
     @State private var isMusicState = false
-    @State private var isSelectMusic = false
     @State private var isLevelState = false
     @State private var isSymbolState = false
     
@@ -27,9 +25,15 @@ struct SettingGameView: View {
                 ShadowedCardView {
                     settingsContent
                 }
-                .padding(16)
-                .animation(.easeInOut(duration: 0.3), value: isTimeState)
-                .animation(.easeInOut(duration: 0.3), value: isSelectMusic)
+                .padding(20)
+                .animation(
+                    .easeInOut(duration: 0.3),
+                    value: viewModel.isSelectedDuration
+                )
+                .animation(
+                    .easeInOut(duration: 0.3),
+                    value: viewModel.isSelectedMusic
+                )
                 Spacer()
             }
         }
@@ -49,11 +53,11 @@ struct SettingGameView: View {
     
     private var settingsContent: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: 20) { // Задаем равные отступы
+            VStack(spacing: 20) {
                 TimerView(
                     title: Resources.Text.turnOnTime,
                     subTitle: Resources.Text.duration,
-                    isTimerEnabled: $isTimeState,
+                    isTimerEnabled: $viewModel.isSelectedDuration,
                     timerSeconds: $viewModel.raundDuration,
                     onUpdate: { duration in
                         viewModel.selectedDuration = duration
@@ -68,7 +72,7 @@ struct SettingGameView: View {
                 
                 VStack(spacing: 20) {
                     HStack {
-                        Toggle(isOn: $isSelectMusic) {
+                        Toggle(isOn: $viewModel.isSelectedMusic) {
                             Text(Resources.Text.selectMusicStyle.localized(language))
                                 .titleText(size: 20)
                         }
@@ -79,7 +83,7 @@ struct SettingGameView: View {
                     })
                     .cornerRadius(30)
                     
-                    if isSelectMusic {
+                    if viewModel.isSelectedMusic {
                         SettingPickerView(
                             selectedValue: $viewModel.selectedMusic,
                             isExpanded: $isMusicState,

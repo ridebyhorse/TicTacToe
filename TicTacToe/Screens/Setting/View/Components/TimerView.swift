@@ -12,7 +12,7 @@ struct TimerView: View {
     let subTitle: String
     @Binding var isTimerEnabled: Bool
     @Binding var timerSeconds: Int
-    var onUpdate: (Duration) -> Void // Колбэк для обновления значения
+    var onUpdate: (Duration) -> Void
 
     var body: some View {
         VStack(spacing: 20) {

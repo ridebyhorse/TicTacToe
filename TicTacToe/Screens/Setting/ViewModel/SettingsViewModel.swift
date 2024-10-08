@@ -14,9 +14,12 @@ final class SettingsViewModel: ObservableObject {
     @Published var selectedLevel: DifficultyLevel
     @Published var selectedPlayerSymbol: PlayerSymbol
     
+    @Published var isSelectedDuration: Bool
+    @Published var isSelectedMusic: Bool
+    
     @Published var raundDuration: Int = 0 {
         didSet {
-            updateDuration(isTimerEnabled: raundDuration > 0)
+            updateDuration()
         }
     }
     
@@ -31,15 +34,17 @@ final class SettingsViewModel: ObservableObject {
         self.gameSettings = storageManager.getSettings()
 
         self.selectedIndex = gameSettings.selectedStyle ?? .crossFilledPurpleCircleFilledPurple
+        self.isSelectedDuration = gameSettings.isSelectedDuration
         self.selectedDuration = gameSettings.duration
+        self.isSelectedMusic = gameSettings.isSelecttedMusic
         self.selectedMusic = gameSettings.musicStyle
         self.selectedLevel = gameSettings.level
         self.selectedPlayerSymbol = gameSettings.playerSymbol ?? .cross
     }
 
     // MARK: Methods
-    func updateDuration(isTimerEnabled: Bool) {
-        if isTimerEnabled {
+    func updateDuration() {
+        if isSelectedDuration {
             selectedDuration = .value
         } else {
             selectedDuration = .none
@@ -50,8 +55,10 @@ final class SettingsViewModel: ObservableObject {
     func saveSettings() {
         gameSettings = GameSettings(
             level: selectedLevel,
+            isSelectedDuration: isSelectedDuration,
             duration: selectedDuration,
             selectedStyle: selectedIndex,
+            isSelecttedMusic: isSelectedMusic,
             musicStyle: selectedMusic,
             playerSymbol: selectedPlayerSymbol
         )

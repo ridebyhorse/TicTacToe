@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Player: Equatable {
+struct Player: Equatable, Codable {
     var name: String
     var score: Int
     var symbol: PlayerSymbol
@@ -22,7 +22,18 @@ struct Player: Equatable {
     }
 }
 
-struct LeaderboardPlayer: Codable {
-    let name: String
-    var score: Int
+struct LeaderboardGameRound: Codable, Equatable {
+    
+    let player: Player
+    let opponent: Player
+    let date: Date
+    let durationGame: String
+    
+
+    init(player: Player, opponent: Player, durationGame: String) {
+        self.player = player
+        self.opponent = opponent
+        self.durationGame = durationGame
+        self.date = Date() 
+    }
 }

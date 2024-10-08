@@ -40,7 +40,7 @@ final class UserManager {
         // Безопасное извлечение playerSymbol и selectedStyle
         player.symbol = settings.playerSymbol ?? .cross // Значение по умолчанию
         player.style = settings.selectedStyle ?? .crossPinkCirclePurple // Значение по умолчанию
-        player.score = storageManager.getScoreFor(playerName: player.name)
+//        player.score = storageManager.getScoreFor(playerName: player.name)
         
         return player
     }
@@ -51,7 +51,8 @@ final class UserManager {
         
         opponent.symbol = player.symbol == .cross ? .circle : .cross
         opponent.style = settings.selectedStyle ?? .crossPinkCirclePurple // Значение по умолчанию
-        opponent.score = storageManager.getScoreFor(playerName: opponent.name)
+        
+//        opponent.score = storageManager.getScoreFor(playerName: opponent.name)
         
         return opponent
     }

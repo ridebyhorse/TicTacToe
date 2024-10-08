@@ -25,9 +25,6 @@ struct GameFieldView: View {
     enum Drawing {
         static let gridSize: CGFloat = 300
         static let cornerRadius: CGFloat = 30
-        static let shadowRadius: CGFloat = 15
-        static let shadowOffsetX: CGFloat = 4
-        static let shadowOffsetY: CGFloat = 4
         static let lineWidth: CGFloat = 5
         static let animationDuration: Double = 0.5
         static let gridPadding: CGFloat = 60
@@ -41,8 +38,7 @@ struct GameFieldView: View {
             RoundedRectangle(cornerRadius: Drawing.cornerRadius)
                 .frame(width: Drawing.gridSize, height: Drawing.gridSize)
                 .foregroundColor(.white)
-                .shadow(color: Color(red: 0.6, green: 0.62, blue: 0.76).opacity(0.3),
-                        radius: Drawing.shadowRadius, x: Drawing.shadowOffsetX, y: Drawing.shadowOffsetY)
+                .basicShadow()
             
             // Сетка игрового поля
             LazyVGrid(columns: columns, spacing: Drawing.spacing) {

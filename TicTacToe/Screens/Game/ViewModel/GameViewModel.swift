@@ -92,9 +92,6 @@ final class GameViewModel: ObservableObject {
                     player: currentPlayer,
                     opponent: opponentPlayer
                 )
-                if let winningPattern = gameManager.getWinningPattern() {
-                    self.winningPattern = winningPattern
-                }
                 
                 boardBlocked = true
                 if gameMode == .singlePlayer && gameManager.winner?.name == Resources.Text.ai {
@@ -122,6 +119,9 @@ final class GameViewModel: ObservableObject {
     func processMoveResult() {
         if gameMode == .twoPlayers {
             gameBoard = gameManager.gameBoard
+            if let winningPattern = gameManager.getWinningPattern() {
+                self.winningPattern = winningPattern
+            }
         } else {
             boardBlocked = true
             let playerSymbol = opponent.name == Resources.Text.ai ? player.symbol : opponent.symbol
@@ -139,6 +139,9 @@ final class GameViewModel: ObservableObject {
                 self?.gameBoard = gameManager.gameBoard
                 self?.currentPlayer = player
                 self?.boardBlocked = false
+                if let winningPattern = gameManager.getWinningPattern() {
+                    self?.winningPattern = winningPattern
+                }
             }
         }
     }

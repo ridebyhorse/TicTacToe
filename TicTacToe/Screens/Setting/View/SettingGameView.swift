@@ -28,7 +28,7 @@ struct SettingGameView: View {
                 .padding(20)
                 .animation(
                     .easeInOut(duration: 0.3),
-                    value: viewModel.isSelectedDuration
+                    value: viewModel.selectedDuration.isSelectedDuration
                 )
                 .animation(
                     .easeInOut(duration: 0.3),
@@ -57,11 +57,8 @@ struct SettingGameView: View {
                 TimerView(
                     title: Resources.Text.turnOnTime,
                     subTitle: Resources.Text.duration,
-                    isTimerEnabled: $viewModel.isSelectedDuration,
-                    timerSeconds: $viewModel.raundDuration,
-                    onUpdate: { duration in
-                        viewModel.selectedDuration = duration
-                    }
+                    isTimerEnabled: $viewModel.selectedDuration.isSelectedDuration,
+                    timerSeconds: $viewModel.duration
                 )
                 
                 SettingPickerView(

@@ -11,7 +11,6 @@ import Foundation
 
 struct GameSettings: Codable {
     let level: DifficultyLevel
-    let isSelectedDuration: Bool
     let duration: Duration
     let selectedStyle: PlayerStyle?
     let isSelecttedMusic: Bool
@@ -24,9 +23,9 @@ enum PlayerSymbol: String, Codable {
     case circle
 }
 
-enum Duration: Int, Codable, CaseIterable {
-    case none
-    case value
+struct Duration: Codable {
+    var isSelectedDuration: Bool
+    var valueDuration: Int?
 }
 
 enum MusicStyle: String, Codable, CaseIterable {
@@ -72,12 +71,15 @@ extension GameSettings {
     static func defaultGameSettings() -> GameSettings {
         return GameSettings(
             level: .normal,
-            isSelectedDuration: false,
-            duration: .none,
+            duration: defaultRaundDuration(),
             selectedStyle: .crossPinkCirclePurple,
             isSelecttedMusic: false,
             musicStyle: .none,
             playerSymbol: .cross
         )
+    }
+    
+    static func defaultRaundDuration() -> Duration {
+        return Duration (isSelectedDuration: false, valueDuration: 0)
     }
 }

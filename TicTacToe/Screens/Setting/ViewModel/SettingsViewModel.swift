@@ -13,20 +13,20 @@ final class SettingsViewModel: ObservableObject {
     @Published var selectedMusic: MusicStyle
     @Published var selectedLevel: DifficultyLevel
     @Published var selectedPlayerSymbol: PlayerSymbol
-    
-    @Published var isSelectedDuration: Bool
+
     @Published var isSelectedMusic: Bool
-    
-    @Published var raundDuration: Int = 0 {
-        didSet {
-            updateDuration()
-        }
-    }
     
     private let coordinator: Coordinator
     private let storageManager: StorageManager
     private var gameSettings: GameSettings
-
+    var duration: Int {
+        get {
+            return selectedDuration.valueDuration ?? 0
+        } set {
+            selectedDuration.valueDuration = newValue
+        }
+    }
+    
     // MARK: Initialization
     init(storageManager: StorageManager = .shared, coordinator: Coordinator) {
         self.storageManager = storageManager
@@ -34,7 +34,6 @@ final class SettingsViewModel: ObservableObject {
         self.gameSettings = storageManager.getSettings()
 
         self.selectedIndex = gameSettings.selectedStyle ?? .crossFilledPurpleCircleFilledPurple
-        self.isSelectedDuration = gameSettings.isSelectedDuration
         self.selectedDuration = gameSettings.duration
         self.isSelectedMusic = gameSettings.isSelecttedMusic
         self.selectedMusic = gameSettings.musicStyle
@@ -42,21 +41,16 @@ final class SettingsViewModel: ObservableObject {
         self.selectedPlayerSymbol = gameSettings.playerSymbol ?? .cross
     }
 
-    // MARK: Methods
-    func updateDuration() {
-        if isSelectedDuration {
-            selectedDuration = .value
-        } else {
-            selectedDuration = .none
-            raundDuration = 0
-        }
-    }
     
     func saveSettings() {
+       
+        let duration = selectedDuration.isSelectedDuration
+        ? selectedDuration
+        : Duration(isSelectedDuration: false, valueDuration: nil)
+        
         gameSettings = GameSettings(
             level: selectedLevel,
-            isSelectedDuration: isSelectedDuration,
-            duration: selectedDuration,
+            duration: duration,
             selectedStyle: selectedIndex,
             isSelecttedMusic: isSelectedMusic,
             musicStyle: selectedMusic,
@@ -72,7 +66,6 @@ final class SettingsViewModel: ObservableObject {
         selectedMusic = defaultSettings.musicStyle
         selectedLevel = defaultSettings.level
         selectedPlayerSymbol = defaultSettings.playerSymbol ?? .cross
-        raundDuration = (defaultSettings.duration == .value) ? 60 : 0
         saveSettings()
     }
     

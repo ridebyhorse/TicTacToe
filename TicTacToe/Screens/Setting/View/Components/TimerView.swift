@@ -12,7 +12,6 @@ struct TimerView: View {
     let subTitle: String
     @Binding var isTimerEnabled: Bool
     @Binding var timerSeconds: Int
-    var onUpdate: (Duration) -> Void
 
     var body: some View {
         VStack(spacing: 20) {
@@ -22,10 +21,7 @@ struct TimerView: View {
                         .titleText(size: 20)
                 }
                 .tint(.basicBlue)
-                .onChange(of: isTimerEnabled) { newValue in
-                    let duration: Duration = newValue ? .value : .none
-                    onUpdate(duration)
-                }
+               
             }
             .padding()
             .background(LightBlueBackgroundView {
@@ -42,9 +38,9 @@ struct TimerView: View {
                         Text("\(formattedTime(seconds: timerSeconds))")
                             .subtitleText(size: 20)
 
-                        Stepper("", value: $timerSeconds, in: 3...300, step: 1)
+                        Stepper("", value: $timerSeconds, in: 2...300, step: 1)
                             .onChange(of: timerSeconds) { newValue in
-                                onUpdate(.value)
+                                timerSeconds = newValue
                             }
                     }
                 }

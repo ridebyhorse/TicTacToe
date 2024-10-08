@@ -37,13 +37,13 @@ final class StorageManager {
     }
     
     // MARK: - Leaderboard
-    func saveUsersScore(player: Player, opponent: Player, score: String, duration: String) {
+    func saveUsersScore(player: Player, opponent: Player, gameScore: String, gameDuration: String) {
         var leaderboard = getLeaderboards()
 
         let leaderboardEntry = LeaderboardGameRound(
             player: player,
             opponent: opponent,
-            durationGame: duration
+            durationGame: gameDuration
             )
 
         leaderboard.append(leaderboardEntry)

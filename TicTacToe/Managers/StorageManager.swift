@@ -38,7 +38,7 @@ final class StorageManager {
     
     // MARK: - Leaderboard
     func saveUsersScore(player: Player, opponent: Player, score: String, duration: String) {
-        var leaderboard = getLeaderboard()
+        var leaderboard = getLeaderboards()
 
         let leaderboardEntry = LeaderboardGameRound(
             player: player,
@@ -53,7 +53,7 @@ final class StorageManager {
         }
     }
     
-    func getLeaderboard() -> [LeaderboardGameRound] {
+    func getLeaderboards() -> [LeaderboardGameRound] {
         if let savedData = userDefaults.data(forKey: UserDefaultKeys.savedLeaderboard),
            let savedLeaderboard = try? JSONDecoder().decode([LeaderboardGameRound].self, from: savedData) {
             return savedLeaderboard
@@ -62,35 +62,44 @@ final class StorageManager {
         }
     }
     
-//    func getScoreFor(playerName: String) -> Int {
-//        let leaderboard = getLeaderboard()
-//        return leaderboard.first { $0.name == playerName }?.score  0
-//    }
-//    
-//    // MARK: - New Methods
-//    
-//    // 1. Проверка существования игрока
-//    func playerExists(with name: String) -> Bool {
-//        let leaderboard = getLeaderboard()
-//        return leaderboard.contains(where: { $0.name == name })
-//    }
-//    
-//    // 2. Сохранение всех счётов игроков
-//    func saveAllScores(_ scores: [LeaderboardGameRound]) {
-//        if let encodedScores = try? JSONEncoder().encode(scores) {
-//            userDefaults.set(encodedScores, forKey: UserDefaultKeys.savedLeaderboard)
-//        }
-//    }
-//    
-//    // 3. Получение всех счётов игроков
-//    func getAllScores() -> [String: Int] {
-//        let leaderboard = getLeaderboard()
-//        var scoresDict = [String: Int]()
-//        
-//        for player in leaderboard {
-//            scoresDict[player.name] = player.score
-//        }
-//        
-//        return scoresDict
-//    }
+    func getScoreFor(player: String) -> Int {
+        let leaderboard = getLeaderboards()
+        return leaderboard.first { $0.player.name == player }?.player.score ?? 0
+    }
+    
+    func getScoreFor(opponent: String) -> Int {
+        let leaderboard = getLeaderboards()
+        return leaderboard.first { $0.opponent.name == opponent }?.opponent.score ?? 0
+    }
+    
+    // MARK: - New Methods
+    // 1. Проверка существования игрока
+    func playerExists(with name: String) -> Bool {
+        let leaderboard = getLeaderboards()
+        return leaderboard.contains(where: { $0.player.name == name })
+    }
+    
+    func opponentExists(with name: String) -> Bool {
+        let leaderboard = getLeaderboards()
+        return leaderboard.contains(where: { $0.opponent.name == name })
+    }
+    
+    // 2. Сохранение всех счётов игроков
+    func saveAllScores(_ scores: [LeaderboardGameRound]) {
+        if let encodedScores = try? JSONEncoder().encode(scores) {
+            userDefaults.set(encodedScores, forKey: UserDefaultKeys.savedLeaderboard)
+        }
+    }
+    
+    // 3. Получение всех счётов игроков
+    func getAllScores() -> [String: Int] {
+        let leaderboards = getLeaderboards()
+        var scoresDict = [String: Int]()
+        
+        for leaderboard in leaderboards {
+            scoresDict[leaderboard.player.name] = leaderboard.player.score
+        }
+        
+        return scoresDict
+    }
 }

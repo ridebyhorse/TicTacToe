@@ -22,8 +22,8 @@ struct Player: Equatable, Codable {
     }
 }
 
-struct LeaderboardGameRound: Codable, Equatable {
-    
+struct LeaderboardGameRound: Identifiable, Codable, Equatable {
+    let id: UUID
     let player: Player
     let opponent: Player
     let date: Date
@@ -31,6 +31,7 @@ struct LeaderboardGameRound: Codable, Equatable {
     
 
     init(player: Player, opponent: Player, durationGame: String) {
+        self.id = UUID()
         self.player = player
         self.opponent = opponent
         self.durationGame = durationGame

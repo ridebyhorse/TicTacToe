@@ -37,22 +37,20 @@ final class UserManager {
     func getPlayer() -> Player {
         let settings = storageManager.getSettings()
         
-        // Безопасное извлечение playerSymbol и selectedStyle
-        player.symbol = settings.playerSymbol ?? .cross // Значение по умолчанию
-        player.style = settings.selectedStyle ?? .crossPinkCirclePurple // Значение по умолчанию
-//        player.score = storageManager.getScoreFor(playerName: player.name)
+        player.symbol = settings.playerSymbol ?? .cross
+        player.style = settings.selectedStyle ?? .crossPinkCirclePurple
+        player.score = storageManager.getScoreFor(player: player.name)
         
         return player
     }
     
-    // Получаем оппонента с противоположным символом и тем же стилем
+
     func getOpponent() -> Player {
         let settings = storageManager.getSettings()
         
         opponent.symbol = player.symbol == .cross ? .circle : .cross
-        opponent.style = settings.selectedStyle ?? .crossPinkCirclePurple // Значение по умолчанию
-        
-//        opponent.score = storageManager.getScoreFor(playerName: opponent.name)
+        opponent.style = settings.selectedStyle ?? .crossPinkCirclePurple
+        opponent.score = storageManager.getScoreFor(opponent: opponent.name)
         
         return opponent
     }

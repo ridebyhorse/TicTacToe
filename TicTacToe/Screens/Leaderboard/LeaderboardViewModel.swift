@@ -9,14 +9,14 @@ import Foundation
 
 final class LeaderboardViewModel: ObservableObject {
     // MARK: Properties
-    @Published var gameResults: [LeaderboardPlayer] = []
+    @Published var gameResults: [LeaderboardGameRound] = []
     private let coordinator: Coordinator
     
     // MARK: Initialization
     init(coordinator: Coordinator) {
         self.coordinator = coordinator
-        gameResults = StorageManager.shared.getLeaderboard()
-        gameResults.sort(by: {$0.score > $1.score})
+        gameResults = StorageManager.shared.getLeaderboards()
+        gameResults.sort(by: {$0.player.score > $1.player.score})
     }
     
     //MARK: - NavigationState

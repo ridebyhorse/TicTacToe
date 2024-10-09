@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     " Win!" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -18,7 +21,11 @@
         }
       }
     },
+    "%@" : {
+
+    },
     "%lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -599,23 +606,6 @@
         }
       }
     },
-    "Select Your Symbol:" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select Your Symbol"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Твой символ "
-          }
-        }
-      }
-    },
     "selectGame" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -793,6 +783,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вы проиграли!"
+          }
+        }
+      }
+    },
+    "Your Symbol:" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Symbol"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Твой символ "
           }
         }
       }

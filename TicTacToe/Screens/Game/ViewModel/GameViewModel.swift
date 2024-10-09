@@ -173,7 +173,7 @@ final class GameViewModel: ObservableObject {
                 opponent.score += 1
             }
             // Сохраняем обновленные данные игроков в хранилище
-            storageManager.saveUsersScore([player, opponent], winner: leaderboardWinner)
+//            storageManager.saveUsersScore([player, opponent], winner: leaderboardWinner)
         }
         switch result {
         case .win:

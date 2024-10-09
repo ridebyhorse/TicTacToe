@@ -114,33 +114,27 @@ struct SettingGameView: View {
                     .font(.headline)
                     .foregroundColor(.basicBlack)
                 
-                GeometryReader { geometry in
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
-                            ForEach(PlayerStyle.allCases, id: \.self) { style in
-                                let isSelected = viewModel.selectedIndex == style
-                                
-                                SkinCellView(
-                                    styleImageForPlayer1: style.imageNames.player1,
-                                    styleImageForPlayer2: style.imageNames.player2,
-                                    isSelected: isSelected,
-                                    action: {
-                                        withAnimation {
-                                            viewModel.selectedIndex = style
-                                            proxy.scrollTo(style, anchor: .center)
-                                        }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 24) {
+                        ForEach(PlayerStyle.allCases, id: \.self) { style in
+                            let isSelected = viewModel.selectedIndex == style
+                            
+                            SkinCellView(
+                                styleImageForPlayer1: style.imageNames.player1,
+                                styleImageForPlayer2: style.imageNames.player2,
+                                isSelected: isSelected,
+                                action: {
+                                    withAnimation {
+                                        viewModel.selectedIndex = style
+                                        proxy.scrollTo(style, anchor: .center)
                                     }
-                                )
-                                .id(style)
-                                .frame(
-                                    width: isSelected ? 90 : 85,
-                                    height: isSelected ? 90 : 85)
-                            }
+                                }
+                            )
                         }
-                        .padding(.horizontal, (geometry.size.width + 300) / 2)
+                        .padding(.horizontal)
                     }
+                    .padding(.bottom, 30)
                 }
-                .frame(height: 100)
             }
         }
     }

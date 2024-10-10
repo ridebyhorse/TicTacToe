@@ -36,11 +36,8 @@ final class UserManager {
     
     func getPlayer() -> Player {
         let settings = storageManager.getSettings()
-        
         player.symbol = settings.playerSymbol ?? .tic
         player.style = settings.selectedStyle ?? .crossPinkCirclePurple
-        player.score = storageManager.getScoreFor(player: player.name)
-        
         return player
     }
     
@@ -50,18 +47,16 @@ final class UserManager {
         
         opponent.symbol = player.symbol == .tic ? .tacToe : .tic
         opponent.style = settings.selectedStyle ?? .crossPinkCirclePurple
-        opponent.score = storageManager.getScoreFor(opponent: opponent.name)
-        
         return opponent
     }
     
-    func updatePlayerScore() {
-        player.score += 1
-        storageManager.savePlayersScore(player: player)
+    func updatePlayerScore(_ score: Int) {
+        player.score = score
+        print(player.score)
     }
     
-    func updateOpponentScore() {
-        opponent.score += 1
-        storageManager.savePlayersScore(player: opponent)
+    func updateOpponentScore(_ score: Int) {
+        opponent.score = score
+        print(opponent.score)
     }
 }

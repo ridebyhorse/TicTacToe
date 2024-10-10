@@ -14,7 +14,6 @@ final class StorageManager {
     
     enum UserDefaultKeys {
         static let savedSettings = "savedSettings"
-        static let savedPlayerScores = "savedPlayerScores"
         static let savedLeaderboardRounds = "savedLeaderboardRounds"
         static let savedLeaderboardGames = "savedLeaderboardGames"
     }
@@ -100,41 +99,6 @@ final class StorageManager {
         } else {
             return []
         }
-    }
-    
-    // MARK: - Сохранение и получение счетов игроков
-    func savePlayersScore(player: Player) {
-        var playerScores = getPlayersScores()
-        
-        // Сохраняем или обновляем счет игрока
-        if let index = playerScores.firstIndex(where: { $0.name == player.name }) {
-            playerScores[index].score = player.score
-        } else {
-            playerScores.append(player)
-        }
-        
-        if let encodedScores = try? JSONEncoder().encode(playerScores) {
-            userDefaults.set(encodedScores, forKey: UserDefaultKeys.savedPlayerScores)
-        }
-    }
-    
-    func getPlayersScores() -> [Player] {
-        if let savedData = userDefaults.data(forKey: UserDefaultKeys.savedPlayerScores),
-           let savedPlayerScores = try? JSONDecoder().decode([Player].self, from: savedData) {
-            return savedPlayerScores
-        } else {
-            return []
-        }
-    }
-    
-    func getScoreFor(player: String) -> Int {
-        let playerScores = getPlayersScores()
-        return playerScores.first { $0.name == player }?.score ?? 0
-    }
-    
-    func getScoreFor(opponent: String) -> Int {
-        let playerScores = getPlayersScores()
-        return playerScores.first { $0.name == opponent }?.score ?? 0
     }
 }
 

@@ -11,7 +11,7 @@ struct CoordinatorView: View {
     @ObservedObject var coordinator = Coordinator()
     
     var body: some View {
-        Group {
+        ZStack {
             switch coordinator.navigationState {
             case .onboarding:
                 StartView(viewModel: StartViewModel(coordinator: coordinator))
@@ -26,10 +26,11 @@ struct CoordinatorView: View {
             case .result(let winner, let playedAgainstAI):
                 ResultView(viewModel: ResultViewModel(coordinator: coordinator, winner: winner, playedAgainstAI: playedAgainstAI))
             case .leaderboard:
-//                let settingsViewModel = SettingsViewModel(coordinator: coordinator)
-                LeaderboardView(viewModel: LeaderboardViewModel(coordinator: coordinator/*, settingsViewModel: settingsViewModel*/))
+                
+                LeaderboardView(viewModel: LeaderboardViewModel(coordinator: coordinator))
             }
         }
-        .animation(.bouncy, value: coordinator.navigationState)
+        .transition(.opacity)
+        .animation(.easeInOut(duration: 0.3), value: coordinator.navigationState)
     }
 }

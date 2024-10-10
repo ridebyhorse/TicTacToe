@@ -71,6 +71,6 @@ final class SettingsViewModel: ObservableObject {
     
     // MARK: - NavigationState
     func dissmisSettings() {
-        coordinator.updateNavigationState(action: .showOnboarding)
+        coordinator.updateNavigationState(action: .backFromSettings)
     }
 }

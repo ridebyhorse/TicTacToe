@@ -32,6 +32,8 @@ struct GameSelectView: View {
             
             VStack(spacing: 0) {
                 ToolBarView(
+                    showBackButton: true,
+                    backButtonAction: viewModel.showOnboarding,
                     showRightButton: true,
                     rightButtonAction: viewModel.showSettings,
                     title: ""
@@ -47,20 +49,22 @@ struct GameSelectView: View {
             }
             .blur(radius: showCustomAlert ? 5 : 0)
             
-            // Custom Alert
+            // Custom Alert with animation
             if showCustomAlert {
                 CustomAlertView(message: Resources.Text.enterYourNameAlert.localized(language)) {
-                    showCustomAlert = false
+                    withAnimation(.easeInOut) {
+                        showCustomAlert = false
+                    }
                 }
                 .background(Color.black.opacity(0.4).edgesIgnoringSafeArea(.all))
-                .transition(.opacity)
-                .zIndex(2)
                 .cornerRadius(Drawing.cornerRadius)
+                .transition(.asymmetric(insertion: .scale.combined(with: .opacity), removal: .opacity))
+                .zIndex(2)
             }
         }
         .onChange(of: viewModel.showingAlert) { newValue in
-            if newValue {
-                showCustomAlert = true
+            withAnimation(.easeInOut) {
+                showCustomAlert = newValue
             }
         }
     }

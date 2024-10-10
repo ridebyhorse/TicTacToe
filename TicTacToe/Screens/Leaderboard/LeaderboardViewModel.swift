@@ -9,8 +9,9 @@ import Foundation
 
 final class LeaderboardViewModel: ObservableObject {
     // MARK: Properties
-    @Published var bestRound: LeaderboardRound? = nil
-    @Published var bestGames: [LeaderboardGame] = []
+    
+    @Published var bestRound: LeaderboardRound?
+    @Published var bestGames = [LeaderboardGame]()
     
     private let coordinator: Coordinator
     private let storageManager: StorageManager

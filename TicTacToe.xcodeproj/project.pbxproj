@@ -45,6 +45,9 @@
 		E148E8682CAF420800018E70 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E148E8672CAF420800018E70 /* GameMode.swift */; };
 		E148E8782CB282D300018E70 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E148E8772CB282D300018E70 /* CustomAlertView.swift */; };
 		E148E87D2CB2C79100018E70 /* WinnerLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E148E87C2CB2C79100018E70 /* WinnerLine.swift */; };
+		E15CEC6C2CB7F11300DEB8BB /* RoundRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15CEC692CB7F11300DEB8BB /* RoundRow.swift */; };
+		E15CEC6D2CB7F11300DEB8BB /* GameRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15CEC6A2CB7F11300DEB8BB /* GameRow.swift */; };
+		E15CEC712CB7F16000DEB8BB /* EmptyLeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15CEC702CB7F16000DEB8BB /* EmptyLeaderboardView.swift */; };
 		E1B09F502CB4233900F76BA3 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B09F4F2CB4233900F76BA3 /* TimerView.swift */; };
 		E1B09F522CB44C0600F76BA3 /* ShadowedCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B09F512CB44C0600F76BA3 /* ShadowedCardView.swift */; };
 		E1B09F542CB44C1B00F76BA3 /* LightBlueBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B09F532CB44C1B00F76BA3 /* LightBlueBackgroundView.swift */; };
@@ -66,6 +69,7 @@
 		E1E0BDDE2CAA997300DB8D34 /* CoordinatorVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDDD2CAA997300DB8D34 /* CoordinatorVIew.swift */; };
 		E1FCE9512CB6E15D0026CA1F /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FCE9502CB6E15D0026CA1F /* CustomTextField.swift */; };
 		E1FCE9532CB7AB060026CA1F /* GameModeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FCE9522CB7AB060026CA1F /* GameModeButton.swift */; };
+		E1FCE9562CB7C3780026CA1F /* GameReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FCE9552CB7C3780026CA1F /* GameReducer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +113,9 @@
 		E148E8672CAF420800018E70 /* GameMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
 		E148E8772CB282D300018E70 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		E148E87C2CB2C79100018E70 /* WinnerLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinnerLine.swift; sourceTree = "<group>"; };
+		E15CEC692CB7F11300DEB8BB /* RoundRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundRow.swift; sourceTree = "<group>"; };
+		E15CEC6A2CB7F11300DEB8BB /* GameRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRow.swift; sourceTree = "<group>"; };
+		E15CEC702CB7F16000DEB8BB /* EmptyLeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyLeaderboardView.swift; sourceTree = "<group>"; };
 		E1B09F4F2CB4233900F76BA3 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		E1B09F512CB44C0600F76BA3 /* ShadowedCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowedCardView.swift; sourceTree = "<group>"; };
 		E1B09F532CB44C1B00F76BA3 /* LightBlueBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightBlueBackgroundView.swift; sourceTree = "<group>"; };
@@ -130,6 +137,7 @@
 		E1E0BDDD2CAA997300DB8D34 /* CoordinatorVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorVIew.swift; sourceTree = "<group>"; };
 		E1FCE9502CB6E15D0026CA1F /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		E1FCE9522CB7AB060026CA1F /* GameModeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModeButton.swift; sourceTree = "<group>"; };
+		E1FCE9552CB7C3780026CA1F /* GameReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,10 +197,9 @@
 				CB33F13D2CB19C400008A39F /* LaunchScreen */,
 				E1E0BDB52CA9EFCC00DB8D34 /* Models */,
 				CB6F3E6C2CA9AF33005C2ED9 /* Screens */,
-				CB6F3E652CA9A527005C2ED9 /* Base */,
+				CB6F3E652CA9A527005C2ED9 /* DesignSystem */,
 				E1E0BDB22CA9EC3300DB8D34 /* Managers */,
 				E1E0BDBA2CA9F67000DB8D34 /* Resources */,
-				CB6F3E642CA9A3CD005C2ED9 /* Extensions */,
 				CB6F3E5A2CA997AB005C2ED9 /* Preview Content */,
 			);
 			path = TicTacToe;
@@ -217,19 +224,13 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		CB6F3E652CA9A527005C2ED9 /* Base */ = {
+		CB6F3E652CA9A527005C2ED9 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
-				E1FCE9522CB7AB060026CA1F /* GameModeButton.swift */,
-				E1FCE9502CB6E15D0026CA1F /* CustomTextField.swift */,
-				E1B09F532CB44C1B00F76BA3 /* LightBlueBackgroundView.swift */,
-				E1B09F512CB44C0600F76BA3 /* ShadowedCardView.swift */,
-				CB6F3E662CA9A539005C2ED9 /* BasicButton.swift */,
-				CB6F3E6A2CA9A5FD005C2ED9 /* BasicButtonStyle.swift */,
-				E1392F012CAD47D400112013 /* ToolBarView.swift */,
-				E148E8772CB282D300018E70 /* CustomAlertView.swift */,
+				CB6F3E642CA9A3CD005C2ED9 /* Extensions */,
+				E1FCE9542CB7B8C50026CA1F /* Components */,
 			);
-			path = Base;
+			path = DesignSystem;
 			sourceTree = "<group>";
 		};
 		CB6F3E6C2CA9AF33005C2ED9 /* Screens */ = {
@@ -258,7 +259,7 @@
 		CB86AF372CAC957900C025FA /* Leaderboard */ = {
 			isa = PBXGroup;
 			children = (
-				CB86AF382CAC95DF00C025FA /* LeaderboardView.swift */,
+				E15CEC6E2CB7F13D00DEB8BB /* Views */,
 				CB86AF3A2CAC95EE00C025FA /* LeaderboardViewModel.swift */,
 			);
 			path = Leaderboard;
@@ -313,6 +314,7 @@
 		E1392F082CADC2ED00112013 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E1FCE9552CB7C3780026CA1F /* GameReducer.swift */,
 				E148E8792CB2C4EA00018E70 /* SubViews */,
 				E1392F062CADA88400112013 /* GameView.swift */,
 			);
@@ -352,6 +354,25 @@
 				E148E87C2CB2C79100018E70 /* WinnerLine.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		E15CEC6E2CB7F13D00DEB8BB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E15CEC6F2CB7F14B00DEB8BB /* Cells */,
+				CB86AF382CAC95DF00C025FA /* LeaderboardView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E15CEC6F2CB7F14B00DEB8BB /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				E15CEC702CB7F16000DEB8BB /* EmptyLeaderboardView.swift */,
+				E15CEC692CB7F11300DEB8BB /* RoundRow.swift */,
+				E15CEC6A2CB7F11300DEB8BB /* GameRow.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		E1E0BDB22CA9EC3300DB8D34 /* Managers */ = {
@@ -443,6 +464,21 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
+		E1FCE9542CB7B8C50026CA1F /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E1FCE9522CB7AB060026CA1F /* GameModeButton.swift */,
+				E1FCE9502CB6E15D0026CA1F /* CustomTextField.swift */,
+				E1B09F532CB44C1B00F76BA3 /* LightBlueBackgroundView.swift */,
+				E1B09F512CB44C0600F76BA3 /* ShadowedCardView.swift */,
+				CB6F3E662CA9A539005C2ED9 /* BasicButton.swift */,
+				CB6F3E6A2CA9A5FD005C2ED9 /* BasicButtonStyle.swift */,
+				E1392F012CAD47D400112013 /* ToolBarView.swift */,
+				E148E8772CB282D300018E70 /* CustomAlertView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -526,6 +562,7 @@
 				E1392F172CADE80300112013 /* GameSquareView.swift in Sources */,
 				E1392F112CADE7DD00112013 /* GameViewModel.swift in Sources */,
 				E1392F152CADE80300112013 /* GameFieldView.swift in Sources */,
+				E15CEC6C2CB7F11300DEB8BB /* RoundRow.swift in Sources */,
 				E1392F162CADE80300112013 /* PlayerSquareView.swift in Sources */,
 				CB6F3E572CA997AA005C2ED9 /* StartView.swift in Sources */,
 				E1E0BDD92CAA94FC00DB8D34 /* RulesViewModel.swift in Sources */,
@@ -538,10 +575,12 @@
 				E1E0BDBC2CA9F6B300DB8D34 /* Resources.swift in Sources */,
 				E1E0BDCE2CAA8AE500DB8D34 /* String + Extension.swift in Sources */,
 				E1B09F562CB44C4B00F76BA3 /* TitleTextModifier.swift in Sources */,
+				E15CEC712CB7F16000DEB8BB /* EmptyLeaderboardView.swift in Sources */,
 				E1B09F542CB44C1B00F76BA3 /* LightBlueBackgroundView.swift in Sources */,
 				CB33F13E2CB19C400008A39F /* LaunchScreen.swift in Sources */,
 				E1E0BDB42CA9EC4900DB8D34 /* GameManager.swift in Sources */,
 				E1B09F522CB44C0600F76BA3 /* ShadowedCardView.swift in Sources */,
+				E15CEC6D2CB7F11300DEB8BB /* GameRow.swift in Sources */,
 				E1392EF82CAD2E8300112013 /* GameSelecViewModel.swift in Sources */,
 				E1392F052CAD5B7800112013 /* SettingPickerView.swift in Sources */,
 				CB6F3E632CA99EFC005C2ED9 /* Font+ProjectFonts.swift in Sources */,
@@ -563,6 +602,7 @@
 				E1E0BDD32CAA94A500DB8D34 /* StartViewModel.swift in Sources */,
 				E1392F1B2CADEAD200112013 /* MusicManager.swift in Sources */,
 				CB7C6CE22CB5102600EF1DA9 /* ShadowViewModifier.swift in Sources */,
+				E1FCE9562CB7C3780026CA1F /* GameReducer.swift in Sources */,
 				E1392F022CAD47D400112013 /* ToolBarView.swift in Sources */,
 				E1392F0E2CADD9E700112013 /* GameResult.swift in Sources */,
 				E148E8782CB282D300018E70 /* CustomAlertView.swift in Sources */,

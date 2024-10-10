@@ -25,7 +25,7 @@ struct GameFieldView: View {
     enum Drawing {
         static let gridSize: CGFloat = 300
         static let cornerRadius: CGFloat = 30
-        static let lineWidth: CGFloat = 5
+        static let lineWidth: CGFloat = 8
         static let animationDuration: Double = 0.5
         static let gridPadding: CGFloat = 60
         static let spacing: CGFloat = 20
@@ -67,7 +67,7 @@ struct GameFieldView: View {
                         path.addLine(to: linePoints.end)
                     }
                     .trim(from: 0, to: animateLine ? 1 : 0)
-                    .stroke(Color.pink, lineWidth: Drawing.lineWidth)
+                    .stroke(Color.secondaryPink, lineWidth: Drawing.lineWidth)
                     .onAppear {
                         withAnimation(.easeInOut(duration: Drawing.animationDuration)) {
                             animateLine = true

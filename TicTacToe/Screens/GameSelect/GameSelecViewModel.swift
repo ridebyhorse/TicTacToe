@@ -52,7 +52,7 @@ final class GameSelectViewModel: ObservableObject {
         switch selectedGameMode {
         case .singlePlayer:
             return !player.isEmpty
-        case .twoPlayers:
+        case .twoPlayer:
             return !player.isEmpty && !opponent.isEmpty
         }
     }
@@ -61,7 +61,7 @@ final class GameSelectViewModel: ObservableObject {
         switch selectedGameMode {
         case .singlePlayer:
             userManager.setPlayers(player1Name: player, player2Name: nil)
-        case .twoPlayers:
+        case .twoPlayer:
             userManager.setPlayers(player1Name: player, player2Name: opponent)
         }
     }

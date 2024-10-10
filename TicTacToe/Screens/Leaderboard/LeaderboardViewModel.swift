@@ -9,39 +9,37 @@ import Foundation
 
 final class LeaderboardViewModel: ObservableObject {
     // MARK: Properties
-      @Published var gameResults: [LeaderboardGameRound] = []
-      private let coordinator: Coordinator
-    // попытка получение данных с settingsViewModel
-//      var settingsViewModel: SettingsViewModel
+    @Published var bestRound: LeaderboardRound? = nil
+    @Published var bestGames: [LeaderboardGame] = []
     
-//      var gameDuration: String {
-//              return "\(settingsViewModel.selectedDuration.valueDuration ?? 0) seconds"
-//          }
-          
-     
-      
-      // MARK: Initialization
-      init(coordinator: Coordinator /*settingsViewModel: SettingsViewModel*/) {
-          self.coordinator = coordinator
-//          self.settingsViewModel = settingsViewModel
-          gameResults = StorageManager.shared.getLeaderboards()
-          gameResults.sort(by: {$0.player.score > $1.player.score})
-      }
-    // попытка сохранить gameDuration
-//      func saveLeaderboard(player: Player, opponent: Player) {
-//             let gameDuration = "\(settingsViewModel.selectedDuration.valueDuration ?? 0) seconds"
-//             
-//             StorageManager.shared.saveUsersScore(
-//                 player: player,
-//                 opponent: opponent,
-//                 gameScore: "\(player.score)",
-//                 gameDuration: gameDuration
-//             )
-//         }
-      
-      //MARK: - NavigationState
-      func dismissLeaderboard() {
-          coordinator.updateNavigationState(action: .showOnboarding)
-      }
-  }
+    private let coordinator: Coordinator
+    private let storageManager: StorageManager
+    
+    
+    
+    // MARK: Initialization
+    init(coordinator: Coordinator, storageManager: StorageManager = .shared) {
+        self.coordinator = coordinator
+        self.storageManager = storageManager
+        getBestRound()
+        getBestGames()
+    }
+    
+    func getBestRound() {
+        var rounds = storageManager.getLeaderboardRounds()
+        rounds.sort { $0.durationRound < $1.durationRound }
+        bestRound = rounds.first
+    }
+    
+    
+    private func getBestGames() {
+        bestGames = storageManager.getLeaderboardGames()
+        bestGames.sort {$0.player.score > $1.player.score}
+    }
+    
+    //MARK: - NavigationState
+    func dismissLeaderboard() {
+        coordinator.updateNavigationState(action: .showOnboarding)
+    }
+}
 

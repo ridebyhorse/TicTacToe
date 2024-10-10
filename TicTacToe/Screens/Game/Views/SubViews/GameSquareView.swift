@@ -18,7 +18,7 @@ struct GameSquareView: View {
                 .foregroundColor(Color("basicLightBlue"))
 
             if let symbol = playerSymbol {
-                Image(symbol == .cross ? playerStyle.imageNames.player1 : playerStyle.imageNames.player2)
+                Image(symbol == .tic ? playerStyle.imageNames.player1 : playerStyle.imageNames.player2)
                     .resizable()
                     .frame(width: 50, height: 50)
             }

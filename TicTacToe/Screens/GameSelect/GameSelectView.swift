@@ -103,14 +103,14 @@ struct GameSelectView: View {
                     GameModeButton(
                         icon: "twoPlayersIcon",
                         title: Resources.Text.twoPlayers.localized(language),
-                        isSelected: viewModel.selectedGameMode == .twoPlayers
+                        isSelected: viewModel.selectedGameMode == .twoPlayer
                     ) {
                         withAnimation {
-                            viewModel.setGameMode(.twoPlayers)
+                            viewModel.setGameMode(.twoPlayer)
                         }
                     }
                     
-                    if viewModel.selectedGameMode == .twoPlayers {
+                    if viewModel.selectedGameMode == .twoPlayer {
                         CustomTextField(
                             placeHolder: Resources.Text.enterYourName.localized(language),
                             text: $viewModel.player
@@ -150,7 +150,7 @@ struct GameSelectView: View {
     private var cardHeight: CGFloat {
         switch viewModel.selectedGameMode {
         case .singlePlayer: return Drawing.singlePlayerHeight
-        case .twoPlayers: return Drawing.twoPlayersHeight
+        case .twoPlayer: return Drawing.twoPlayersHeight
         }
     }
 }

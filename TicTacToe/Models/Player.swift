@@ -8,6 +8,7 @@
 import Foundation
 
 struct Player: Equatable, Codable {
+    let id: UUID
     var name: String
     var score: Int
     var symbol: PlayerSymbol
@@ -15,6 +16,7 @@ struct Player: Equatable, Codable {
 
     // MARK: Init
     init(name: String, score: Int, symbol: PlayerSymbol, style: PlayerStyle) {
+        self.id = UUID()
         self.score = score
         self.name = name
         self.symbol = symbol
@@ -22,19 +24,42 @@ struct Player: Equatable, Codable {
     }
 }
 
-struct LeaderboardGameRound: Identifiable, Codable, Equatable {
+struct LeaderboardRound: Codable, Equatable {
     let id: UUID
     let player: Player
     let opponent: Player
+
     let date: Date
-    let durationGame: String
+    let durationRound: Int
+    var winner: Player {
+        return player.score > opponent.score ? player : opponent
+    }
     
 
-    init(player: Player, opponent: Player, durationGame: String) {
+    init(player: Player, opponent: Player, durationRound: Int) {
         self.id = UUID()
         self.player = player
         self.opponent = opponent
-        self.durationGame = durationGame
-        self.date = Date() 
+        self.durationRound = durationRound
+        self.date = Date()
     }
 }
+
+struct LeaderboardGame: Codable, Identifiable {
+    let id: UUID
+    let player: Player
+    let opponent: Player
+    let score: String
+    let totalDuration: String
+    let date: Date
+    
+    init(player: Player, opponent: Player, score: String, totalDuration: String) {
+        self.id = UUID()
+        self.player = player
+        self.opponent = opponent
+        self.score = score
+        self.totalDuration = totalDuration
+        self.date = Date()
+    }
+}
+

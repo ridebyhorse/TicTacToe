@@ -11,6 +11,8 @@ enum Resources {
     enum Text {
         static let ai = "AI"
         static let back = "Back"
+        static let bestGames = "Best Games"
+        static let bestRounds = "Best Round"
         static let choose = "Choose"
         static let drawResult = "Draw!"
         static let duration = "Duration"

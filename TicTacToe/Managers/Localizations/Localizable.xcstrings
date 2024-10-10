@@ -24,6 +24,26 @@
     "%@" : {
 
     },
+    "%@ : %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ : %2$@"
+          }
+        }
+      }
+    },
+    "%@: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$lld"
+          }
+        }
+      }
+    },
     "%lld" : {
       "localizations" : {
         "ru" : {
@@ -97,6 +117,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Назад"
+          }
+        }
+      }
+    },
+    "Best Games" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лучшие игры"
+          }
+        }
+      }
+    },
+    "Best Round" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лучший раунд"
           }
         }
       }
@@ -276,6 +318,9 @@
       }
     },
     "Key" : {
+      "extractionState" : "manual"
+    },
+    "Key 1" : {
       "extractionState" : "manual"
     },
     "Language:" : {

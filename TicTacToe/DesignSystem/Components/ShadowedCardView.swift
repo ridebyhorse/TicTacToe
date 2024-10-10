@@ -22,7 +22,7 @@ struct ShadowedCardView<Content: View>: View {
          
             RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 .fill(Color.white)
-                .shadow(color: Color(red: 0.6, green: 0.62, blue: 0.76).opacity(0.3), radius: 15, x: 4, y: 4)
+                .basicShadow()
 
             
             content

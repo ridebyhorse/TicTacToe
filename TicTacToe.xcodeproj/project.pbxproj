@@ -64,6 +64,8 @@
 		E1E0BDD92CAA94FC00DB8D34 /* RulesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDD82CAA94FC00DB8D34 /* RulesViewModel.swift */; };
 		E1E0BDDB2CAA974700DB8D34 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E1E0BDDA2CAA974700DB8D34 /* Localizable.xcstrings */; };
 		E1E0BDDE2CAA997300DB8D34 /* CoordinatorVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDDD2CAA997300DB8D34 /* CoordinatorVIew.swift */; };
+		E1FCE9512CB6E15D0026CA1F /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FCE9502CB6E15D0026CA1F /* CustomTextField.swift */; };
+		E1FCE9532CB7AB060026CA1F /* GameModeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FCE9522CB7AB060026CA1F /* GameModeButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -126,6 +128,8 @@
 		E1E0BDD82CAA94FC00DB8D34 /* RulesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesViewModel.swift; sourceTree = "<group>"; };
 		E1E0BDDA2CAA974700DB8D34 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		E1E0BDDD2CAA997300DB8D34 /* CoordinatorVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorVIew.swift; sourceTree = "<group>"; };
+		E1FCE9502CB6E15D0026CA1F /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		E1FCE9522CB7AB060026CA1F /* GameModeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModeButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +220,8 @@
 		CB6F3E652CA9A527005C2ED9 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				E1FCE9522CB7AB060026CA1F /* GameModeButton.swift */,
+				E1FCE9502CB6E15D0026CA1F /* CustomTextField.swift */,
 				E1B09F532CB44C1B00F76BA3 /* LightBlueBackgroundView.swift */,
 				E1B09F512CB44C0600F76BA3 /* ShadowedCardView.swift */,
 				CB6F3E662CA9A539005C2ED9 /* BasicButton.swift */,
@@ -523,6 +529,7 @@
 				E1392F162CADE80300112013 /* PlayerSquareView.swift in Sources */,
 				CB6F3E572CA997AA005C2ED9 /* StartView.swift in Sources */,
 				E1E0BDD92CAA94FC00DB8D34 /* RulesViewModel.swift in Sources */,
+				E1FCE9532CB7AB060026CA1F /* GameModeButton.swift in Sources */,
 				CB86AF3B2CAC95EE00C025FA /* LeaderboardViewModel.swift in Sources */,
 				CB33F1372CB174070008A39F /* TimerManager.swift in Sources */,
 				E1392EF12CAD2E6C00112013 /* StorageManager.swift in Sources */,
@@ -550,6 +557,7 @@
 				E148E8682CAF420800018E70 /* GameMode.swift in Sources */,
 				E1E0BDC02CAA865300DB8D34 /* SettingGameView.swift in Sources */,
 				CB86AF392CAC95DF00C025FA /* LeaderboardView.swift in Sources */,
+				E1FCE9512CB6E15D0026CA1F /* CustomTextField.swift in Sources */,
 				E1E0BDDE2CAA997300DB8D34 /* CoordinatorVIew.swift in Sources */,
 				E1E0BDCC2CAA89A400DB8D34 /* LocalizationManager.swift in Sources */,
 				E1E0BDD32CAA94A500DB8D34 /* StartViewModel.swift in Sources */,

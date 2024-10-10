@@ -43,6 +43,10 @@ final class GameSelectViewModel: ObservableObject {
         coordinator.updateNavigationState(action: .showSettings)
     }
     
+    func openLeaderboard() {
+        coordinator.updateNavigationState(action: .leaderboard)
+    }
+    
     // MARK: - Private Methods
     private func validatePlayerInput() -> Bool {
         switch selectedGameMode {

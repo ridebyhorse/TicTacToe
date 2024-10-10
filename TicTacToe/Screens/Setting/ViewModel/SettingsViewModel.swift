@@ -38,7 +38,7 @@ final class SettingsViewModel: ObservableObject {
         self.isSelectedMusic = gameSettings.isSelecttedMusic
         self.selectedMusic = gameSettings.musicStyle
         self.selectedLevel = gameSettings.level
-        self.selectedPlayerSymbol = gameSettings.playerSymbol ?? .cross
+        self.selectedPlayerSymbol = gameSettings.playerSymbol ?? .tic
     }
 
     
@@ -65,12 +65,12 @@ final class SettingsViewModel: ObservableObject {
         selectedDuration = defaultSettings.duration
         selectedMusic = defaultSettings.musicStyle
         selectedLevel = defaultSettings.level
-        selectedPlayerSymbol = defaultSettings.playerSymbol ?? .cross
+        selectedPlayerSymbol = defaultSettings.playerSymbol ?? .tic
         saveSettings()
     }
     
     // MARK: - NavigationState
     func dissmisSettings() {
-        coordinator.updateNavigationState(action: .showOnboarding)
+        coordinator.updateNavigationState(action: .backFromSettings)
     }
 }

@@ -19,8 +19,8 @@ final class UserManager {
         self.storageManager = storageManager
         
         // Инициализируем игроков с их счётами
-        self.player = Player(name: "", score: 0, symbol: .cross, style: .crossPinkCirclePurple)
-        self.opponent = Player(name: "", score: 0, symbol: .circle, style: .crossPinkCirclePurple)
+        self.player = Player(name: "", score: 0, symbol: .tic, style: .crossPinkCirclePurple)
+        self.opponent = Player(name: "", score: 0, symbol: .tacToe, style: .crossPinkCirclePurple)
     }
     
     // Устанавливаем режим игры
@@ -37,7 +37,7 @@ final class UserManager {
     func getPlayer() -> Player {
         let settings = storageManager.getSettings()
         
-        player.symbol = settings.playerSymbol ?? .cross
+        player.symbol = settings.playerSymbol ?? .tic
         player.style = settings.selectedStyle ?? .crossPinkCirclePurple
         player.score = storageManager.getScoreFor(player: player.name)
         
@@ -48,10 +48,20 @@ final class UserManager {
     func getOpponent() -> Player {
         let settings = storageManager.getSettings()
         
-        opponent.symbol = player.symbol == .cross ? .circle : .cross
+        opponent.symbol = player.symbol == .tic ? .tacToe : .tic
         opponent.style = settings.selectedStyle ?? .crossPinkCirclePurple
         opponent.score = storageManager.getScoreFor(opponent: opponent.name)
         
         return opponent
+    }
+    
+    func updatePlayerScore() {
+        player.score += 1
+        storageManager.savePlayersScore(player: player)
+    }
+    
+    func updateOpponentScore() {
+        opponent.score += 1
+        storageManager.savePlayersScore(player: opponent)
     }
 }

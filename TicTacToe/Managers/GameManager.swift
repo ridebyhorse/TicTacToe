@@ -73,7 +73,7 @@ final class GameManager {
         }
     
     // MARK: - AI Move
-    private func aiMove(player1: Player, player2: Player, with level: DifficultyLevel) {
+    func aiMove(player1: Player, player2: Player, with level: DifficultyLevel) {
         guard !isGameOver else { return }
         
         let move = aiDecision(for: player1, opponent: player2, level: level)

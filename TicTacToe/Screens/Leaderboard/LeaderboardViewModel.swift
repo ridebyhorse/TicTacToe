@@ -9,14 +9,32 @@ import Foundation
 
 final class LeaderboardViewModel: ObservableObject {
     // MARK: Properties
-    @Published var gameResults: [LeaderboardGameRound] = []
+    @Published var bestRound: LeaderboardRound? = nil
+    @Published var bestGames: [LeaderboardGame] = []
+    
     private let coordinator: Coordinator
+    private let storageManager: StorageManager
+    
+    
     
     // MARK: Initialization
-    init(coordinator: Coordinator) {
+    init(coordinator: Coordinator, storageManager: StorageManager = .shared) {
         self.coordinator = coordinator
-        gameResults = StorageManager.shared.getLeaderboards()
-        gameResults.sort(by: {$0.player.score > $1.player.score})
+        self.storageManager = storageManager
+        getBestRound()
+        getBestGames()
+    }
+    
+    func getBestRound() {
+        var rounds = storageManager.getLeaderboardRounds()
+        rounds.sort { $0.durationRound < $1.durationRound }
+        bestRound = rounds.first
+    }
+    
+    
+    private func getBestGames() {
+        bestGames = storageManager.getLeaderboardGames()
+        bestGames.sort {$0.player.score > $1.player.score}
     }
     
     //MARK: - NavigationState
@@ -24,3 +42,4 @@ final class LeaderboardViewModel: ObservableObject {
         coordinator.updateNavigationState(action: .showOnboarding)
     }
 }
+

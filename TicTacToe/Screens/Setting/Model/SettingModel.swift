@@ -19,8 +19,8 @@ struct GameSettings: Codable {
 }
 
 enum PlayerSymbol: String, Codable {
-    case cross
-    case circle
+    case tic
+    case tacToe
 }
 
 struct Duration: Codable {
@@ -75,7 +75,7 @@ extension GameSettings {
             selectedStyle: .crossPinkCirclePurple,
             isSelecttedMusic: false,
             musicStyle: .none,
-            playerSymbol: .cross
+            playerSymbol: .tic
         )
     }
     

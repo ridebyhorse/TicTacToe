@@ -14,7 +14,9 @@ final class StorageManager {
     
     enum UserDefaultKeys {
         static let savedSettings = "savedSettings"
-        static let savedLeaderboard = "savedLeaderboard"
+        static let savedPlayerScores = "savedPlayerScores"
+        static let savedLeaderboardRounds = "savedLeaderboardRounds"
+        static let savedLeaderboardGames = "savedLeaderboardGames"
     }
     
     // MARK: - Initialization
@@ -36,70 +38,103 @@ final class StorageManager {
         }
     }
     
-    // MARK: - Leaderboard
-    func saveUsersScore(player: Player, opponent: Player, gameScore: String, gameDuration: String) {
-        var leaderboard = getLeaderboards()
-
-        let leaderboardEntry = LeaderboardGameRound(
+    // MARK: - Leaderboard for Rounds
+    func saveLeaderboardRound(player: Player, opponent: Player, durationRound: Int) {
+        var leaderboardRounds = getLeaderboardRounds()
+        
+        let leaderboardEntry = LeaderboardRound(
             player: player,
             opponent: opponent,
-            durationGame: gameDuration
-            )
-
-        leaderboard.append(leaderboardEntry)
-
-        if let encodedLeaderboard = try? JSONEncoder().encode(leaderboard) {
-            userDefaults.set(encodedLeaderboard, forKey: UserDefaultKeys.savedLeaderboard)
+            durationRound: durationRound
+        )
+        
+        leaderboardRounds.append(leaderboardEntry)
+        
+        leaderboardRounds.sort { $0.durationRound < $1.durationRound }
+        if leaderboardRounds.count > 3 {
+            leaderboardRounds = Array(leaderboardRounds.prefix(10))
+        }
+        
+        if let encodedRounds = try? JSONEncoder().encode(leaderboardRounds) {
+            userDefaults.set(encodedRounds, forKey: UserDefaultKeys.savedLeaderboardRounds)
         }
     }
     
-    func getLeaderboards() -> [LeaderboardGameRound] {
-        if let savedData = userDefaults.data(forKey: UserDefaultKeys.savedLeaderboard),
-           let savedLeaderboard = try? JSONDecoder().decode([LeaderboardGameRound].self, from: savedData) {
-            return savedLeaderboard
+    func getLeaderboardRounds() -> [LeaderboardRound] {
+        if let savedData = userDefaults.data(forKey: UserDefaultKeys.savedLeaderboardRounds),
+           let savedLeaderboardRounds = try? JSONDecoder().decode([LeaderboardRound].self, from: savedData) {
+            return savedLeaderboardRounds
+        } else {
+            return []
+        }
+    }
+    
+    // MARK: - Leaderboard for Games
+    func saveLeaderboardGame(player: Player, opponent: Player, score: String, totalDuration: String) {
+        var leaderboardGames = getLeaderboardGames()
+        
+        let leaderboardEntry = LeaderboardGame(
+            player: player,
+            opponent: opponent,
+            score: score,
+            totalDuration: totalDuration
+        )
+        
+        leaderboardGames.append(leaderboardEntry)
+        
+        // Сохранение лучших игр, можно использовать отсечку, например, 7 лучших
+        leaderboardGames.sort { $0.score > $1.score }
+        if leaderboardGames.count > 7 {
+            leaderboardGames = Array(leaderboardGames.prefix(7))
+        }
+        
+        if let encodedGames = try? JSONEncoder().encode(leaderboardGames) {
+            userDefaults.set(encodedGames, forKey: UserDefaultKeys.savedLeaderboardGames)
+        }
+    }
+    
+    func getLeaderboardGames() -> [LeaderboardGame] {
+        if let savedData = userDefaults.data(forKey: UserDefaultKeys.savedLeaderboardGames),
+           let savedLeaderboardGames = try? JSONDecoder().decode([LeaderboardGame].self, from: savedData) {
+            return savedLeaderboardGames
+        } else {
+            return []
+        }
+    }
+    
+    // MARK: - Сохранение и получение счетов игроков
+    func savePlayersScore(player: Player) {
+        var playerScores = getPlayersScores()
+        
+        // Сохраняем или обновляем счет игрока
+        if let index = playerScores.firstIndex(where: { $0.name == player.name }) {
+            playerScores[index].score = player.score
+        } else {
+            playerScores.append(player)
+        }
+        
+        if let encodedScores = try? JSONEncoder().encode(playerScores) {
+            userDefaults.set(encodedScores, forKey: UserDefaultKeys.savedPlayerScores)
+        }
+    }
+    
+    func getPlayersScores() -> [Player] {
+        if let savedData = userDefaults.data(forKey: UserDefaultKeys.savedPlayerScores),
+           let savedPlayerScores = try? JSONDecoder().decode([Player].self, from: savedData) {
+            return savedPlayerScores
         } else {
             return []
         }
     }
     
     func getScoreFor(player: String) -> Int {
-        let leaderboard = getLeaderboards()
-        return leaderboard.first { $0.player.name == player }?.player.score ?? 0
+        let playerScores = getPlayersScores()
+        return playerScores.first { $0.name == player }?.score ?? 0
     }
     
     func getScoreFor(opponent: String) -> Int {
-        let leaderboard = getLeaderboards()
-        return leaderboard.first { $0.opponent.name == opponent }?.opponent.score ?? 0
-    }
-    
-    // MARK: - New Methods
-    // 1. Проверка существования игрока
-    func playerExists(with name: String) -> Bool {
-        let leaderboard = getLeaderboards()
-        return leaderboard.contains(where: { $0.player.name == name })
-    }
-    
-    func opponentExists(with name: String) -> Bool {
-        let leaderboard = getLeaderboards()
-        return leaderboard.contains(where: { $0.opponent.name == name })
-    }
-    
-    // 2. Сохранение всех счётов игроков
-    func saveAllScores(_ scores: [LeaderboardGameRound]) {
-        if let encodedScores = try? JSONEncoder().encode(scores) {
-            userDefaults.set(encodedScores, forKey: UserDefaultKeys.savedLeaderboard)
-        }
-    }
-    
-    // 3. Получение всех счётов игроков
-    func getAllScores() -> [String: Int] {
-        let leaderboards = getLeaderboards()
-        var scoresDict = [String: Int]()
-        
-        for leaderboard in leaderboards {
-            scoresDict[leaderboard.player.name] = leaderboard.player.score
-        }
-        
-        return scoresDict
+        let playerScores = getPlayersScores()
+        return playerScores.first { $0.name == opponent }?.score ?? 0
     }
 }
+

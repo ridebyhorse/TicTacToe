@@ -11,6 +11,8 @@ enum Resources {
     enum Text {
         static let ai = "AI"
         static let back = "Back"
+        static let bestGames = "Best Games"
+        static let bestRounds = "Best Round"
         static let choose = "Choose"
         static let drawResult = "Draw!"
         static let duration = "Duration"
@@ -24,8 +26,7 @@ enum Resources {
         static let warning = "Warning"
         static let picked = "Picked"
         static let playAgain = "Play again"
-        static let player1Name = "Player 1 Name"
-        static let player2Name = "Player 2 Name"
+        static let opponentName = "Enter opponent name"
         static let rule1 = "Draw a grid with three rows and three columns, creating nine squares in total."
         static let rule2 = "Players take turns placing their marker (X or O) in an empty square. To make a move, a player selects a number corresponding to the square where they want to place their marker."
         static let rule3 = "Player X starts by choosing a square (e.g., square 5). Player O follows by choosing an empty square (e.g., square 1). Continue alternating turns until the game ends."

@@ -40,7 +40,7 @@ struct LaunchScreen: View {
             }
             .onAppear {
                 withAnimation(
-                    .spring(response: 1, dampingFraction: 0.5).delay(0.1)
+                    .spring(response: 1, dampingFraction: 0.5)
                 ) {
                     isAnimating = true
                 }
@@ -55,7 +55,7 @@ struct LaunchScreen: View {
                             .font(.mainTitle)
                             .foregroundColor(.basicBlack)
                             .opacity(textIndex >= index ? 1 : 0)
-                            .animation(.easeInOut(duration: 0.1).delay(0.05 * Double(index)), value: textIndex)
+                            .animation(.easeIn(duration: 0.04), value: textIndex)
                             .padding(.horizontal, -1)
                     }
                 }

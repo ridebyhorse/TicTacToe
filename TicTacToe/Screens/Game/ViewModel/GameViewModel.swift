@@ -21,7 +21,7 @@ final class GameViewModel: ObservableObject {
     @Published var roundResults: [String] = []
     
     var totalGameDuration: Int = 0
-  
+    
     private let coordinator: Coordinator
     private let userManager: UserManager
     private let gameManager: GameManager
@@ -71,73 +71,76 @@ final class GameViewModel: ObservableObject {
     }
     
     // MARK: - Game Logic
-        func processPlayerMove(for position: Int) {
-            guard !boardBlocked else { return }
-            gameManager.setCurrentPlayer(currentPlayer)
-            let opponentPlayer = currentPlayer == player ? opponent : player
-            var moved = false
-            switch gameMode {
-            case .singlePlayer:
-                moved = gameManager.makeMoveForSinglePlayerMode(
-                    at: position,
-                    player1: currentPlayer,
-                    player2: opponentPlayer,
-                    level: level
-                )
-            case .twoPlayer:
-                moved = gameManager.makeMove(at: position, for: currentPlayer, opponent: opponentPlayer)
-            }
-            
-            if moved {
-                if gameManager.isGameOver {
-                    let result = gameManager.getGameResult(
-                        gameMode: gameMode,
-                        player: currentPlayer,
-                        opponent: opponentPlayer
-                    )
-                    
-                    boardBlocked = true
-                    totalGameDuration += secondsCount
-                    recordRoundResult()
-                    
-                    // Обработка окончания игры
-                    handleEndOfGame(result: result)
-                } else {
-                    togglePlayer()
-                }
-            }
-            if gameMode == .twoPlayer {
-                processMoveResult()
-            }
+    func processPlayerMove(for position: Int) {
+        guard !boardBlocked else { return }
+        gameManager.setCurrentPlayer(currentPlayer)
+        let opponentPlayer = currentPlayer == player ? opponent : player
+        var moved = false
+        switch gameMode {
+        case .singlePlayer:
+            moved = gameManager.makeMoveForSinglePlayerMode(
+                at: position,
+                player1: currentPlayer,
+                player2: opponentPlayer,
+                level: level
+            )
+        case .twoPlayer:
+            moved = gameManager.makeMove(at: position, for: currentPlayer, opponent: opponentPlayer)
         }
         
-        private func handleEndOfGame(result: GameResult) {
-            if gameMode == .singlePlayer && gameManager.winner?.name == Resources.Text.ai {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
-                    self?.musicManager.playSoundFor(.final)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
-                        self?.handleGameResult(result)
-                    }
-                }
+        if moved {
+            if gameManager.isGameOver {
+                let result = gameManager.getGameResult(
+                    gameMode: gameMode,
+                    player: currentPlayer,
+                    opponent: opponentPlayer
+                )
+                
+                boardBlocked = true
+                totalGameDuration += secondsCount
+                recordRoundResult()
+                
+                // Обработка окончания игры
+                handleEndOfGame(result: result)
             } else {
-                musicManager.playSoundFor(.final)
+                togglePlayer()
+            }
+        }
+        if gameMode == .twoPlayer {
+            processMoveResult()
+        }
+    }
+    
+    private func handleEndOfGame(result: GameResult) {
+        if gameMode == .singlePlayer && gameManager.winner?.name == Resources.Text.ai {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+                self?.musicManager.stopMusic()
+                self?.timerManager.stopTimer()
+                self?.musicManager.playSoundFor(.final)
+                self?.winningPattern = self?.gameManager.getWinningPattern()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
                     self?.handleGameResult(result)
                 }
             }
+        } else {
+            musicManager.stopMusic()
+            timerManager.stopTimer()
+            musicManager.playSoundFor(.final)
+            winningPattern = gameManager.getWinningPattern()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+                self?.handleGameResult(result)
+            }
         }
-        
-        private func recordRoundResult() {
-            let resultString = "\(player.name): \(player.score) - \(opponent.name): \(opponent.score) (Duration: \(totalGameDuration) seconds)"
-            roundResults.append(resultString)
-        }
+    }
+    
+    private func recordRoundResult() {
+        let resultString = "\(player.name): \(player.score) - \(opponent.name): \(opponent.score) (Duration: \(totalGameDuration) seconds)"
+        roundResults.append(resultString)
+    }
     
     func processMoveResult() {
         if gameMode == .twoPlayer {
             gameBoard = gameManager.gameBoard
-            if let winningPattern = gameManager.getWinningPattern() {
-                self.winningPattern = winningPattern
-            }
         } else {
             boardBlocked = true
             let playerSymbol = opponent.name == Resources.Text.ai ? player.symbol : opponent.symbol
@@ -146,7 +149,9 @@ final class GameViewModel: ObservableObject {
                     gameBoard[index] = symbol
                 }
             }
-            togglePlayer()
+            if !gameManager.isGameOver {
+                togglePlayer()
+            }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
                 guard
                     let player = self?.player,
@@ -155,17 +160,8 @@ final class GameViewModel: ObservableObject {
                 self?.gameBoard = gameManager.gameBoard
                 self?.currentPlayer = player
                 self?.boardBlocked = false
-                if let winningPattern = gameManager.getWinningPattern() {
-                    self?.winningPattern = winningPattern
-                }
             }
         }
-    }
-    
-    // Метод для переключения между игроками
-    private func togglePlayer() {
-        gameManager.switchPlayer(with: player, opponent: opponent)
-        currentPlayer = gameManager.currentPlayer ?? player
     }
     
     func resetGame() {
@@ -179,21 +175,30 @@ final class GameViewModel: ObservableObject {
     
     private func handleGameResult(_ result: GameResult) {
         gameResult = result
-        musicManager.stopMusic()
-        timerManager.stopTimer()
-        
-        let gameDuration = "\(secondsCount / 60):\(secondsCount % 60)"
         if let leaderboardWinner = gameManager.winner {
-                if leaderboardWinner == player {
-                    userManager.updatePlayerScore()
-                } else if leaderboardWinner == opponent {
-                    userManager.updateOpponentScore() 
-                }
+            if leaderboardWinner == player {
+                userManager.updatePlayerScore()
+            } else if leaderboardWinner == opponent {
+                userManager.updateOpponentScore()
+            }
             
             // Сохраняем данные о лучших раундах и играх
             storageManager.saveLeaderboardRound(player: player, opponent: opponent, durationRound: secondsCount)
             storageManager.saveLeaderboardGame(player: player, opponent: opponent, score: getGameScore(), totalDuration: getGameDuration())
         }
+        //        let gameDuration = "\(secondsCount / 60):\(secondsCount % 60)"
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+            self?.goToResults(result)
+        }
+    }
+    
+    // Метод для переключения между игроками
+    private func togglePlayer() {
+        gameManager.switchPlayer(with: player, opponent: opponent)
+        currentPlayer = gameManager.currentPlayer ?? player
+    }
+    
+    private func goToResults(_ result: GameResult) {
         switch result {
         case .win:
             coordinator.updateNavigationState(
@@ -229,14 +234,14 @@ final class GameViewModel: ObservableObject {
         )
     }
     
-//    MARK: - Methods for LiederBoard
+    //    MARK: - Methods for LiederBoard
     private func getGameScore() -> String {
-           let gameScore = ("\(player.score) : \(opponent.score)")
-           return gameScore
-       }
-       
-       private func getGameDuration() -> String {
-           let gameDuration = "\(totalGameDuration) seconds"
-           return gameDuration
-       }
+        let gameScore = ("\(player.score) : \(opponent.score)")
+        return gameScore
+    }
+    
+    private func getGameDuration() -> String {
+        let gameDuration = "\(totalGameDuration) seconds"
+        return gameDuration
+    }
 }

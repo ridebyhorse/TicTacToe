@@ -24,22 +24,27 @@ struct LeaderboardView: View {
         ZStack {
             Color.basicBackground
                 .ignoresSafeArea()
-            VStack {
+            VStack(spacing: 0) {
                 HeaderView()
                 if viewModel.bestGames.isEmpty && viewModel.bestRound == nil {
                     EmptyLeaderboardView()
                 } else {
                     VStack {
-                        BestRoundsSection()
-                            .padding(.top, DrawingConstants.roundsSectionTopPadding)
-                        
-                        BestGamesSection()
-                            .padding(.top, DrawingConstants.gamesSectionTopPadding)
+                        if viewModel.bestRound != nil {
+                            BestRoundsSection()
+                                .padding(.top, 5)
+                        }
+                        if !viewModel.bestGames.isEmpty {
+                            BestGamesSection()
+                                .padding(.top, DrawingConstants.gamesSectionTopPadding)
+                                .frame(maxHeight: .infinity)
+                                .layoutPriority(0.1)
+                        }
                     }
                     .padding(.bottom, DrawingConstants.roundsSectionBottomPadding)
+                    .padding(.horizontal, 21)
                 }
             }
-            .padding(.horizontal)
         }
     }
 
@@ -64,18 +69,24 @@ struct LeaderboardView: View {
 
     private func BestGamesSection() -> some View {
         ShadowedCardView {
-            ScrollView {
                 VStack(spacing: DrawingConstants.gamesSectionBottomPadding) {
                     Text(Resources.Text.bestGames.localized(language))
                         .font(.headline)
+                        .foregroundStyle(.basicBlack)
                         .padding(.vertical)
-                    
-                    ForEach(viewModel.bestGames, id: \.id) { game in
-                        GameRow(game: game, rank: viewModel.bestGames.firstIndex(where: { $0.player == game.player })! + 1)
+                    ScrollView {
+                        ForEach(0..<viewModel.bestGames.count, id: \.self) { index in
+                            GameRow(game: viewModel.bestGames[index], rank: index + 1)
+                        }
                     }
+                    .padding(.bottom, DrawingConstants.gamesSectionBottomPadding)
                 }
-            }
-            .padding(.bottom, DrawingConstants.gamesSectionBottomPadding)
+            
+            
         }
     }
+}
+
+#Preview {
+    LeaderboardView(viewModel: LeaderboardViewModel(coordinator: Coordinator()))
 }

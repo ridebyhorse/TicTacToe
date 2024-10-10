@@ -123,6 +123,7 @@ struct SettingGameView: View {
                                 styleImageForPlayer1: style.imageNames.player1,
                                 styleImageForPlayer2: style.imageNames.player2,
                                 isSelected: isSelected,
+                                isPlayer1Selected: viewModel.selectedPlayerSymbol == .tic,
                                 action: {
                                     withAnimation {
                                         viewModel.selectedIndex = style

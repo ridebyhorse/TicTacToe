@@ -203,6 +203,23 @@
         }
       }
     },
+    "Enter opponent name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter opponent name"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя оппонента"
+          }
+        }
+      }
+    },
     "Enter your name" : {
       "extractionState" : "manual",
       "localizations" : {

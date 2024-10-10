@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - Player Struct
 struct Player: Equatable, Codable {
     let id: UUID
     var name: String
@@ -14,7 +15,7 @@ struct Player: Equatable, Codable {
     var symbol: PlayerSymbol
     var style: PlayerStyle
 
-    // MARK: Init
+    // MARK: - Initializer
     init(name: String, score: Int, symbol: PlayerSymbol, style: PlayerStyle) {
         self.id = UUID()
         self.score = score
@@ -24,18 +25,20 @@ struct Player: Equatable, Codable {
     }
 }
 
+// MARK: - LeaderboardRound Struct
 struct LeaderboardRound: Codable, Equatable {
     let id: UUID
     let player: Player
     let opponent: Player
-
     let date: Date
     let durationRound: Int
+
+    // MARK: - Winner Calculation
     var winner: Player {
         return player.score > opponent.score ? player : opponent
     }
     
-
+    // MARK: - Initializer
     init(player: Player, opponent: Player, durationRound: Int) {
         self.id = UUID()
         self.player = player
@@ -45,6 +48,7 @@ struct LeaderboardRound: Codable, Equatable {
     }
 }
 
+// MARK: - LeaderboardGame Struct
 struct LeaderboardGame: Codable, Identifiable {
     let id: UUID
     let player: Player
@@ -52,7 +56,8 @@ struct LeaderboardGame: Codable, Identifiable {
     let score: String
     let totalDuration: String
     let date: Date
-    
+
+    // MARK: - Initializer
     init(player: Player, opponent: Player, score: String, totalDuration: String) {
         self.id = UUID()
         self.player = player
@@ -62,4 +67,3 @@ struct LeaderboardGame: Codable, Identifiable {
         self.date = Date()
     }
 }
-

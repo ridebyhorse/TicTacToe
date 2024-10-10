@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 final class SettingsViewModel: ObservableObject {
     // MARK: Properties
     @Published var selectedIndex: PlayerStyle
@@ -43,7 +44,6 @@ final class SettingsViewModel: ObservableObject {
 
     
     func saveSettings() {
-       
         let duration = selectedDuration.isSelectedDuration
         ? selectedDuration
         : Duration(isSelectedDuration: false, valueDuration: nil)

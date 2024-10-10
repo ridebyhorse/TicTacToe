@@ -8,7 +8,7 @@ import SwiftUI
 
 struct StartView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
-    
+    @State private var isAnimating = false
     @ObservedObject var viewModel: StartViewModel
 
     var body: some View {
@@ -62,6 +62,19 @@ struct StartView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .padding(.horizontal, 48)
+                .scaleEffect(isAnimating ? 1.05 : 1)
+                .animation(
+                    isAnimating ?
+                        .easeInOut(duration: 1).repeatForever(autoreverses: true) : .default,
+                    value: isAnimating
+                )
+                .onAppear {
+                    withAnimation(
+                        .spring(response: 1, dampingFraction: 0.5)
+                    ) {
+                        isAnimating = true
+                    }
+                }
             
             HStack(spacing: 2) {
                 Text(Resources.Text.ticTacToe)

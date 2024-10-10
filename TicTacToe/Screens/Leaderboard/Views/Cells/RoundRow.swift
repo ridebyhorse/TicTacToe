@@ -10,10 +10,8 @@ import SwiftUI
 struct RoundRow: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
     let round: LeaderboardRound
-    let rank = 1
     
     struct DrawingConstants {
-        static let circleSize: CGFloat = 45
         static let padding: CGFloat = 12
         static let textPadding: CGFloat = 4
     }
@@ -24,29 +22,15 @@ struct RoundRow: View {
                 Text(Resources.Text.bestRounds.localized(language))
                     .font(.headline)
                     .padding(.vertical)
-                
+                    .foregroundStyle(.basicBlack)
                 HStack(spacing: DrawingConstants.padding) {
-
-                    ZStack {
-                        Circle()
-                            .fill(Color.secondaryPurple)
-                            .frame(width: DrawingConstants.circleSize, height: DrawingConstants.circleSize)
-                        Text("\(rank)")
-                            .font(.number)
-                            .foregroundStyle(.basicBlack)
-                    }
-                    
-                    LightBlueBackgroundView {
+                    SecondaryPurpleBackgroundView {
                         HStack {
-                      
                             Text(round.player.name)
-                                .font(.basicBody)
+                                .font(.buttonTitle)
                                 .foregroundStyle(.basicBlack)
                                 .padding(.leading, DrawingConstants.textPadding)
-                            
                             Spacer()
-                            
-
                             Text("\(Resources.Text.time.localized(language)): \(round.durationRound)")
                                 .font(.number)
                                 .foregroundStyle(.basicBlack)

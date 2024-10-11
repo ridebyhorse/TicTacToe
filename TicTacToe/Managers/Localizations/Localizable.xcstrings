@@ -153,6 +153,9 @@
         }
       }
     },
+    "Choose Mode" : {
+
+    },
     "classical" : {
       "extractionState" : "manual",
       "localizations" : {

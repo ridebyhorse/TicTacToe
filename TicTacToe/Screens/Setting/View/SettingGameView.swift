@@ -6,15 +6,18 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct SettingGameView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
+
     @ObservedObject var viewModel: SettingsViewModel
     
     @State private var isLanguageState = false
     @State private var isMusicState = false
     @State private var isLevelState = false
     @State private var isSymbolState = false
+    @State private var isThemeState = false
     
     var body: some View {
         ZStack {
@@ -36,8 +39,20 @@ struct SettingGameView: View {
                 )
                 Spacer()
             }
-        }
-    }
+            // MARK: - ThemeChange
+                       if isThemeState {
+                           ThemeChangeView(viewModel: viewModel)
+                                              .frame(width: 300, height: 400)
+                                              .background(Color.white)
+                                              .cornerRadius(30)
+                                              .shadow(radius: 10)
+                                              .transition(.scale)
+                                              .onDisappear {
+                                                  isThemeState = false
+                                              }
+                       }
+                   }
+               }
     
     private var toolBar: some View {
         ToolBarView(
@@ -94,6 +109,20 @@ struct SettingGameView: View {
                     isExpanded: $isLevelState,
                     title: Resources.Text.selectDifficultyLevel.localized(language)
                 )
+                // Theme Change
+                VStack(spacing: 20) {
+                                  HStack {
+                                      Toggle(isOn: $isThemeState) {
+                                          Text("Theme".localized(language))
+                                              .titleText(size: 20)
+                                      }
+                                      .tint(.basicBlue)
+                                  }
+                                  .padding()
+                                  .background(LightBlueBackgroundView {})
+                                  .cornerRadius(30)
+                              }
+                
                 
                 GameSymbolSelectionView(
                     selectedSymbol: $viewModel.selectedPlayerSymbol,

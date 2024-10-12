@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GameRow: View {
-    struct DrawingConstants {
+    enum DrawingConstants {
         static let circleSize: CGFloat = 38
     }
     

@@ -6,97 +6,121 @@
 //
 
 
-struct GameReducer {
-    typealias Reducer = (GameState, GameAction) -> GameState
+// MARK: - GameAction Enum (Действия игры)
+enum GameAction {
+    case makeMove(position: Int, gameMode: GameMode, level: DifficultyLevel)
+    case resetGame
+    case endGame(result: GameResult)
+    case toggleMusic
+    case outOfTime
+}
+
+// MARK: - GameState Struct (Состояние игры)
+struct GameState {
+    var gameBoard: [PlayerSymbol?]
+    var gameResult: GameResult? = nil
+    var winningPattern: [Int]? = nil
+    var player: Player
+    var opponent: Player
+    var secondsCount = 0
+    var totalGameDuration = 0
+    var roundResults: [String] = []
+    var boardBlocked = false
+    var isMusicPlaying = true
+    var showResultScreen = false
     
-    // MARK: - Game State
-    struct GameState {
-        var gameBoard: [PlayerSymbol?]
-        var gameResult: GameResult?
-        var winningPattern: [Int]?
-        var player: Player
-        var opponent: Player
-        var currentPlayer: Player
-        var secondsCount: Int
-        var isBoardBlocked: Bool
-        var state: GameStateEnum
+    mutating func resetGame(firstMovePlayer: Player) {
+        gameBoard = Array(repeating: nil, count: 9)
+        gameResult = nil
+        winningPattern = nil
+        player.isActive = firstMovePlayer.symbol == player.symbol
+        opponent.isActive = !player.isActive
+        boardBlocked = false
+        showResultScreen = false
+    }
+
+    mutating func recordRoundResult() {
+        let resultString = "\(player.name): \(player.score) - \(opponent.name): \(opponent.score) (Duration: \(totalGameDuration) seconds)"
+        roundResults.append(resultString)
+    }
+}
+
+// MARK: - Reducer (Редьюсер для обработки действий и изменения состояния)
+func gameReducer(
+    action: GameAction,
+    state: inout GameState,
+    gameManager: GameManager,
+    musicManager: MusicManager,
+    timerManager: TimerManager
+) {
+    switch action {
+    case .makeMove(let position, let gameMode, let level):
+        guard !state.boardBlocked else { return }
         
-        enum GameStateEnum {
-            case idle
-            case playing
-            case finished
+        let currentPlayer = state.player.isActive ? state.player : state.opponent
+        let opponentPlayer = currentPlayer == state.player ? state.opponent : state.player
+        
+        if gameManager.makeMove(at: position, player: currentPlayer, opponent: opponentPlayer, gameMode: gameMode, level: level  ) {
+            if gameManager.isGameOver {
+                let result = gameManager.getGameResult(gameMode: .singlePlayer, player: currentPlayer, opponent: opponentPlayer)
+                state.totalGameDuration += state.secondsCount
+                state.recordRoundResult()
+                endGame(result: result, state: &state, gameManager: gameManager, musicManager: musicManager, timerManager: timerManager)
+            } else {
+                togglePlayer(state: &state)
+            }
         }
+        
+    case .resetGame:
+        gameManager.resetGame(firstPlayer: state.player, secondPlayer: state.opponent)
+        timerManager.startTimer()
+        state.secondsCount = timerManager.secondsCount
+        state.resetGame(firstMovePlayer: Bool.random() ? state.player : state.opponent)
+        
+    case .endGame(let result):
+        endGame(result: result, state: &state, gameManager: gameManager, musicManager: musicManager, timerManager: timerManager)
+        
+    case .toggleMusic:
+        toggleMusic(state: &state, musicManager: musicManager)
+        
+    case .outOfTime:
+        timerManager.stopTimer()
+        endGame(result: .draw, state: &state, gameManager: gameManager, musicManager: musicManager, timerManager: timerManager)
+    }
+}
+
+// MARK: - Helper Methods for Game Logic
+func endGame(result: GameResult, state: inout GameState, gameManager: GameManager, musicManager: MusicManager, timerManager: TimerManager) {
+    musicManager.stopMusic()
+    timerManager.stopTimer()
+    
+    if result != .draw {
+        state.winningPattern = gameManager.getWinningPattern()
     }
 
-    // MARK: - Game Actions
-    enum GameAction {
-        case resetGame
-        case playerMove(Int)
-        case aiMove
-        case endGame(GameResult)
-        case togglePlayer
-        case updateTime(Int)
-        case handleOutOfTime
+    state.gameResult = result
+    if let winner = gameManager.winner {
+        if winner == state.player {
+            state.player.score += 1
+        } else {
+            state.opponent.score += 1
+        }
     }
     
-    // MARK: - Game Reducer Function
-    static func gameReducer(state: inout GameState, action: GameAction, gameManager: GameManager) {
-        switch action {
-        case .resetGame:
-            gameManager.resetGame(firstPlayer: state.player, secondPlayer: state.opponent)
-            state.gameBoard = gameManager.gameBoard
-            state.gameResult = nil
-            state.winningPattern = nil
-            state.isBoardBlocked = false
-            state.state = .playing
-            
-        case .playerMove(let position):
-            guard !state.isBoardBlocked else { return }
-            
-            // Выполняем ход игрока через GameManager
-            let moveSuccess = gameManager.makeMove(at: position, for: state.currentPlayer, opponent: state.opponent)
-            if moveSuccess {
-                state.gameBoard = gameManager.gameBoard
-                state.winningPattern = gameManager.getWinningPattern()
-                state.isBoardBlocked = gameManager.isGameOver
-                if gameManager.isGameOver {
-                    state.gameResult = gameManager.getGameResult(gameMode: .twoPlayer, player: state.currentPlayer, opponent: state.opponent)
-                    state.state = .finished
-                } else {
-                    gameManager.switchPlayer(with: state.currentPlayer, opponent: state.opponent)
-                    state.currentPlayer = gameManager.currentPlayer ?? state.currentPlayer
-                }
-            }
+    state.boardBlocked = true
+    state.showResultScreen = true
+}
 
-        case .aiMove:
-            guard !state.isBoardBlocked else { return }
-            
-            // Логика AI хода через GameManager
-            gameManager.aiMove(player1: state.player, player2: state.opponent, with: .normal)
-            state.gameBoard = gameManager.gameBoard
-            state.winningPattern = gameManager.getWinningPattern()
-            state.isBoardBlocked = gameManager.isGameOver
-            if gameManager.isGameOver {
-                state.gameResult = gameManager.getGameResult(gameMode: .singlePlayer, player: state.player, opponent: state.opponent)
-                state.state = .finished
-            }
+func togglePlayer(state: inout GameState) {
+    state.player.isActive.toggle()
+    state.opponent.isActive.toggle()
+}
 
-        case .endGame(let result):
-            state.gameResult = result
-            state.state = .finished
-            state.isBoardBlocked = true
-            
-        case .togglePlayer:
-            gameManager.switchPlayer(with: state.currentPlayer, opponent: state.opponent)
-            state.currentPlayer = gameManager.currentPlayer ?? state.currentPlayer
-            
-        case .updateTime(let seconds):
-            state.secondsCount = seconds
-            
-        case .handleOutOfTime:
-            state.state = .finished
-            state.gameResult = .lose
-            state.isBoardBlocked = true
-        }
+func toggleMusic(state: inout GameState, musicManager: MusicManager) {
+    if state.isMusicPlaying {
+        musicManager.stopMusic()
+    } else {
+        musicManager.playMusic()
     }
+    state.isMusicPlaying.toggle()
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum GameResult {
+enum GameResult: Equatable {
     case win(name: String)
     case lose
     case draw

@@ -18,7 +18,7 @@ final class MusicManager {
     
     func playMusic() {
         settings = storageManager.getSettings()
-        guard let settings, !musicPlayer.isPlaying else { return }
+        guard let settings, settings.isSelecttedMusic, !musicPlayer.isPlaying else { return }
         if let urlMusic = MusicStorage.getMusicFor(settings.musicStyle) {
             do {
                 musicPlayer = try AVAudioPlayer(contentsOf: urlMusic)

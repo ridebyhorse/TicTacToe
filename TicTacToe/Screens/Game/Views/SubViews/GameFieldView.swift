@@ -11,6 +11,7 @@ struct GameFieldView: View {
     let gameBoard: [PlayerSymbol?]
     let playerStyle: PlayerStyle
     let action: (_ index: Int) -> Void
+    
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: Drawing.spacing),
         GridItem(.flexible(), spacing: Drawing.spacing),

@@ -14,14 +14,16 @@ struct Player: Equatable, Codable {
     var score: Int
     var symbol: PlayerSymbol
     var style: PlayerStyle
+    var isActive: Bool
 
     // MARK: - Initializer
-    init(name: String, score: Int, symbol: PlayerSymbol, style: PlayerStyle) {
+    init(name: String, score: Int, symbol: PlayerSymbol, style: PlayerStyle, isActive: Bool = false) {
         self.id = UUID()
         self.score = score
         self.name = name
         self.symbol = symbol
         self.style = style
+        self.isActive = isActive 
     }
 }
 

@@ -127,14 +127,18 @@ struct SettingGameView: View {
                                 action: {
                                     withAnimation {
                                         viewModel.selectedIndex = style
-                                        proxy.scrollTo(style, anchor: .center)
+                                        proxy.scrollTo(style, anchor: .center) // Прокрутка к выбранному стилю
                                     }
                                 }
                             )
+                            .id(style) // Привязка идентификатора для прокрутки
                         }
                         .padding(.horizontal)
                     }
                     .padding(.bottom, 30)
+                }
+                .onAppear {
+                    proxy.scrollTo(viewModel.selectedIndex, anchor: .center)
                 }
             }
         }

@@ -13,7 +13,6 @@ final class GameManager {
     private(set) var gameBoard: [PlayerSymbol?] = Array(repeating: nil, count: 9)
     private(set) var isGameOver: Bool = false
     var winner: Player?
-    var currentPlayer: Player?
     var aiMoveHandler: (() -> Void)?
     
     // MARK: - Init
@@ -25,74 +24,88 @@ final class GameManager {
         self.winner = nil
         self.isGameOver = false
     }
-    
-    func setCurrentPlayer(_ currentPlayer: Player) {
-        self.currentPlayer = currentPlayer
+
+    // MARK: - Unified Move Handling
+    @discardableResult
+    func makeMove(at position: Int, player: Player, opponent: Player, gameMode: GameMode, level: DifficultyLevel) -> Bool {
+        if gameMode == .twoPlayer {
+            return makeMoveForTwoPlayerMode(at: position, player, opponent)
+        }
+        else {
+            return makeMoveForSinglePlayerMode(at: position, player, opponent, level: level)
+        }
     }
     
-    // MARK: - Player Move
+    // MARK: - Two Player Mode
     @discardableResult
-    func makeMove(at position: Int, for player: Player, opponent: Player) -> Bool {
+    private func makeMoveForTwoPlayerMode(at position: Int,_ player: Player,_ opponent: Player) -> Bool {
+        guard makeMove(
+            at: position,
+            for: player,
+            and: opponent
+        ) else { return false }
+        
+        if isGameOver {
+            return true
+        }
+        return true
+    }
+    
+    // MARK: - Single Player Mode (Human vs AI)
+    @discardableResult
+    private func makeMoveForSinglePlayerMode(at position: Int,_ player: Player,_ opponent: Player, level: DifficultyLevel) -> Bool {
+        guard makeMove(at: position, for: player, and: opponent) else { return false }
+        
+        if !isGameOver {
+            aiMove(with: player, and: opponent, with: level)
+        }
+        aiMoveHandler?()
+        return true
+    }
+    
+    // MARK: - Основной метод для выполнения хода
+    @discardableResult
+    private func makeMove(at position: Int, for player: Player, and opponent: Player) -> Bool {
         guard isValidMove(at: position) else { return false }
         gameBoard[position] = player.symbol
         evaluateGameState(for: player, opponent: opponent)
-        if !isGameOver {
-            switchPlayer(with: player, opponent: opponent)
-        }
         return true
     }
-
-    @discardableResult
-    func makeMoveForSinglePlayerMode(at position: Int, player1: Player, player2: Player, level: DifficultyLevel) -> Bool {
-        guard makeMove(at: position, for: player1, opponent: player2) else { return false }
-        if !isGameOver {
-            aiMove(player1: player1, player2: player2, with: level)
-        }
-        aiMoveHandler?()
-        return true
-    }
-    
-    @discardableResult
-    func makeFirstMoveForSinglePlayerMode(player1: Player, player2: Player, level: DifficultyLevel) -> Bool {
-        aiMove(player1: player1, player2: player2, with: level)
-        aiMoveHandler?()
-        return true
-    }
-    
-        // Получение результата игры
-    func getGameResult(gameMode: GameMode, player: Player, opponent: Player) -> GameResult {
-            if let winner {
-                if gameMode == .singlePlayer && winner == opponent {
-                    return .lose
-                } else {
-                    return .win(name: winner.name)
-                }
-            } else {
-                return .draw
-            }
-        }
     
     // MARK: - AI Move
-    func aiMove(player1: Player, player2: Player, with level: DifficultyLevel) {
+    func aiMove(with player: Player, and opponent: Player, with level: DifficultyLevel) {
         guard !isGameOver else { return }
-        
-        let move = aiDecision(for: player1, opponent: player2, level: level)
-        if let move {
-            performAIMove(player1: player1, player2: player2, at: move)
+
+        aiDecision(for: player, and: opponent, level: level) { [weak self] move in
+            guard let self = self, let move = move else { return }
+
+            self.performAIMove(player1: player, player2: opponent, at: move)
+            self.aiMoveHandler?()
         }
     }
 
-    private func aiDecision(for player1: Player, opponent: Player, level: DifficultyLevel) -> Int? {
-        switch level {
-        case .easy:
-            return findFirstAvailableMove()
-        case .normal:
-            return findCenterMove() ?? findWinningMove(for: opponent.symbol) ?? findFirstAvailableMove()
-        case .hard:
-            return findWinningMove(for: opponent.symbol) ?? findWinningMove(for: player1.symbol) ?? findCenterMove() ?? findCornerMove() ?? findFirstAvailableMove()
+    private func aiDecision(for player1: Player, and opponent: Player, level: DifficultyLevel, completion: @escaping (Int?) -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            let move: Int?
+            
+            switch level {
+            case .easy:
+                move = self.findFirstAvailableMove()
+            case .normal:
+                move = self.findCenterMove() ?? self.findWinningMove(for: opponent.symbol) ?? self.findFirstAvailableMove()
+            case .hard:
+                move = self.findWinningMove(for: opponent.symbol) ?? self.findWinningMove(for: player1.symbol) ?? self.findCenterMove() ?? self.findCornerMove() ?? self.findFirstAvailableMove()
+            }
+
+            completion(move)
         }
     }
-
+    
+    private func performAIMove(player1: Player, player2: Player, at position: Int) {
+        gameBoard[position] = player2.symbol
+        evaluateGameState(for: player1, opponent: player2)
+    }
+    
     // MARK: - Game Logic Helpers
     private func isValidMove(at position: Int) -> Bool {
         return position >= 0 && position < 9 && gameBoard[position] == nil && !isGameOver
@@ -107,23 +120,10 @@ final class GameManager {
             isGameOver = true
         } else if isBoardFull() {
             isGameOver = true
-        } else {
-            switchPlayer(with: player, opponent: opponent)
         }
     }
 
-    func switchPlayer(with player: Player, opponent: Player) {
-        currentPlayer = (currentPlayer == player) ? opponent : player
-    }
-    
 
-    
-    private func performAIMove(player1: Player, player2: Player, at position: Int) {
-        gameBoard[position] = player2.symbol
-        evaluateGameState(for: player1, opponent: player2)
-    }
-
-    // MARK: - Winning Logic
     private func findWinningMove(for type: PlayerSymbol) -> Int? {
         for pattern in winningCombinations {
             let values = pattern.map { gameBoard[$0] }
@@ -134,7 +134,6 @@ final class GameManager {
         return nil
     }
 
-    // MARK: - AI Move Helpers
     private func findCenterMove() -> Int? {
         return gameBoard[4] == nil ? 4 : nil
     }
@@ -152,39 +151,40 @@ final class GameManager {
         return gameBoard.allSatisfy { $0 != nil }
     }
 
-    // MARK: - Check for Win
     private func checkWin(for type: PlayerSymbol) -> Bool {
         return winningCombinations.contains { pattern in
             pattern.allSatisfy { gameBoard[$0] == type }
         }
     }
     
-    // MARK: - Win Patterns
     var winningCombinations: [[Int]] {
         return [
-            [0, 1, 2], // Верхняя горизонтальная линия
-            [3, 4, 5], // Средняя горизонтальная линия
-            [6, 7, 8], // Нижняя горизонтальная линия
-            [0, 3, 6], // Левая вертикальная линия
-            [1, 4, 7], // Средняя вертикальная линия
-            [2, 5, 8], // Правая вертикальная линия
-            [0, 4, 8], // Диагональ сверху слева направо
-            [2, 4, 6]  // Диагональ сверху справа налево
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],  // Horizontal
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],  // Vertical
+            [0, 4, 8], [2, 4, 6]  // Diagonal
         ]
     }
 
-    // MARK: - Функция для получения выигрышного паттерна
     func getWinningPattern() -> [Int]? {
         for combination in winningCombinations {
             let (a, b, c) = (combination[0], combination[1], combination[2])
-            
-            // Проверяем, что все три клетки в комбинации заняты одним и тем же символом
             if gameBoard[a] != nil, gameBoard[a] == gameBoard[b], gameBoard[b] == gameBoard[c] {
-                return combination // Возвращаем индексы выигрышной комбинации
+                return combination
             }
         }
-        return nil // Если нет выигрышной комбинации
+        return nil
     }
-    
 
+    // Получение результата игры
+    func getGameResult(gameMode: GameMode, player: Player, opponent: Player) -> GameResult {
+        if let winner = winner {
+            if gameMode == .singlePlayer && winner == opponent {
+                return .lose
+            } else {
+                return .win(name: winner.name)
+            }
+        } else {
+            return .draw
+        }
+    }
 }

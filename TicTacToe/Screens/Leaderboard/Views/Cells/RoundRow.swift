@@ -11,7 +11,7 @@ struct RoundRow: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
     let round: LeaderboardRound
     
-    struct DrawingConstants {
+    enum DrawingConstants {
         static let padding: CGFloat = 12
         static let textPadding: CGFloat = 4
     }

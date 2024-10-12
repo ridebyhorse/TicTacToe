@@ -10,7 +10,7 @@ import SwiftUI
 struct GameView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
     @ObservedObject var viewModel: GameViewModel
-    
+
     var body: some View {
         ZStack {
             Color("basicBackground").ignoresSafeArea(.all)
@@ -18,28 +18,20 @@ struct GameView: View {
                 Color(.basicBackground)
                     .frame(height: 80)
                 HStack(spacing: 32) {
-                    PlayerSquareView(player: viewModel.player)
+                    PlayerSquareView(player: viewModel.state.player)
                     VStack(spacing: 8) {
+                        Text(viewModel.timerDisplay)
+                            .font(.basicTitle)
 
-                        Text(
-                            String(viewModel.secondsCount / 60)
-                            + ":"
-                            + String(viewModel.secondsCount % 60)
-                        )
                         Text(Resources.Text.score)
                             .font(.basicTitle)
-                        
-                        Text(
-                            String(viewModel.player.score)
-                            + ":"
-                            + String(viewModel.opponent.score)
-                        )
-                        
+
+                        Text(viewModel.currentScore)
                             .font(.basicSubtitle)
                     }
-                    PlayerSquareView(player: viewModel.opponent)
+                    PlayerSquareView(player: viewModel.state.opponent)
                 }
-                HStack{
+                HStack {
                     Image(getPlayerImageName(for: viewModel.currentPlayer))
                         .resizable()
                         .frame(width: 54, height: 54)
@@ -48,23 +40,24 @@ struct GameView: View {
                 }
                 .padding(.top, 45)
                 GameFieldView(
-                    gameBoard: viewModel.gameBoard,
-                    playerStyle: viewModel.playerStyle,
-                    action: viewModel.processPlayerMove(for:),
-                    winningPattern: viewModel.winningPattern)
-                    .padding(.top, 20)
+                    gameBoard: viewModel.state.gameBoard,
+                    playerStyle: viewModel.currentPlayer.style,
+                    action: viewModel.processPlayerMove(at:),
+                    winningPattern: viewModel.state.winningPattern
+                )
+                .padding(.top, 20)
                 Spacer()
                     .padding(.bottom, 50)
             }
             .padding(.bottom, 60)
         }
     }
-    
+
     // MARK: - Helper to get player image based on style and type
-        private func getPlayerImageName(for player: Player) -> String {
-            let imageNames = player.style.imageNames
-            return player.symbol == .tic ? imageNames.player1 : imageNames.player2
-        }
+    private func getPlayerImageName(for player: Player) -> String {
+        let imageNames = player.style.imageNames
+        return player.symbol == .tic ? imageNames.player1 : imageNames.player2
+    }
 }
 
 #Preview {

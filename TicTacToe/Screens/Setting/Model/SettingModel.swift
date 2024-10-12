@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 struct GameSettings: Codable {
     let level: DifficultyLevel
     let duration: Duration

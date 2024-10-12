@@ -20,14 +20,15 @@ final class SettingsViewModel: ObservableObject {
     @Published var isSelectedMusic: Bool
     //UserTheme
     @AppStorage("user_theme") var userTheme: Theme = .systemDefaut {
-          didSet {
-              applyTheme()
-          }
-      }
+        didSet {
+            applyTheme()
+        }
+    }
     
     private let coordinator: Coordinator
     private let storageManager: StorageManager
     private var gameSettings: GameSettings
+    private var isFirstLoad = true
     var duration: Int {
         get {
             return selectedDuration.valueDuration ?? 0
@@ -41,7 +42,7 @@ final class SettingsViewModel: ObservableObject {
         self.storageManager = storageManager
         self.coordinator = coordinator
         self.gameSettings = storageManager.getSettings()
-
+        
         self.selectedIndex = gameSettings.selectedStyle ?? .crossFilledPurpleCircleFilledPurple
         self.selectedDuration = gameSettings.duration
         self.isSelectedMusic = gameSettings.isSelecttedMusic
@@ -52,7 +53,8 @@ final class SettingsViewModel: ObservableObject {
         applyTheme()
     }
     // Apply the selected theme to the app
-     func applyTheme() {
+    
+    func applyTheme() {
         if let window = UIApplication.shared.connectedScenes
             .compactMap({ ($0 as? UIWindowScene)?.keyWindow }).first {
             switch userTheme {
@@ -65,9 +67,13 @@ final class SettingsViewModel: ObservableObject {
             }
             
         }
-         hasAppliedTheme = true
+        
+        if !isFirstLoad {
+            hasAppliedTheme = true
+        } else {
+            isFirstLoad = false
+        }
     }
-
     
     func saveSettings() {
         let duration = selectedDuration.isSelectedDuration
@@ -84,7 +90,7 @@ final class SettingsViewModel: ObservableObject {
         )
         storageManager.saveSettings(gameSettings)
     }
-
+    
     func resetToDefault() {
         let defaultSettings = GameSettings.defaultGameSettings()
         selectedIndex = defaultSettings.selectedStyle ?? .crossFilledPurpleCircleFilledPurple

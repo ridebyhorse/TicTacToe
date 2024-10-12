@@ -41,7 +41,7 @@ struct BasicButtonStyle: ButtonStyle {
             )
         case .secondary:
             return BasicButtonStyle(
-                backgroundColor: .white,
+                backgroundColor: .basicWhite,
                 foregroundColor: .basicBlue,
                 strokeColor: .basicBlue
             )

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AD5312632CB8814100F6360E /* ThemeChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5312622CB8813000F6360E /* ThemeChangeView.swift */; };
 		ADA899CA2CADAF8300363BDB /* GameSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA899C92CADAF7900363BDB /* GameSelectView.swift */; };
+		CB0B050E2CBAE06F001166B9 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0B050D2CBAE06F001166B9 /* Theme.swift */; };
 		CB33F1372CB174070008A39F /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB33F1362CB174070008A39F /* TimerManager.swift */; };
 		CB33F13E2CB19C400008A39F /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB33F13C2CB19C400008A39F /* LaunchScreen.swift */; };
 		CB511C4B2CAFD1E5001454B5 /* classic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CB511C442CAFD1E5001454B5 /* classic.mp3 */; };
@@ -75,8 +75,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AD5312622CB8813000F6360E /* ThemeChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeChangeView.swift; sourceTree = "<group>"; };
 		ADA899C92CADAF7900363BDB /* GameSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSelectView.swift; sourceTree = "<group>"; };
+		CB0B050D2CBAE06F001166B9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		CB33F1362CB174070008A39F /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		CB33F13C2CB19C400008A39F /* LaunchScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		CB33F13F2CB19C590008A39F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -155,14 +155,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AD5312642CB8815A00F6360E /* ThemeView */ = {
-			isa = PBXGroup;
-			children = (
-				AD5312622CB8813000F6360E /* ThemeChangeView.swift */,
-			);
-			path = ThemeView;
-			sourceTree = "<group>";
-		};
 		CB33F13D2CB19C400008A39F /* LaunchScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,8 +240,8 @@
 		CB6F3E6C2CA9AF33005C2ED9 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				CB6F3E6D2CA9AF3F005C2ED9 /* Start */,
 				E1E0BDDF2CAA9B1800DB8D34 /* Game */,
+				CB6F3E6D2CA9AF3F005C2ED9 /* Start */,
 				E1E0BDC12CAA865800DB8D34 /* Setting */,
 				E1392EF52CAD2E8300112013 /* GameSelect */,
 				E1E0BDC62CAA86C700DB8D34 /* Result */,
@@ -291,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				E1392EF92CAD367F00112013 /* SettingModel.swift */,
+				CB0B050D2CBAE06F001166B9 /* Theme.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -298,7 +291,6 @@
 		E1392EFC2CAD375C00112013 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				AD5312642CB8815A00F6360E /* ThemeView */,
 				E1392F032CAD5B4E00112013 /* Components */,
 				E1E0BDBF2CAA865300DB8D34 /* SettingGameView.swift */,
 			);
@@ -583,7 +575,6 @@
 				E1FCE9532CB7AB060026CA1F /* GameModeButton.swift in Sources */,
 				CB86AF3B2CAC95EE00C025FA /* LeaderboardViewModel.swift in Sources */,
 				CB33F1372CB174070008A39F /* TimerManager.swift in Sources */,
-				AD5312632CB8814100F6360E /* ThemeChangeView.swift in Sources */,
 				E1392EF12CAD2E6C00112013 /* StorageManager.swift in Sources */,
 				E1392EF62CAD2E8300112013 /* GameSymbolSelectionView.swift in Sources */,
 				E1392EFA2CAD367F00112013 /* SettingModel.swift in Sources */,
@@ -622,6 +613,7 @@
 				E1392F0E2CADD9E700112013 /* GameResult.swift in Sources */,
 				E148E8782CB282D300018E70 /* CustomAlertView.swift in Sources */,
 				E1392F1C2CADEAD200112013 /* MusicStorage.swift in Sources */,
+				CB0B050E2CBAE06F001166B9 /* Theme.swift in Sources */,
 				E1392F072CADA88500112013 /* GameView.swift in Sources */,
 				CB6F3E672CA9A539005C2ED9 /* BasicButton.swift in Sources */,
 				E1E0BDC52CAA86C200DB8D34 /* RulesView.swift in Sources */,

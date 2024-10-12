@@ -39,20 +39,8 @@ struct SettingGameView: View {
                 )
                 Spacer()
             }
-            // MARK: - ThemeChange
-                       if isThemeState {
-                           ThemeChangeView(viewModel: viewModel)
-                                              .frame(width: 300, height: 400)
-                                              .background(Color.white)
-                                              .cornerRadius(30)
-                                              .shadow(radius: 10)
-                                              .transition(.scale)
-                                              .onDisappear {
-                                                  isThemeState = false
-                                              }
-                       }
-                   }
-               }
+        }
+    }
     
     private var toolBar: some View {
         ToolBarView(
@@ -109,21 +97,12 @@ struct SettingGameView: View {
                     isExpanded: $isLevelState,
                     title: Resources.Text.selectDifficultyLevel.localized(language)
                 )
-                // Theme Change
-                VStack(spacing: 20) {
-                                  HStack {
-                                      Toggle(isOn: $isThemeState) {
-                                          Text("Theme".localized(language))
-                                              .titleText(size: 20)
-                                      }
-                                      .tint(.basicBlue)
-                                  }
-                                  .padding()
-                                  .background(LightBlueBackgroundView {})
-                                  .cornerRadius(30)
-                              }
                 
-                
+                SettingPickerView(
+                    selectedValue: $viewModel.userTheme,
+                    isExpanded: $isThemeState,
+                    title: Resources.Text.selectTheme.localized(language)
+                )
                 GameSymbolSelectionView(
                     selectedSymbol: $viewModel.selectedPlayerSymbol,
                     imageNameForPlayer1: viewModel.selectedIndex.imageNames.player1,

@@ -26,7 +26,6 @@ struct CoordinatorView: View {
             case .result(let winner, let playedAgainstAI):
                 ResultView(viewModel: ResultViewModel(coordinator: coordinator, winner: winner, playedAgainstAI: playedAgainstAI))
             case .leaderboard:
-                
                 LeaderboardView(viewModel: LeaderboardViewModel(coordinator: coordinator))
             }
         }

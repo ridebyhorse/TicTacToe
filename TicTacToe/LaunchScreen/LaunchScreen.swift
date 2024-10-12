@@ -17,10 +17,8 @@ struct LaunchScreen: View {
     var body: some View {
         ZStack {
             Color.basicBackground.ignoresSafeArea(.all)
-            
             VStack {
                 Spacer()
-                
                 HStack {
                     Image("Launch1")
                         .resizable()

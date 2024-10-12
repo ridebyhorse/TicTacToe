@@ -6,15 +6,18 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct SettingGameView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
+
     @ObservedObject var viewModel: SettingsViewModel
     
     @State private var isLanguageState = false
     @State private var isMusicState = false
     @State private var isLevelState = false
     @State private var isSymbolState = false
+    @State private var isThemeState = false
     
     var body: some View {
         ZStack {
@@ -95,6 +98,11 @@ struct SettingGameView: View {
                     title: Resources.Text.selectDifficultyLevel.localized(language)
                 )
                 
+                SettingPickerView(
+                    selectedValue: $viewModel.userTheme,
+                    isExpanded: $isThemeState,
+                    title: Resources.Text.selectTheme.localized(language)
+                )
                 GameSymbolSelectionView(
                     selectedSymbol: $viewModel.selectedPlayerSymbol,
                     imageNameForPlayer1: viewModel.selectedIndex.imageNames.player1,

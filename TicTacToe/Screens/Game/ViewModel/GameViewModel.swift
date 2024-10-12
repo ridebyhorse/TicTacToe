@@ -177,9 +177,11 @@ final class GameViewModel: ObservableObject {
         gameResult = result
         if let leaderboardWinner = gameManager.winner {
             if leaderboardWinner == player {
-                userManager.updatePlayerScore()
+                player.score += 1
+                userManager.updatePlayerScore(player.score)
             } else if leaderboardWinner == opponent {
-                userManager.updateOpponentScore()
+                opponent.score += 1
+                userManager.updateOpponentScore(opponent.score)
             }
             
             // Сохраняем данные о лучших раундах и играх

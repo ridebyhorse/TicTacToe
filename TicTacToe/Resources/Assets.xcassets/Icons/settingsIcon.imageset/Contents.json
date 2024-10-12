@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "settingsIcon.svg",
+      "filename" : "settingsIcon.pdf",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "settingsIconDark.pdf",
       "idiom" : "universal"
     }
   ],

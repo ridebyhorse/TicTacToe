@@ -39,7 +39,7 @@ struct GameSelectView: View {
                     title: ""
                 )
                 .frame(height: Drawing.toolbarHeight)
-                .background(Color.white)
+                .background(Color.basicWhite)
                 .zIndex(1)
                 
                 Spacer()
@@ -56,7 +56,7 @@ struct GameSelectView: View {
                         showCustomAlert = false
                     }
                 }
-                .background(Color.black.opacity(0.4).edgesIgnoringSafeArea(.all))
+                .background(Color.basicBlack.opacity(0.4).edgesIgnoringSafeArea(.all))
                 .cornerRadius(Drawing.cornerRadius)
                 .transition(.asymmetric(insertion: .scale.combined(with: .opacity), removal: .opacity))
                 .zIndex(2)

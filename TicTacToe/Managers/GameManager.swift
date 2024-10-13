@@ -10,10 +10,9 @@ import Foundation
 final class GameManager {
     public static let shared = GameManager()
     
-    private(set) var gameBoard: [PlayerSymbol?] = Array(repeating: nil, count: 9)
+    private(set) var gameBoard: [PlayerSymbol?] = []
     private(set) var isGameOver: Bool = false
     var winner: Player?
-    var aiMoveHandler: (() -> Void)?
 
     // MARK: - Init
     private init() {}
@@ -34,20 +33,11 @@ final class GameManager {
 
     // MARK: - AI Move
     func aiMove(for aiPlayer: Player, against humanPlayer: Player, difficulty: DifficultyLevel) {
-        guard !isGameOver else {
-            print("Game is over, AI cannot make a move.")
-            return
-        }
+        guard !isGameOver else { return }
 
-        print("AI is thinking...")
         aiDecision(for: aiPlayer, and: humanPlayer, level: difficulty) { [weak self] move in
-            guard let self = self, let move = move else {
-                print("AI could not decide on a move.")
-                return
-            }
-            print("AI chose position: \(move)")
+            guard let self = self, let move = move else { return }
             self.performAIMove(player: aiPlayer, at: move)
-            self.aiMoveHandler?()
         }
     }
 

@@ -40,7 +40,7 @@ struct GameView: View {
                 }
                 .padding(.top, 45)
                 GameFieldView(
-                    gameBoard: viewModel.state.gameBoard,
+                    gameBoard: viewModel.gameBoard,
                     playerStyle: viewModel.currentPlayer.style,
                     action: viewModel.processPlayerMove(at:),
                     winningPattern: viewModel.state.winningPattern

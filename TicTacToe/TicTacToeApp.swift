@@ -13,8 +13,6 @@ struct TicTacToeApp: App {
             contentView
                 .environmentObject(settingsViewModel)
                 .onAppear {
-                    print(settingsViewModel.hasAppliedTheme)
-                   // for not throwing to LaunchScreen After ThemeChange
                     if settingsViewModel.hasAppliedTheme {
                         coordinatorView.coordinator.updateNavigationState(action: .showSettings)
                     }

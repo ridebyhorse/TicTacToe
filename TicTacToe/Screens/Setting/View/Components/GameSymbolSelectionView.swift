@@ -40,7 +40,7 @@ struct GameSymbolSelectionView: View {
                 .resizable()
                 .frame(width: 30, height: 30)
                 .padding()
-                .background(selectedSymbol == symbol ? Color.basicBackground : Color.white)
+                .background(selectedSymbol == symbol ? Color.basicBackground : Color.basicWhite)
                 .cornerRadius(20)
                 .shadow(radius: 0.2)
                 .overlay(

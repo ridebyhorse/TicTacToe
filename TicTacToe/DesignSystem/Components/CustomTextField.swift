@@ -33,7 +33,7 @@ struct CustomTextField: View {
         ZStack(alignment: .leading) {
             // Placeholder Text
             Text(placeHolder)
-                .foregroundColor(isActive || !text.isEmpty ? Drawing.filledBorderColor : .gray)
+                .foregroundColor(isActive || !text.isEmpty ? Drawing.filledBorderColor : .secondaryGray)
                 .padding(.horizontal, Drawing.leadingPadding)
                 .background(Color.clear)
                 .offset(x: 0, y: (isActive || !text.isEmpty) ? -25 : 0)

@@ -55,6 +55,7 @@ final class GameViewModel: ObservableObject {
         let opponent = userManager.getOpponent()
         
         gameMode = userManager.gameMode
+        print(gameMode)
         level = storageManager.getSettings().level
         self.state = GameState(gameBoard: gameManager.gameBoard, player: player, opponent: opponent)
         

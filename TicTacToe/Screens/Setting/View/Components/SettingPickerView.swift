@@ -58,6 +58,7 @@ struct SettingPickerView<Value: RawRepresentable & CaseIterable & Hashable>: Vie
                         } label: {
                             VStack {
                                 Divider()
+                                    .background(Color.secondaryPurple)
                                 Text(value.rawValue.localized(language))
                                     .font(.headline)
                                     .foregroundColor(.basicBlack)

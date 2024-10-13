@@ -13,6 +13,7 @@ struct RulesView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
+            Color.basicBackground.ignoresSafeArea(.all)
             // Scrollable content
             ScrollView {
                 VStack(spacing: 16) {
@@ -54,7 +55,6 @@ struct RulesView: View {
                 title: Resources.Text.rulesNavigationTitle.localized(language)
             )
             .frame(height: 44)
-            .background(Color.white)
             .zIndex(1)
         }
     }

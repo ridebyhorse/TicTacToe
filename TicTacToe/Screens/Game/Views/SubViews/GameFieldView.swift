@@ -38,7 +38,7 @@ struct GameFieldView: View {
             // Фон игрового поля
             RoundedRectangle(cornerRadius: Drawing.cornerRadius)
                 .frame(width: Drawing.gridSize, height: Drawing.gridSize)
-                .foregroundColor(.white)
+                .foregroundColor(.basicWhite)
                 .basicShadow()
             
             // Сетка игрового поля

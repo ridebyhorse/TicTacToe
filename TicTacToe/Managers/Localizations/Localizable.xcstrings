@@ -164,6 +164,17 @@
         }
       }
     },
+    "dark" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "тёмная"
+          }
+        }
+      }
+    },
     "Difficulty:" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -211,6 +222,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ничья!"
+          }
+        }
+      }
+    },
+    "Duration" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Продолжительность"
           }
         }
       }
@@ -310,12 +332,6 @@
         }
       }
     },
-    "Key" : {
-      "extractionState" : "manual"
-    },
-    "Key 1" : {
-      "extractionState" : "manual"
-    },
     "Language:" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -363,6 +379,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Играть"
+          }
+        }
+      }
+    },
+    "light" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "светлая"
           }
         }
       }
@@ -711,6 +738,17 @@
         }
       }
     },
+    "system" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "системная"
+          }
+        }
+      }
+    },
     "The first player to align three of their markers horizontally, vertically, or diagonally wins.Examples of Winning Combinations: Horizontal: Squares 1, 2, 3 or 4, 5, 6 or 7, 8, 9. Vertical: Squares 1, 4, 7 or 2, 5, 8 or 3, 6, 9.Diagonal: Squares 1, 5, 9 or 3, 5, 7." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -724,6 +762,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Первый игрок, который выстроит три свои метки по горизонтали, вертикали или диагонали, побеждает. Примеры выигрышных комбинаций: Горизонтально: Клетки 1, 2, 3 или 4, 5, 6 или 7, 8, 9. Вертикально: Клетки 1, 4, 7 или 2, 5, 8 или 3, 6, 9. Диагонально: Клетки 1, 5, 9 или 3, 5, 7\""
+          }
+        }
+      }
+    },
+    "Theme:" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тема:"
           }
         }
       }

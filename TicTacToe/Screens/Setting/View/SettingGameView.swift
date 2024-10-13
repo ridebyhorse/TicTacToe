@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Foundation
 
 struct SettingGameView: View {
     @AppStorage("selectedLanguage") private var language = LocalizationService.shared.language
@@ -19,6 +18,20 @@ struct SettingGameView: View {
     @State private var isSymbolState = false
     @State private var isThemeState = false
     
+    
+    // MARK: - Drawing Constants
+    enum Drawing {
+        static let defaultPadding: CGFloat = 20
+        static let topPadding: CGFloat = 16
+        static let bottomPadding: CGFloat = 30
+        static let horizontalSpacing: CGFloat = 24
+        static let spacingBetweenElements: CGFloat = 20
+        static let cornerRadius: CGFloat = 30
+        static let toolBarHeight: CGFloat = 44
+        static let animationDuration: Double = 0.3
+        static let titleFontSize: CGFloat = 20
+    }
+    
     var body: some View {
         ZStack {
             Color.basicBackground.ignoresSafeArea()
@@ -28,13 +41,13 @@ struct SettingGameView: View {
                 ShadowedCardView {
                     settingsContent
                 }
-                .padding(20)
+                .padding(Drawing.defaultPadding)
                 .animation(
-                    .easeInOut(duration: 0.3),
+                    .easeInOut(duration: Drawing.animationDuration),
                     value: viewModel.selectedDuration.isSelectedDuration
                 )
                 .animation(
-                    .easeInOut(duration: 0.3),
+                    .easeInOut(duration: Drawing.animationDuration),
                     value: viewModel.isSelectedMusic
                 )
                 Spacer()
@@ -51,15 +64,22 @@ struct SettingGameView: View {
             },
             title: Resources.Text.settings.localized(language)
         )
-        .frame(height: 44)
+        .frame(height: Drawing.toolBarHeight)
     }
     
     private var settingsContent: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: 20) {
+            VStack(spacing: Drawing.spacingBetweenElements) {
+                
+                SettingPickerView(
+                    selectedValue: $viewModel.userTheme,
+                    isExpanded: $isThemeState,
+                    title: Resources.Text.selectTheme.localized(language)
+                )
+                
                 TimerView(
-                    title: Resources.Text.turnOnTime,
-                    subTitle: Resources.Text.duration,
+                    title: Resources.Text.time.localized(language),
+                    subTitle: Resources.Text.duration.localized(language),
                     isTimerEnabled: $viewModel.selectedDuration.isSelectedDuration,
                     timerSeconds: $viewModel.duration
                 )
@@ -70,18 +90,18 @@ struct SettingGameView: View {
                     title: Resources.Text.selectedLanguage.localized(language)
                 )
                 
-                VStack(spacing: 20) {
+                VStack(spacing: Drawing.spacingBetweenElements) {
                     HStack {
                         Toggle(isOn: $viewModel.isSelectedMusic) {
                             Text(Resources.Text.selectMusicStyle.localized(language))
-                                .titleText(size: 20)
+                                .titleText(size: Drawing.titleFontSize)
                         }
                         .tint(.basicBlue)
                     }
                     .padding()
                     .background(LightBlueBackgroundView {
                     })
-                    .cornerRadius(30)
+                    .cornerRadius(Drawing.cornerRadius)
                     
                     if viewModel.isSelectedMusic {
                         SettingPickerView(
@@ -98,11 +118,7 @@ struct SettingGameView: View {
                     title: Resources.Text.selectDifficultyLevel.localized(language)
                 )
                 
-                SettingPickerView(
-                    selectedValue: $viewModel.userTheme,
-                    isExpanded: $isThemeState,
-                    title: Resources.Text.selectTheme.localized(language)
-                )
+
                 GameSymbolSelectionView(
                     selectedSymbol: $viewModel.selectedPlayerSymbol,
                     imageNameForPlayer1: viewModel.selectedIndex.imageNames.player1,
@@ -110,7 +126,7 @@ struct SettingGameView: View {
                 )
                 playerStylesScrollView
             }
-            .padding(.top, 16)
+            .padding(.top, Drawing.topPadding)
             .padding()
         }
     }
@@ -123,7 +139,7 @@ struct SettingGameView: View {
                     .foregroundColor(.basicBlack)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 24) {
+                    HStack(spacing: Drawing.horizontalSpacing) {
                         ForEach(PlayerStyle.allCases, id: \.self) { style in
                             let isSelected = viewModel.selectedIndex == style
                             
@@ -139,16 +155,22 @@ struct SettingGameView: View {
                                     }
                                 }
                             )
+                            .id(style)
                         }
                         .padding(.horizontal)
                     }
-                    .padding(.bottom, 30)
+                    .padding(.bottom, Drawing.bottomPadding)
+                }
+                .onAppear {
+                    proxy.scrollTo(viewModel.selectedIndex, anchor: .center)
                 }
             }
         }
     }
+    
 }
 
 #Preview {
     SettingGameView(viewModel: SettingsViewModel(coordinator: Coordinator()))
 }
+

@@ -90,6 +90,7 @@ func gameReducer(
 }
 
 // MARK: - Helper Methods for Game Logic
+
 func endGame(result: GameResult, state: inout GameState, gameManager: GameManager, musicManager: MusicManager, timerManager: TimerManager) {
     musicManager.stopMusic()
     timerManager.stopTimer()

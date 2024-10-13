@@ -23,7 +23,7 @@ final class GameViewModel: ObservableObject {
     var level: DifficultyLevel
     
     var currentPlayer: Player {
-        state.player.isActive ? state.player : state.opponent
+        userManager.getActivePlayer()
     }
     
     var currentScore: String {

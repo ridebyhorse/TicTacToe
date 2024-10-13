@@ -23,11 +23,11 @@ final class GameViewModel: ObservableObject {
     var level: DifficultyLevel
     
     var currentPlayer: Player {
-        userManager.getActivePlayer()
+        return state.player.isActive ? state.player : state.opponent
     }
     
     var currentScore: String {
-        "\(state.player.score):\(state.opponent.score)"
+        "\(state.player.score) : \(state.opponent.score)"
     }
     
     var timerDisplay: String {
@@ -71,12 +71,12 @@ final class GameViewModel: ObservableObject {
         gameReducer(
             action: action,
             state: &state,
+            userManager: userManager,
             gameManager: gameManager,
             musicManager: musicManager,
             timerManager: timerManager
         )
         
-        // Проверка состояния на завершение игры
         if state.showResultScreen {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.navigateToResultScreen()
@@ -87,7 +87,7 @@ final class GameViewModel: ObservableObject {
     
     // MARK: - Game Logic
     func processPlayerMove(at position: Int) {
-        dispatch(.makeMove(position: position, gameMode: gameMode, level: level))
+        dispatch(.makeMove(currentPlayer: currentPlayer, position: position, gameMode: gameMode, level: level))
     }
     
     func resetGame() {

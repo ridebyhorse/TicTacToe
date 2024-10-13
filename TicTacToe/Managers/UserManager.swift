@@ -55,24 +55,13 @@ final class UserManager {
         return opponent
     }
     
-    // Updates the player's active
-    func getActivePlayer() -> Player {
-        return player.isActive ? player : opponent
-    }
-    
-    // Switches the active player
-    func switchPlayerActive() {
-        player.isActive.toggle()
-        opponent.isActive.toggle()
-    }
-    
     // Updates the player's score
-    func updatePlayerScore(_ score: Int) {
-        player.score = score
+    func updatePlayerScore() {
+        player.score += 1
     }
     
     // Updates the opponent's score
-    func updateOpponentScore(_ score: Int) {
-        opponent.score = score
+    func updateOpponentScore() {
+        opponent.score  += 1
     }
 }

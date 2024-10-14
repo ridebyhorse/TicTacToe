@@ -60,11 +60,10 @@ final class GameViewModel: ObservableObject {
         self.state = GameState(player: player, opponent: opponent)
         
         self.gameBoard = gameManager.gameBoard
-//        gameManager.aiMoveHandler = { [weak self] in self?.processMoveResult() }
-        timerManager.outOfTime = { [weak self] in self?.dispatch(.outOfTime) }
+        timerManager.outOfTime = { [weak self] in self?.dispatch(.endGame(result: .draw)) }
         timerManager.onTimeChange = { [weak self] in self?.state.secondsCount = $0 }
         
-        dispatch(.resetGame(currentPlayer: currentPlayer))
+        dispatch(.refreshGame(currentPlayer: currentPlayer))
         musicManager.playMusic()
     }
     

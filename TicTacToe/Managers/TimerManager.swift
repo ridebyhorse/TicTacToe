@@ -13,7 +13,7 @@ final class TimerManager {
     var outOfTime: (() -> Void)?
     var onTimeChange: ((Int) -> Void)?
     private var timer = Timer()
-    private var duration: Duration = Duration(isSelectedDuration: false, valueDuration: nil) // Начальное значение
+    private var duration: Duration = Duration(isSelectedDuration: false, valueDuration: nil) 
     var secondsCount: Int = 0
     
     private init() {}

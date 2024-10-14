@@ -8,10 +8,14 @@
 
 // MARK: - GameAction Enum (Действия игры)
 enum GameAction {
-    case resetGame(currentPlayer: Player)
-    case makeMove(currentPlayer: Player, position: Int, gameMode: GameMode, level: DifficultyLevel)
+    case refreshGame(currentPlayer: Player)
+    case makeMove(
+        currentPlayer: Player,
+        position: Int,
+        gameMode: GameMode,
+        level: DifficultyLevel
+    )
     case endGame(result: GameResult)
-    case outOfTime
 }
 
 // MARK: - GameState Struct (Состояние игры)
@@ -50,24 +54,21 @@ func gameReducer(
     timerManager: TimerManager
 ) {
     switch action {
-    case .resetGame(_):
+    case .refreshGame(let currentPlayer):
         gameManager.resetGame()
         timerManager.startTimer()
         state.secondsCount = timerManager.secondsCount
         state.resetGame()
-        
+       
     case .makeMove(let currentPlayer, let position, let gameMode, let level):
         guard !state.boardBlocked else { return }
         // Make move for the active player
-        
         switch gameMode {
         case .singlePlayer:
             if state.player.isActive {
                 gameManager.makeMove(at: position, for: state.player)
-                print("player")
             } else {
                 gameManager.aiMove(for: state.opponent, against: state.player, difficulty: level)
-                print("ai")
             }
         case .twoPlayer:
             gameManager.makeMove(at: position, for: currentPlayer)
@@ -84,18 +85,6 @@ func gameReducer(
     case .endGame(let result):
         endGame(
             result: result,
-            state: &state,
-            userManager: userManager,
-            gameManager: gameManager,
-            musicManager: musicManager,
-            timerManager: timerManager
-        )
-        
-        
-    case .outOfTime:
-        timerManager.stopTimer()
-        endGame(
-            result: .draw,
             state: &state,
             userManager: userManager,
             gameManager: gameManager,

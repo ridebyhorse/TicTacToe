@@ -6,10 +6,11 @@
 //
 import Foundation
 
-// MARK: - GameViewModel
+// GameViewModel.swift
 final class GameViewModel: ObservableObject {
     // MARK: - Properties
-    @Published private(set) var state: GameState
+    @Published private(set) var state: GameReducer.GameState
+    
     @Published var gameBoard: [PlayerSymbol?] = []
     
     private let coordinator: Coordinator
@@ -18,14 +19,11 @@ final class GameViewModel: ObservableObject {
     private let gameManager: GameManager
     private let musicManager: MusicManager
     private let timerManager: TimerManager
-
+    
     // MARK: - Computed Properties
     var gameMode: GameMode
     var level: DifficultyLevel
     
-    var currentPlayer: Player {
-        return state.player.isActive ? state.player : state.opponent
-    }
     
     var currentScore: String {
         "\(state.player.score) : \(state.opponent.score)"
@@ -36,6 +34,7 @@ final class GameViewModel: ObservableObject {
         let seconds = state.secondsCount % 60
         return String(format: "%02d:%02d", minutes, seconds)
     }
+    
     // MARK: - Initialization
     init(
         coordinator: Coordinator,
@@ -57,30 +56,30 @@ final class GameViewModel: ObservableObject {
         
         gameMode = userManager.gameMode
         level = storageManager.getSettings().level
-        self.state = GameState(player: player, opponent: opponent)
+        self.state = GameReducer.GameState(
+            gameManager: gameManager,
+            gameMode: gameMode,
+            player: player,
+            opponent: opponent,
+            level: level
+        )
         
         self.gameBoard = gameManager.gameBoard
-        timerManager.outOfTime = { [weak self] in self?.dispatch(.endGame(result: .draw)) }
+        timerManager.outOfTime = { [weak self] in self?.dispatch(.handleOutOfTime) }
         timerManager.onTimeChange = { [weak self] in self?.state.secondsCount = $0 }
         
-        dispatch(.refreshGame(currentPlayer: currentPlayer))
+        dispatch(.resetGame)
+        dispatch(.startGame)
         musicManager.playMusic()
     }
     
     // MARK: - Actions Dispatch
-    func dispatch(_ action: GameAction) {
-        gameReducer(
-            action: action,
-            state: &state,
-            userManager: userManager,
-            gameManager: gameManager,
-            musicManager: musicManager,
-            timerManager: timerManager
-        )
+    func dispatch(_ action: GameReducer.GameAction) {
+        state = GameReducer.reduce(state, action)
         
         self.gameBoard = gameManager.gameBoard
         
-        if state.showResultScreen {
+        if state.isGameOver {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.navigateToResultScreen()
             }
@@ -89,23 +88,23 @@ final class GameViewModel: ObservableObject {
     
     // MARK: - Game Logic
     func processPlayerMove(at position: Int) {
-        dispatch(.makeMove(currentPlayer: currentPlayer, position: position, gameMode: gameMode, level: level))
+        guard !state.isBoardBlocked else { return }
+        dispatch(.playerMove(position))
+        processMoveResult()
     }
     
     private func processMoveResult() {
-           if gameManager.isGameOver {
-               let result = gameManager.getGameResult(
-                   gameMode: gameMode,
-                   player:
-                       state.player.isActive ? state.player : state.opponent,
-                   opponent: state.opponent
-               )
-               dispatch(.endGame(result: result))
-           }
-  
-           self.gameBoard = gameManager.gameBoard
-       }
-   
+        if gameManager.isGameOver {
+            let result = gameManager.getGameResult(
+                gameMode: gameMode,
+                player: state.player.isActive ? state.player : state.opponent,
+                opponent: state.opponent
+            )
+            dispatch(.endGame(result))
+        }
+        
+        self.gameBoard = gameManager.gameBoard
+    }
     
     // MARK: - Navigation to Result Screen
     private func navigateToResultScreen() {

@@ -12,7 +12,8 @@ final class UserManager {
     
     private var player: Player
     private var opponent: Player
-    private let isPlayerActive = Bool.random()
+    private var isPlayerActive = Bool.random()
+    private let isAI = false
     
     private(set) var gameMode: GameMode = .singlePlayer
     
@@ -34,6 +35,9 @@ final class UserManager {
     func setPlayers(player1Name: String, player2Name: String?) {
         self.player.name = player1Name
         self.opponent.name = player2Name ?? Resources.Text.ai
+        if gameMode == .singlePlayer && player2Name == nil {
+            opponent.isAI = true
+        }
     }
     
     // Returns the current player, updating the player's symbol and style from settings

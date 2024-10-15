@@ -32,16 +32,16 @@ struct GameView: View {
                     PlayerSquareView(player: viewModel.state.opponent)
                 }
                 HStack {
-                    Image(getPlayerImageName(for: viewModel.currentPlayer))
+                    Image(getPlayerImageName(for: viewModel.state.currentPlayer))
                         .resizable()
                         .frame(width: 54, height: 54)
-                    Text(viewModel.currentPlayer.name)
+                    Text(viewModel.state.currentPlayer.name)
                         .font(.basicTitle)
                 }
                 .padding(.top, 45)
                 GameFieldView(
                     gameBoard: viewModel.gameBoard,
-                    playerStyle: viewModel.currentPlayer.style,
+                    playerStyle: viewModel.state.currentPlayer.style,
                     action: viewModel.processPlayerMove(at:),
                     winningPattern: viewModel.state.winningPattern
                 )
@@ -51,6 +51,7 @@ struct GameView: View {
             }
             .padding(.bottom, 60)
         }
+ 
     }
 
     // MARK: - Helper to get player image based on style and type

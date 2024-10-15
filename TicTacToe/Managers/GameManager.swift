@@ -13,10 +13,10 @@ final class GameManager {
     private(set) var gameBoard: [PlayerSymbol?] = []
     private(set) var isGameOver: Bool = false
     var winner: Player?
-
+    
     // MARK: - Init
     private init() {}
-
+    
     // MARK: - Game Reset
     func resetGame() {
         self.gameBoard = Array(repeating: nil, count: 9)
@@ -24,25 +24,48 @@ final class GameManager {
         self.isGameOver = false
     }
     
+    
     // MARK: - Perform Move
-    func makeMove(at position: Int, for player: Player) {
-        guard isValidMove(at: position) else { return }
+    @discardableResult
+    func makeMove(at position: Int, for player: Player) -> Bool {
+        guard isValidMove(at: position) else { return false }
         gameBoard[position] = player.symbol
         evaluateGameState(for: player)
+        return true
     }
-
+    
     // MARK: - AI Move
-    func aiMove(for aiPlayer: Player, against humanPlayer: Player, difficulty: DifficultyLevel) {
-        guard !isGameOver else { return }
-
-        aiDecision(for: aiPlayer, and: humanPlayer, level: difficulty) { [weak self] move in
-            guard let self = self, let move = move else { return }
-            self.performAIMove(player: aiPlayer, at: move)
+    @discardableResult
+    func aiMove(for aiPlayer: Player, against humanPlayer: Player, difficulty: DifficultyLevel) -> Bool {
+        // Проверяем, закончена ли игра
+        guard !isGameOver else {
+            print("Игра окончена. AI не может сделать ход.")
+            return false
         }
+        
+        print("AI делает ход. Игрок AI: \(aiPlayer.name), Уровень сложности: \(difficulty)")
+        
+        aiDecision(for: aiPlayer, and: humanPlayer, level: difficulty) { [weak self] move in
+            guard let self = self else {
+                print("Ссылка на GameManager потеряна.")
+                return
+            }
+            
+            guard let move = move else {
+                print("AI не смог найти ход.")
+                return
+            }
+            
+            print("AI выбрал позицию: \(move)")
+            self.performAIMove(player: aiPlayer, at: move)
+            print("AI сделал ход на позицию: \(move)")
+        }
+        
+        return true
     }
-
+    
     private func aiDecision(for player: Player, and opponent: Player, level: DifficultyLevel, completion: @escaping (Int?) -> Void) {
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             let move: Int?
             switch level {
@@ -56,7 +79,7 @@ final class GameManager {
             completion(move)
         }
     }
-
+    
     // MARK: - Perform AI Move
     private func performAIMove(player: Player, at position: Int) {
         gameBoard[position] = player.symbol
@@ -67,7 +90,7 @@ final class GameManager {
     private func isValidMove(at position: Int) -> Bool {
         return position >= 0 && position < 9 && gameBoard[position] == nil && !isGameOver
     }
-
+    
     private func evaluateGameState(for player: Player) {
         if checkWin(for: player.symbol) {
             winner = player
@@ -76,17 +99,17 @@ final class GameManager {
             isGameOver = true
         }
     }
-
+    
     private func checkWin(for symbol: PlayerSymbol) -> Bool {
         return winningCombinations.contains { pattern in
             pattern.allSatisfy { gameBoard[$0] == symbol }
         }
     }
-
+    
     private func isBoardFull() -> Bool {
         return gameBoard.allSatisfy { $0 != nil }
     }
-
+    
     // MARK: - Helpers for Winning/Available Moves
     private func findWinningMove(for symbol: PlayerSymbol) -> Int? {
         for pattern in winningCombinations {
@@ -97,20 +120,20 @@ final class GameManager {
         }
         return nil
     }
-
+    
     private func findCenterMove() -> Int? {
         return gameBoard[4] == nil ? 4 : nil
     }
-
+    
     private func findCornerMove() -> Int? {
         let corners = [0, 2, 6, 8]
         return corners.first(where: { gameBoard[$0] == nil })
     }
-
+    
     private func findFirstAvailableMove() -> Int? {
         return gameBoard.firstIndex(where: { $0 == nil })
     }
-
+    
     // MARK: - Winning Patterns
     var winningCombinations: [[Int]] {
         return [
@@ -119,7 +142,7 @@ final class GameManager {
             [0, 4, 8], [2, 4, 6]  // Diagonal
         ]
     }
-
+    
     // MARK: - Game Result and Pattern
     func getGameResult(gameMode: GameMode, player: Player, opponent: Player) -> GameResult {
         if let winner = winner {
@@ -132,7 +155,7 @@ final class GameManager {
             return .draw
         }
     }
-
+    
     func getWinningPattern() -> [Int]? {
         for combination in winningCombinations {
             let (a, b, c) = (combination[0], combination[1], combination[2])

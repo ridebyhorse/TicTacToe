@@ -15,15 +15,17 @@ struct Player: Equatable, Codable {
     var symbol: PlayerSymbol
     var style: PlayerStyle
     var isActive: Bool
-
+    var isAI: Bool
+    
     // MARK: - Initializer
-    init(name: String, score: Int, symbol: PlayerSymbol, style: PlayerStyle, isActive: Bool = false) {
+    init(name: String, score: Int, symbol: PlayerSymbol, style: PlayerStyle, isActive: Bool = false, isAI: Bool = false) {
         self.id = UUID()
         self.score = score
         self.name = name
         self.symbol = symbol
         self.style = style
-        self.isActive = isActive 
+        self.isActive = isActive
+        self.isAI = isAI
     }
 }
 

@@ -4,13 +4,12 @@
 //
 //  Created by Келлер Дмитрий on 30.09.2024.
 //
+
 import Foundation
 
-// GameViewModel.swift
 final class GameViewModel: ObservableObject {
     // MARK: - Properties
-    @Published private(set) var state: GameReducer.GameState
-    
+    @Published private(set) var state: StateMashine
     @Published var gameBoard: [PlayerSymbol?] = []
     
     private let coordinator: Coordinator
@@ -23,7 +22,6 @@ final class GameViewModel: ObservableObject {
     // MARK: - Computed Properties
     var gameMode: GameMode
     var level: DifficultyLevel
-    
     
     var currentScore: String {
         "\(state.player.score) : \(state.opponent.score)"
@@ -56,8 +54,12 @@ final class GameViewModel: ObservableObject {
         
         gameMode = userManager.gameMode
         level = storageManager.getSettings().level
-        self.state = GameReducer.GameState(
+        
+        self.state = StateMashine(
+            timerManager: timerManager,
             gameManager: gameManager,
+            userManager: userManager,
+            musicManager: musicManager,
             gameMode: gameMode,
             player: player,
             opponent: opponent,
@@ -65,18 +67,47 @@ final class GameViewModel: ObservableObject {
         )
         
         self.gameBoard = gameManager.gameBoard
+        gameManager.onBoardChange = { [weak self] updatedBoard in
+            self?.gameBoard = updatedBoard
+        }
+        
         timerManager.outOfTime = { [weak self] in self?.dispatch(.handleOutOfTime) }
         timerManager.onTimeChange = { [weak self] in self?.state.secondsCount = $0 }
         
-        dispatch(.resetGame)
-        dispatch(.startGame)
+        startGame()
         musicManager.playMusic()
     }
     
     // MARK: - Actions Dispatch
-    func dispatch(_ action: GameReducer.GameAction) {
-        state = GameReducer.reduce(state, action)
+    func startGame() {
+        dispatch(.refresh)
+    }
+    
+    func processPlayerMove(at position: Int) {
+        dispatch(.move(position))
+        processMoveResult()
+
+        toggleActivePlayer()
+
+        if state.currentPlayer.isAI {
+            processAIMove()
+        }
+    }
+    
+    func processAIMove() {
+        dispatch(.moveAI)
+        processMoveResult()
         
+        toggleActivePlayer()
+    }
+    
+    func toggleActivePlayer() {
+        dispatch(.toggleActivePlayer)
+    }
+    
+    func dispatch(_ event: StateMashine.GameEvent) {
+        let newState = state.reduce(state: state.currentState, event: event)
+        state.currentState = newState
         self.gameBoard = gameManager.gameBoard
         
         if state.isGameOver {
@@ -86,13 +117,6 @@ final class GameViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Game Logic
-    func processPlayerMove(at position: Int) {
-        guard !state.isBoardBlocked else { return }
-        dispatch(.playerMove(position))
-        processMoveResult()
-    }
-    
     private func processMoveResult() {
         if gameManager.isGameOver {
             let result = gameManager.getGameResult(
@@ -100,12 +124,12 @@ final class GameViewModel: ObservableObject {
                 player: state.player.isActive ? state.player : state.opponent,
                 opponent: state.opponent
             )
-            dispatch(.endGame(result))
+            dispatch(.gameOver(result))
         }
         
         self.gameBoard = gameManager.gameBoard
     }
-    
+
     // MARK: - Navigation to Result Screen
     private func navigateToResultScreen() {
         coordinator.updateNavigationState(action: .showResult(

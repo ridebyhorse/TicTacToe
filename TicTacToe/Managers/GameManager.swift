@@ -13,6 +13,7 @@ final class GameManager {
     private(set) var gameBoard: [PlayerSymbol?] = []
     private(set) var isGameOver: Bool = false
     var winner: Player?
+    var onBoardChange: (([PlayerSymbol?]) -> Void)?
     
     // MARK: - Init
     private init() {}
@@ -22,6 +23,7 @@ final class GameManager {
         self.gameBoard = Array(repeating: nil, count: 9)
         self.winner = nil
         self.isGameOver = false
+        onBoardChange?(self.gameBoard)
     }
     
     
@@ -30,6 +32,7 @@ final class GameManager {
     func makeMove(at position: Int, for player: Player) -> Bool {
         guard isValidMove(at: position) else { return false }
         gameBoard[position] = player.symbol
+        onBoardChange?(self.gameBoard)
         evaluateGameState(for: player)
         return true
     }
@@ -37,7 +40,7 @@ final class GameManager {
     // MARK: - AI Move
     @discardableResult
     func aiMove(for aiPlayer: Player, against humanPlayer: Player, difficulty: DifficultyLevel) -> Bool {
-        // Проверяем, закончена ли игра
+
         guard !isGameOver else {
             print("Игра окончена. AI не может сделать ход.")
             return false
@@ -83,6 +86,7 @@ final class GameManager {
     // MARK: - Perform AI Move
     private func performAIMove(player: Player, at position: Int) {
         gameBoard[position] = player.symbol
+        onBoardChange?(self.gameBoard) 
         evaluateGameState(for: player)
     }
     

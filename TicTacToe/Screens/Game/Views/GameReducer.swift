@@ -5,214 +5,130 @@
 //  Created by Келлер Дмитрий on 10.10.2024.
 //
 
-
-struct GameReducer {
-    typealias Reducer = (GameState, GameAction) -> GameState
-
-    // MARK: - Game State
-    struct GameState {
-        let gameManager: GameManager
-        var gameResult: GameResult? = nil
-        var gameMode: GameMode
-        var winningPattern: [Int]? = nil
-        var player: Player
-        var opponent: Player
-        var level: DifficultyLevel
-        var secondsCount: Int = 0
-        var isBoardBlocked: Bool = false
-        var state: GameStateEnum = .idle
-        
-        var currentPlayer: Player {
-            player.isActive ? player : opponent
-        }
-
-        var isGameOver: Bool {
-            return gameResult != nil || state == .finished
-        }
-        
-        enum GameStateEnum {
-            case idle
-            case playing
-            case finished
-        }
+// MARK: - GameState Struct (Состояние игры)
+struct StateMashine {
+    let timerManager: TimerManager
+    let gameManager: GameManager
+    let userManager: UserManager
+    let musicManager: MusicManager
+    
+    var gameMode: GameMode
+    var gameResult: GameResult? = nil
+    var winningPattern: [Int]? = nil
+    var player: Player
+    var opponent: Player
+    var level: DifficultyLevel
+    var secondsCount = 0
+    var totalGameDuration = 0
+    var roundResults: [String] = []
+    var boardBlocked = false
+    var isMusicPlaying = true
+    var currentState: State = .startGame
+    var currentPlayer: Player {
+        player.isActive ? player : opponent
     }
-
-    // MARK: - Game Actions
-    enum GameAction {
+    
+    var isGameOver: Bool {
+        return gameResult != nil || currentState == .gameOver
+    }
+    
+    enum State {
         case startGame
-        case resetGame
-        case playerMove(Int)
-        case aiMove
-        case endGame(GameResult)
-        case togglePlayer
-        case updateTime(Int)
+        case play
+        case gameOver
+    }
+    
+    enum GameEvent {
+        case refresh
+        case move(_ position: Int)
+        case moveAI
+        case toggleActivePlayer
+        case gameOver(_ result: GameResult)
         case handleOutOfTime
     }
-
-    // MARK: - Game Reducer Function
-    static func reduce(_ state: GameState, _ action: GameAction) -> GameState {
+    
+    mutating func resetGame() {
+        gameResult = nil
+        winningPattern = nil
+        boardBlocked = false
+        timerManager.stopTimer()
+    }
+    
+    mutating func recordRoundResult() {
+        let resultString = "\(player.name): \(player.score) - \(opponent.name): \(opponent.score) (Duration: \(totalGameDuration) seconds)"
+        roundResults.append(resultString)
+    }
+    
+    
+    // MARK: - Reducer
+    mutating func reduce(state: State, event: GameEvent) -> State {
         var state = state
         
-        print("Получено действие: \(action)")
-        
-        switch action {
+        switch state {
+            
         case .startGame:
-            return startGame(state)
+            switch event {
+            case .refresh:
+                gameManager.resetGame()
+                timerManager.startTimer()
+                self.secondsCount = timerManager.secondsCount
+                self.resetGame()
+                state = .play
+            default:
+                return state
+            }
             
-        case .resetGame:
-            return resetGame(state, state.gameManager)
+        case .play:
+            switch event {
+            case .move(position: let position):
+                guard !boardBlocked else { return .gameOver }
+                
+                gameManager.makeMove(at: position, for: currentPlayer)
+             
+            case .moveAI:
+                guard !boardBlocked else { return .gameOver }
+                
+                gameManager.aiMove(for: opponent, against: player, difficulty: level)
+                
+            case .toggleActivePlayer:
+                player.isActive.toggle()
+                opponent.isActive = !player.isActive
+                
+            default:
+                return state
+            }
+        case .gameOver:
             
-        case .playerMove(let position):
-            print("Ход игрока на позицию: \(position)")
-            return handlePlayerMove(state, position, state.gameManager)
-            
-        case .aiMove:
-            print("Ход ИИ")
-            return handleAIMove(state, state.gameManager)
-            
-        case .endGame(let result):
-            print("Игра завершена с результатом: \(result)")
-            return handleEndGame(state, result)
-            
-        case .togglePlayer:
-            print("Переключение игрока")
-            return togglePlayer(state)
-            
-        case .updateTime(let seconds):
-            print("Обновление времени: \(seconds) секунд")
-            state.secondsCount = seconds
-            return state
-            
-        case .handleOutOfTime:
-            print("Время истекло, ничья")
-            return handleOutOfTime(state)
+            switch event {
+                
+            case .gameOver(result: let result):
+                musicManager.stopMusic()
+                timerManager.stopTimer()
+                
+                if result != .draw {
+                    winningPattern = gameManager.getWinningPattern()
+                }
+                
+                gameResult = result
+                if let winner = gameManager.winner {
+                    if winner == player {
+                        userManager.updatePlayerScore()
+                    } else {
+                        userManager.updateOpponentScore()
+                    }
+                }
+                boardBlocked = true
+                
+            case .handleOutOfTime:
+                musicManager.stopMusic()
+                timerManager.stopTimer()
+                
+                boardBlocked = true
+                gameResult = .draw
+            default:
+                return state
+            }
         }
-    }
-
-    // MARK: - Private Helper Methods
-    private static func startGame(_ state: GameState) -> GameState {
-        var newState = state
-        
-        guard state.state == .idle else {
-            print("Невозможно начать игру: текущий статус — \(state.state)")
-            return newState
-        }
-        
-        if state.gameMode == .singlePlayer && newState.opponent.isAI && newState.opponent.isActive {
-            print("Начало игры, ИИ делает первый ход")
-            return reduce(newState, .aiMove)
-        }
-        
-        newState.state = .playing
-        print("Игра началась")
-        return newState
-    }
-    
-    private static func resetGame(_ state: GameState, _ gameManager: GameManager) -> GameState {
-        print("Сброс игры")
-        gameManager.resetGame()
-        
-        return GameState(
-            gameManager: gameManager,
-            gameMode: state.gameMode,
-            player: state.player,
-            opponent: state.opponent,
-            level: state.level
-        )
-    }
-
-    private static func handlePlayerMove(_ state: GameState, _ position: Int, _ gameManager: GameManager) -> GameState {
-        let newState = state
-        
-        guard !newState.isBoardBlocked, !newState.isGameOver else {
-            print("Доска заблокирована или игра завершена")
-            return newState
-        }
-        
-        let moveSuccess = gameManager.makeMove(at: position, for: newState.currentPlayer)
-        if moveSuccess {
-            print("Игрок успешно сделал ход")
-            return processGameAfterMove(newState, gameManager)
-        } else {
-            print("Невозможно сделать ход на позицию: \(position)")
-        }
-        
-        return newState
-    }
-    
-    private static func handleAIMove(_ state: GameState, _ gameManager: GameManager) -> GameState {
-        let newState = state
-        
-        guard !newState.isBoardBlocked, !newState.isGameOver else {
-            print("Доска заблокирована или игра завершена")
-            return newState
-        }
-        
-        let moveSuccess = gameManager.aiMove(for: newState.opponent, against: newState.player, difficulty: newState.level)
-        if moveSuccess {
-            print("ИИ успешно сделал ход")
-            return processGameAfterMove(newState, gameManager)
-        } else {
-            print("ИИ не смог сделать ход")
-        }
-        
-        return newState
-    }
-    
-    private static func processGameAfterMove(_ state: GameState, _ gameManager: GameManager) -> GameState {
-        var newState = state
-        
-        newState.winningPattern = gameManager.getWinningPattern()
-        newState.isBoardBlocked = gameManager.isGameOver
-        
-        if gameManager.isGameOver {
-            print("Игра завершена, проверка результата")
-            return handleEndGame(newState, gameManager.getGameResult(gameMode: newState.gameMode, player: newState.player, opponent: newState.opponent))
-        }
-        
-        print("Игра продолжается, переключение игрока")
-        return togglePlayer(newState)
-    }
-
-    private static func handleEndGame(_ state: GameState, _ result: GameResult) -> GameState {
-        var newState = state
-        
-        newState.gameResult = result
-        newState.state = .finished
-        newState.isBoardBlocked = true
-        
-        print("Итог игры: \(result)")
-        
-        if result == .win(name: newState.player.name) {
-            print("Игрок выиграл! Обновление счета")
-            UserManager.shared.updatePlayerScore()
-        } else if result == .lose {
-            print("Игрок проиграл. Обновление счета соперника")
-            UserManager.shared.updateOpponentScore()
-        }
-        return newState
-    }
-    
-    private static func togglePlayer(_ state: GameState) -> GameState {
-        var newState = state
-        
-        newState.player.isActive.toggle()
-        newState.opponent.isActive = !newState.player.isActive
-        
-        print("Игрок активен: \(newState.player.isActive ? newState.player.name : newState.opponent.name)")
-        
-        return newState
-    }
-
-    private static func handleOutOfTime(_ state: GameState) -> GameState {
-        var newState = state
-        
-        newState.state = .finished
-        newState.gameResult = .draw
-        newState.isBoardBlocked = true
-        
-        print("Игра завершена из-за окончания времени. Результат: ничья")
-        
-        return newState
+        return state
     }
 }

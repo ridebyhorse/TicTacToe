@@ -52,7 +52,7 @@ struct StateMashine {
         gameResult = nil
         winningPattern = nil
         boardBlocked = false
-        timerManager.stopTimer()
+        timerManager.startTimer()
     }
     
     mutating func recordRoundResult() {
@@ -72,15 +72,18 @@ struct StateMashine {
             timerManager.startTimer()
             self.secondsCount = timerManager.secondsCount
             self.resetGame()
-            return .play
+            
+            if currentPlayer.isAI {
+                return reduce(state: .play, event: .moveAI)
+            } else {
+                return .play
+            }
             
         case (.play, .move(let position)):
             guard !isGameOver else { return .gameOver }
-            if currentPlayer.isAI {
-                reduce(state: state, event: .moveAI)
-            } else {
-                gameManager.makeMove(at: position, for: currentPlayer)
-            }
+            
+            gameManager.makeMove(at: position, for: currentPlayer)
+            
             return isGameOver
             ? reduce(state: state, event: .gameOver(
                 gameManager.getGameResult(
@@ -111,7 +114,7 @@ struct StateMashine {
         case (.play, .toggleActivePlayer):
             player.isActive.toggle()
             opponent.isActive = !player.isActive
-        
+            
             if currentPlayer.isAI {
                 return reduce(state: .play, event: .moveAI)
             } else {

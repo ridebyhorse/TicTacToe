@@ -86,6 +86,7 @@ final class GameViewModel: ObservableObject {
         state.currentState = newState
         
         if state.isGameOver {
+     
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.navigateToResultScreen()
             }

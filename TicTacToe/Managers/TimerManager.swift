@@ -19,6 +19,7 @@ final class TimerManager {
     private init() {}
     
     func startTimer() {
+        stopTimer()
         let settings = StorageManager.shared.getSettings()
         duration = settings.duration
         

@@ -19,7 +19,6 @@ final class GameViewModel: ObservableObject {
     private let musicManager: MusicManager
     private let timerManager: TimerManager
     
-    // MARK: - Computed Properties
     var gameMode: GameMode
     var level: DifficultyLevel
     
@@ -34,14 +33,7 @@ final class GameViewModel: ObservableObject {
     }
     
     // MARK: - Initialization
-    init(
-        coordinator: Coordinator,
-        userManager: UserManager = .shared,
-        storageManager: StorageManager = .shared,
-        gameManager: GameManager = .shared,
-        musicManager: MusicManager = .shared,
-        timerManager: TimerManager = .shared
-    ) {
+    init(coordinator: Coordinator, userManager: UserManager = .shared, storageManager: StorageManager = .shared, gameManager: GameManager = .shared, musicManager: MusicManager = .shared, timerManager: TimerManager = .shared) {
         self.coordinator = coordinator
         self.userManager = userManager
         self.storageManager = storageManager
@@ -49,11 +41,11 @@ final class GameViewModel: ObservableObject {
         self.musicManager = musicManager
         self.timerManager = timerManager
         
+        self.gameMode = userManager.gameMode
+        self.level = storageManager.getSettings().level
+
         let player = userManager.getPlayer()
         let opponent = userManager.getOpponent()
-        
-        gameMode = userManager.gameMode
-        level = storageManager.getSettings().level
         
         self.state = StateMashine(
             timerManager: timerManager,
@@ -65,20 +57,21 @@ final class GameViewModel: ObservableObject {
             opponent: opponent,
             level: level
         )
-        
-        self.gameBoard = gameManager.gameBoard
-        gameManager.onBoardChange = { [weak self] updatedBoard in
-            self?.gameBoard = updatedBoard
-        }
-        
-        timerManager.outOfTime = { [weak self] in self?.dispatch(.handleOutOfTime) }
-        timerManager.onTimeChange = { [weak self] in self?.state.secondsCount = $0 }
-        
+    
+        setupGameBindings()
         startGame()
         musicManager.playMusic()
     }
     
-    // MARK: - Actions Dispatch
+    private func setupGameBindings() {
+        gameManager.onBoardChange = { [weak self] updatedBoard in
+            self?.gameBoard = updatedBoard
+        }
+        
+        timerManager.outOfTime = { [weak self] in self?.dispatch(.outOfTime) }
+        timerManager.onTimeChange = { [weak self] in self?.state.secondsCount = $0 }
+    }
+    
     func startGame() {
         dispatch(.refresh)
     }
@@ -86,29 +79,11 @@ final class GameViewModel: ObservableObject {
     func processPlayerMove(at position: Int) {
         dispatch(.move(position))
         processMoveResult()
-
-        toggleActivePlayer()
-
-        if state.currentPlayer.isAI {
-            processAIMove()
-        }
-    }
-    
-    func processAIMove() {
-        dispatch(.moveAI)
-        processMoveResult()
-        
-        toggleActivePlayer()
-    }
-    
-    func toggleActivePlayer() {
-        dispatch(.toggleActivePlayer)
     }
     
     func dispatch(_ event: StateMashine.GameEvent) {
         let newState = state.reduce(state: state.currentState, event: event)
         state.currentState = newState
-        self.gameBoard = gameManager.gameBoard
         
         if state.isGameOver {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
@@ -116,7 +91,7 @@ final class GameViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func processMoveResult() {
         if gameManager.isGameOver {
             let result = gameManager.getGameResult(
@@ -126,11 +101,8 @@ final class GameViewModel: ObservableObject {
             )
             dispatch(.gameOver(result))
         }
-        
-        self.gameBoard = gameManager.gameBoard
     }
 
-    // MARK: - Navigation to Result Screen
     private func navigateToResultScreen() {
         coordinator.updateNavigationState(action: .showResult(
             winner: gameManager.winner,

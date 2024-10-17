@@ -15,6 +15,15 @@ final class GameManager {
     var winner: Player?
     var onBoardChange: (([PlayerSymbol?]) -> Void)?
     
+    // MARK: - Winning Patterns
+    var winningCombinations: [[Int]] {
+        return [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],  // Horizontal
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],  // Vertical
+            [0, 4, 8], [2, 4, 6]  // Diagonal
+        ]
+    }
+    
     // MARK: - Init
     private init() {}
     
@@ -30,9 +39,10 @@ final class GameManager {
     // MARK: - Perform Move
     @discardableResult
     func makeMove(at position: Int, for player: Player) -> Bool {
-        guard isValidMove(at: position) else { return false }
+        guard isValidMove(at: position) else { print("ошибка\(gameBoard)"); return false  }
         gameBoard[position] = player.symbol
         onBoardChange?(self.gameBoard)
+        print("делаем ход.")
         evaluateGameState(for: player)
         return true
     }
@@ -138,14 +148,6 @@ final class GameManager {
         return gameBoard.firstIndex(where: { $0 == nil })
     }
     
-    // MARK: - Winning Patterns
-    var winningCombinations: [[Int]] {
-        return [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8],  // Horizontal
-            [0, 3, 6], [1, 4, 7], [2, 5, 8],  // Vertical
-            [0, 4, 8], [2, 4, 6]  // Diagonal
-        ]
-    }
     
     // MARK: - Game Result and Pattern
     func getGameResult(gameMode: GameMode, player: Player, opponent: Player) -> GameResult {

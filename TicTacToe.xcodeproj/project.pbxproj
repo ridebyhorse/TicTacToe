@@ -69,9 +69,9 @@
 		E1E0BDD92CAA94FC00DB8D34 /* RulesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDD82CAA94FC00DB8D34 /* RulesViewModel.swift */; };
 		E1E0BDDB2CAA974700DB8D34 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E1E0BDDA2CAA974700DB8D34 /* Localizable.xcstrings */; };
 		E1E0BDDE2CAA997300DB8D34 /* CoordinatorVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0BDDD2CAA997300DB8D34 /* CoordinatorVIew.swift */; };
+		E1EC3C242CC0F326000778B7 /* StateMashine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EC3C232CC0F326000778B7 /* StateMashine.swift */; };
 		E1FCE9512CB6E15D0026CA1F /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FCE9502CB6E15D0026CA1F /* CustomTextField.swift */; };
 		E1FCE9532CB7AB060026CA1F /* GameModeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FCE9522CB7AB060026CA1F /* GameModeButton.swift */; };
-		E1FCE9562CB7C3780026CA1F /* GameReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FCE9552CB7C3780026CA1F /* GameReducer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -139,9 +139,9 @@
 		E1E0BDD82CAA94FC00DB8D34 /* RulesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesViewModel.swift; sourceTree = "<group>"; };
 		E1E0BDDA2CAA974700DB8D34 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		E1E0BDDD2CAA997300DB8D34 /* CoordinatorVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorVIew.swift; sourceTree = "<group>"; };
+		E1EC3C232CC0F326000778B7 /* StateMashine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMashine.swift; sourceTree = "<group>"; };
 		E1FCE9502CB6E15D0026CA1F /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		E1FCE9522CB7AB060026CA1F /* GameModeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModeButton.swift; sourceTree = "<group>"; };
-		E1FCE9552CB7C3780026CA1F /* GameReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -319,7 +319,6 @@
 		E1392F082CADC2ED00112013 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E1FCE9552CB7C3780026CA1F /* GameReducer.swift */,
 				E148E8792CB2C4EA00018E70 /* SubViews */,
 				E1392F062CADA88400112013 /* GameView.swift */,
 			);
@@ -329,6 +328,7 @@
 		E1392F092CADC2F500112013 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				E1EC3C232CC0F326000778B7 /* StateMashine.swift */,
 				E1392F102CADE7DD00112013 /* GameViewModel.swift */,
 			);
 			path = ViewModel;
@@ -606,9 +606,9 @@
 				E1E0BDDE2CAA997300DB8D34 /* CoordinatorVIew.swift in Sources */,
 				E1E0BDCC2CAA89A400DB8D34 /* LocalizationManager.swift in Sources */,
 				E1E0BDD32CAA94A500DB8D34 /* StartViewModel.swift in Sources */,
+				E1EC3C242CC0F326000778B7 /* StateMashine.swift in Sources */,
 				E1392F1B2CADEAD200112013 /* MusicManager.swift in Sources */,
 				CB7C6CE22CB5102600EF1DA9 /* ShadowViewModifier.swift in Sources */,
-				E1FCE9562CB7C3780026CA1F /* GameReducer.swift in Sources */,
 				E1392F022CAD47D400112013 /* ToolBarView.swift in Sources */,
 				E1392F0E2CADD9E700112013 /* GameResult.swift in Sources */,
 				E148E8782CB282D300018E70 /* CustomAlertView.swift in Sources */,

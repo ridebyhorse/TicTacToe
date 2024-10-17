@@ -23,8 +23,8 @@ struct GameSymbolSelectionView: View {
                 
                 Spacer()
                 
-                symbolButton(symbol: .tic, imageName: imageNameForPlayer1)
-                symbolButton(symbol: .tacToe, imageName: imageNameForPlayer2)
+                symbolButton(symbol: .x, imageName: imageNameForPlayer1)
+                symbolButton(symbol: .o, imageName: imageNameForPlayer2)
             }
             .frame(height: 80)
         }
@@ -57,7 +57,7 @@ struct GameSymbolSelectionView: View {
 
 #Preview {
     GameSymbolSelectionView(
-        selectedSymbol: .constant(PlayerSymbol.tacToe),
+        selectedSymbol: .constant(PlayerSymbol.o),
         imageNameForPlayer1: "1",
         imageNameForPlayer2: "2")
 }

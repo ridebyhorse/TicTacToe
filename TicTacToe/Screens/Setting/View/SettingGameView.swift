@@ -17,7 +17,7 @@ struct SettingGameView: View {
     @State private var isLevelState = false
     @State private var isSymbolState = false
     @State private var isThemeState = false
-    
+    @State private var isSizeBoardState = false
     
     // MARK: - Drawing Constants
     enum Drawing {
@@ -75,6 +75,12 @@ struct SettingGameView: View {
                     selectedValue: $viewModel.userTheme,
                     isExpanded: $isThemeState,
                     title: Resources.Text.selectTheme.localized(language)
+                )
+                
+                SettingPickerView(
+                    selectedValue: $viewModel.selectedBoardSize,
+                    isExpanded: $isSizeBoardState,
+                    title: Resources.Text.selectSizeBoard.localized(language)
                 )
                 
                 TimerView(
@@ -147,7 +153,7 @@ struct SettingGameView: View {
                                 styleImageForPlayer1: style.imageNames.player1,
                                 styleImageForPlayer2: style.imageNames.player2,
                                 isSelected: isSelected,
-                                isPlayer1Selected: viewModel.selectedPlayerSymbol == .tic,
+                                isPlayer1Selected: viewModel.selectedPlayerSymbol == .x,
                                 action: {
                                     withAnimation {
                                         viewModel.selectedIndex = style

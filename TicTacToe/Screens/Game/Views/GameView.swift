@@ -36,6 +36,7 @@ struct GameView: View {
                         .resizable()
                         .frame(width: 54, height: 54)
                     Text(viewModel.state.currentPlayer.name)
+                    
                         .font(.basicTitle)
                 }
                 .padding(.top, 45)
@@ -43,13 +44,14 @@ struct GameView: View {
                     gameBoard: viewModel.gameBoard,
                     playerStyle: viewModel.state.currentPlayer.style,
                     action: viewModel.processPlayerMove(at:),
+                    boardSize: viewModel.boardSize,
                     winningPattern: viewModel.state.winningPattern
                 )
                 .padding(.top, 20)
                 Spacer()
-                    .padding(.bottom, 50)
+                    .padding(.bottom, 40)
             }
-            .padding(.bottom, 60)
+            .padding(.bottom, 50)
         }
  
     }
@@ -57,7 +59,7 @@ struct GameView: View {
     // MARK: - Helper to get player image based on style and type
     private func getPlayerImageName(for player: Player) -> String {
         let imageNames = player.style.imageNames
-        return player.symbol == .tic ? imageNames.player1 : imageNames.player2
+        return player.symbol == .x ? imageNames.player1 : imageNames.player2
     }
 }
 

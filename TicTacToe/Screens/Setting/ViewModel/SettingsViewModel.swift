@@ -16,6 +16,7 @@ final class SettingsViewModel: ObservableObject {
     @Published var selectedMusic: MusicStyle
     @Published var selectedLevel: DifficultyLevel
     @Published var selectedPlayerSymbol: PlayerSymbol
+    @Published var selectedBoardSize: BoardSize
     @Published var hasAppliedTheme: Bool = false
     @Published var isSelectedMusic: Bool
     //UserTheme
@@ -48,7 +49,8 @@ final class SettingsViewModel: ObservableObject {
         self.isSelectedMusic = gameSettings.isSelecttedMusic
         self.selectedMusic = gameSettings.musicStyle
         self.selectedLevel = gameSettings.level
-        self.selectedPlayerSymbol = gameSettings.playerSymbol ?? .tic
+        self.selectedPlayerSymbol = gameSettings.playerSymbol ?? .x
+        self.selectedBoardSize = gameSettings.boardSize
         // Theme apply
         applyTheme()
     }
@@ -86,7 +88,8 @@ final class SettingsViewModel: ObservableObject {
             selectedStyle: selectedIndex,
             isSelecttedMusic: isSelectedMusic,
             musicStyle: selectedMusic,
-            playerSymbol: selectedPlayerSymbol
+            playerSymbol: selectedPlayerSymbol,
+            boardSize: selectedBoardSize
         )
         storageManager.saveSettings(gameSettings)
     }
@@ -97,7 +100,7 @@ final class SettingsViewModel: ObservableObject {
         selectedDuration = defaultSettings.duration
         selectedMusic = defaultSettings.musicStyle
         selectedLevel = defaultSettings.level
-        selectedPlayerSymbol = defaultSettings.playerSymbol ?? .tic
+        selectedPlayerSymbol = defaultSettings.playerSymbol ?? .x
         saveSettings()
     }
     

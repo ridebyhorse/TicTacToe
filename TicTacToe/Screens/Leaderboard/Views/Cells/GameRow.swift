@@ -36,7 +36,7 @@ struct GameRow: View {
                 HStack {
                     HStack(spacing: 4) {
                         Image(game.player.symbol ==
-                            .tic ? game.player.style.imageNames.player1
+                            .x ? game.player.style.imageNames.player1
                               : game.player.style.imageNames.player2)
                         .resizable()
                         .frame(width: 20, height: 20)
@@ -51,7 +51,7 @@ struct GameRow: View {
                             .foregroundStyle(.basicBlack)
                             .multilineTextAlignment(.center)
                         Image(game.opponent.symbol ==
-                            .tic ? game.player.style.imageNames.player1
+                            .x ? game.player.style.imageNames.player1
                               : game.player.style.imageNames.player2)
                         .resizable()
                         .frame(width: 20, height: 20)

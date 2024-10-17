@@ -35,6 +35,7 @@ final class MusicManager {
     }
     
     func playSoundFor(_ state: SoundState) {
+        guard let settings, settings.isSelecttedMusic, !musicPlayer.isPlaying else { return }
         if let urlSound = MusicStorage.getSoundFor(state) {
             do {
                 soundPlayer = try AVAudioPlayer(contentsOf: urlSound)

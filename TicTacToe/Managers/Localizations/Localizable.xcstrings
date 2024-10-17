@@ -293,6 +293,17 @@
         }
       }
     },
+    "extraLarge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ещё больше"
+          }
+        }
+      }
+    },
     "hard" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -349,6 +360,17 @@
         }
       }
     },
+    "large" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "большое"
+          }
+        }
+      }
+    },
     "Leaderboard" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -390,6 +412,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "светлая"
+          }
+        }
+      }
+    },
+    "medium" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "среднее"
           }
         }
       }
@@ -734,6 +767,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Один игрок"
+          }
+        }
+      }
+    },
+    "Size Board:" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Размер поля:"
+          }
+        }
+      }
+    },
+    "small" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "маленькое"
           }
         }
       }

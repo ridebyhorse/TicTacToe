@@ -19,6 +19,10 @@ final class GameViewModel: ObservableObject {
     private let musicManager: MusicManager
     private let timerManager: TimerManager
     
+    var player: Player
+    var opponent: Player
+    
+    var boardSize: BoardSize = .small
     var gameMode: GameMode
     var level: DifficultyLevel
     
@@ -43,15 +47,17 @@ final class GameViewModel: ObservableObject {
         
         self.gameMode = userManager.gameMode
         self.level = storageManager.getSettings().level
-
-        let player = userManager.getPlayer()
-        let opponent = userManager.getOpponent()
+        self.boardSize = storageManager.getSettings().boardSize
+     
+        gameManager.boardSize = boardSize
+        
+        self.player = userManager.getPlayer()
+        self.opponent = userManager.getOpponent()
         
         self.state = StateMashine(
             timerManager: timerManager,
             gameManager: gameManager,
             userManager: userManager,
-            musicManager: musicManager,
             gameMode: gameMode,
             player: player,
             opponent: opponent,
@@ -60,20 +66,47 @@ final class GameViewModel: ObservableObject {
     
         setupGameBindings()
         startGame()
-        musicManager.playMusic()
+        
     }
     
     private func setupGameBindings() {
         gameManager.onBoardChange = { [weak self] updatedBoard in
             self?.gameBoard = updatedBoard
+            
+            
         }
         
         timerManager.outOfTime = { [weak self] in self?.dispatch(.outOfTime) }
         timerManager.onTimeChange = { [weak self] in self?.state.secondsCount = $0 }
     }
     
-    func startGame() {
+    private func dispatch(_ event: StateMashine.GameEvent) {
+        let newState = state.reduce(state: state.currentState, event: event)
+        state.currentState = newState
+        
+        if state.isGameOver {
+            updateScore()
+            musicManager.stopMusic()
+            state.winningPattern = gameManager.getWinningPattern()
+            musicManager.playSoundFor(.final)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.musicManager.stopMusic()
+                self.navigateToResultScreen()
+            }
+        }
+    }
+    
+    private func updateScore() {
+        if let winner = gameManager.winner {
+            winner == player
+            ? userManager.updatePlayerScore()
+            : userManager.updateOpponentScore()
+        }
+    }
+    
+    private func startGame() {
         dispatch(.refresh)
+        musicManager.playMusic()
     }
     
     func processPlayerMove(at position: Int) {
@@ -81,22 +114,9 @@ final class GameViewModel: ObservableObject {
         processMoveResult()
     }
     
-    func dispatch(_ event: StateMashine.GameEvent) {
-        let newState = state.reduce(state: state.currentState, event: event)
-        state.currentState = newState
-        
-        if state.isGameOver {
-     
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self.navigateToResultScreen()
-            }
-        }
-    }
-
     private func processMoveResult() {
         if gameManager.isGameOver {
             let result = gameManager.getGameResult(
-                gameMode: gameMode,
                 player: state.player.isActive ? state.player : state.opponent,
                 opponent: state.opponent
             )

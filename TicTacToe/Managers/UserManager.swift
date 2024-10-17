@@ -22,8 +22,8 @@ final class UserManager {
         self.storageManager = storageManager
         
         // Initialize players with their default settings and scores
-        self.player = Player(name: "", score: 0, symbol: .tic, style: .crossPinkCirclePurple)
-        self.opponent = Player(name: "", score: 0, symbol: .tacToe, style: .crossPinkCirclePurple)
+        self.player = Player(name: "", score: 0, symbol: .x, style: .crossPinkCirclePurple)
+        self.opponent = Player(name: "", score: 0, symbol: .o, style: .crossPinkCirclePurple)
     }
     
     // Sets the game mode (single player or multiplayer)
@@ -43,7 +43,7 @@ final class UserManager {
     // Returns the current player, updating the player's symbol and style from settings
     func getPlayer() -> Player {
         let settings = storageManager.getSettings()
-        player.symbol = settings.playerSymbol ?? .tic
+        player.symbol = settings.playerSymbol ?? .x
         player.style = settings.selectedStyle ?? .crossPinkCirclePurple
         player.isActive = isPlayerActive
         return player
@@ -53,7 +53,7 @@ final class UserManager {
     func getOpponent() -> Player {
         let settings = storageManager.getSettings()
         
-        opponent.symbol = player.symbol == .tic ? .tacToe : .tic
+        opponent.symbol = player.symbol == .x ? .o : .x
         opponent.style = settings.selectedStyle ?? .crossPinkCirclePurple
         opponent.isActive = !isPlayerActive
         return opponent

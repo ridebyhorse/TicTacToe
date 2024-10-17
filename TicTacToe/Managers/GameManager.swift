@@ -8,20 +8,46 @@
 import Foundation
 
 final class GameManager {
-    public static let shared = GameManager()
+    static let shared = GameManager()
     
     private(set) var gameBoard: [PlayerSymbol?] = []
     private(set) var isGameOver: Bool = false
     var winner: Player?
     var onBoardChange: (([PlayerSymbol?]) -> Void)?
     
+    var boardSize: BoardSize = .small
+    
     // MARK: - Winning Patterns
-    var winningCombinations: [[Int]] {
-        return [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8],  // Horizontal
-            [0, 3, 6], [1, 4, 7], [2, 5, 8],  // Vertical
-            [0, 4, 8], [2, 4, 6]  // Diagonal
-        ]
+    private var winningCombinations: [[Int]] {
+        let size = boardSize.dimension
+        var combinations: [[Int]] = []
+        
+        // Horizontal
+        for row in 0..<size {
+            let start = row * size
+            combinations.append(Array(start..<(start + size)))
+        }
+        
+        // Vertical
+        for col in 0..<size {
+            var combination: [Int] = []
+            for row in 0..<size {
+                combination.append(row * size + col)
+            }
+            combinations.append(combination)
+        }
+        
+        // Diagonal
+        var diagonal1: [Int] = []
+        var diagonal2: [Int] = []
+        for i in 0..<size {
+            diagonal1.append(i * size + i)
+            diagonal2.append(i * size + (size - i - 1))
+        }
+        combinations.append(diagonal1)
+        combinations.append(diagonal2)
+        
+        return combinations
     }
     
     // MARK: - Init
@@ -29,7 +55,8 @@ final class GameManager {
     
     // MARK: - Game Reset
     func resetGame() {
-        self.gameBoard = Array(repeating: nil, count: 9)
+        let totalCells = boardSize.dimension * boardSize.dimension
+        self.gameBoard = Array(repeating: nil, count: totalCells)
         self.winner = nil
         self.isGameOver = false
         onBoardChange?(self.gameBoard)
@@ -50,7 +77,7 @@ final class GameManager {
     // MARK: - AI Move
     @discardableResult
     func aiMove(for aiPlayer: Player, against humanPlayer: Player, difficulty: DifficultyLevel) -> Bool {
-
+        
         guard !isGameOver else {
             print("Игра окончена. AI не может сделать ход.")
             return false
@@ -96,13 +123,13 @@ final class GameManager {
     // MARK: - Perform AI Move
     private func performAIMove(player: Player, at position: Int) {
         gameBoard[position] = player.symbol
-        onBoardChange?(self.gameBoard) 
+        onBoardChange?(self.gameBoard)
         evaluateGameState(for: player)
     }
     
     // MARK: - Validation and Evaluation
     private func isValidMove(at position: Int) -> Bool {
-        return position >= 0 && position < 9 && gameBoard[position] == nil && !isGameOver
+        return position >= 0 && position < gameBoard.count && gameBoard[position] == nil && !isGameOver
     }
     
     private func evaluateGameState(for player: Player) {
@@ -124,11 +151,12 @@ final class GameManager {
         return gameBoard.allSatisfy { $0 != nil }
     }
     
-    // MARK: - Helpers for Winning/Available Moves
+    // MARK: - Winning/Available Moves Helpers
     private func findWinningMove(for symbol: PlayerSymbol) -> Int? {
         for pattern in winningCombinations {
             let values = pattern.map { gameBoard[$0] }
-            if values.filter({ $0 == symbol }).count == 2, let emptyIndex = pattern.first(where: { gameBoard[$0] == nil }) {
+            if values.filter({ $0 == symbol }).count == boardSize.dimension - 1,
+               let emptyIndex = pattern.first(where: { gameBoard[$0] == nil }) {
                 return emptyIndex
             }
         }
@@ -136,11 +164,13 @@ final class GameManager {
     }
     
     private func findCenterMove() -> Int? {
-        return gameBoard[4] == nil ? 4 : nil
+        let centerIndex = (gameBoard.count - 1) / 2
+        return gameBoard[centerIndex] == nil ? centerIndex : nil
     }
     
     private func findCornerMove() -> Int? {
-        let corners = [0, 2, 6, 8]
+        let size = boardSize.dimension
+        let corners = [0, size - 1, gameBoard.count - size, gameBoard.count - 1]
         return corners.first(where: { gameBoard[$0] == nil })
     }
     
@@ -150,9 +180,9 @@ final class GameManager {
     
     
     // MARK: - Game Result and Pattern
-    func getGameResult(gameMode: GameMode, player: Player, opponent: Player) -> GameResult {
+    func getGameResult(player: Player, opponent: Player) -> GameResult {
         if let winner = winner {
-            if gameMode == .singlePlayer && winner == opponent {
+            if winner == opponent && opponent.isAI {
                 return .lose
             } else {
                 return .win(name: winner.name)
@@ -164,8 +194,7 @@ final class GameManager {
     
     func getWinningPattern() -> [Int]? {
         for combination in winningCombinations {
-            let (a, b, c) = (combination[0], combination[1], combination[2])
-            if gameBoard[a] != nil, gameBoard[a] == gameBoard[b], gameBoard[b] == gameBoard[c] {
+            if combination.allSatisfy({ gameBoard[$0] != nil && gameBoard[$0] == gameBoard[combination[0]] }) {
                 return combination
             }
         }

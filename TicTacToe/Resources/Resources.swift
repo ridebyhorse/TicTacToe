@@ -34,6 +34,7 @@ enum Resources {
         static let rulesNavigationTitle = "How to play"
         static let selectDifficultyLevel = "Difficulty:"
         static let selectTheme = "Theme:"
+        static let selectSizeBoard = "Size Board:"
         static let selectGame = "Select Game"
         static let selectMusicStyle = "Music:"
         static let selectPlayerSkins = "Player Skins:"

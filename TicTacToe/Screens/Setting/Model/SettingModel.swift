@@ -14,11 +14,32 @@ struct GameSettings: Codable {
     let isSelecttedMusic: Bool
     let musicStyle: MusicStyle
     let playerSymbol: PlayerSymbol?
+    var boardSize: BoardSize
+}
+
+enum BoardSize: String, Codable, CaseIterable {
+    case small
+    case medium
+    case large
+    case extraLarge 
+    
+    var dimension: Int {
+        switch self {
+        case .small:
+            return 3
+        case .medium:
+            return 4
+        case .large:
+            return 5
+        case .extraLarge:
+            return 6
+        }
+    }
 }
 
 enum PlayerSymbol: String, Codable {
-    case tic
-    case tacToe
+    case x
+    case o
 }
 
 struct Duration: Codable {
@@ -73,7 +94,8 @@ extension GameSettings {
             selectedStyle: .crossPinkCirclePurple,
             isSelecttedMusic: false,
             musicStyle: .none,
-            playerSymbol: .tic
+            playerSymbol: .x,
+            boardSize: .small
         )
     }
     

@@ -60,5 +60,5 @@ struct ResultView: View {
 }
 
 #Preview {
-    ResultView(viewModel: ResultViewModel(coordinator: Coordinator(), winner: Player(name: Resources.Text.ai, score: 0, symbol: .tic, style: .burgerFries), playedAgainstAI: true))
+    ResultView(viewModel: ResultViewModel(coordinator: Coordinator(), winner: Player(name: Resources.Text.ai, score: 0, symbol: .x, style: .burgerFries), playedAgainstAI: true))
 }

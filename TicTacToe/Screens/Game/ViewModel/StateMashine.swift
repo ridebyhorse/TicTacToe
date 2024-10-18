@@ -8,18 +8,19 @@
 //
 
 // MARK: - StateMachine Class (Game State)
-final class StateMashine {
+final class StateMachine {
     // MARK: - Properties
-    let timerManager: TimerManager
-    let gameManager: GameManager
+
+    private let gameManager: GameManager = .shared
     
     var gameMode: GameMode
     var gameResult: GameResult? = nil
     var winningPattern: [Int]? = nil
     var player: Player
     var opponent: Player
+    var isPlayerActive = Bool.random()
     var level: DifficultyLevel
-    var secondsCount = 0
+    
     var totalGameDuration = 0
     var roundResults: [String] = []
     var boardBlocked = false
@@ -43,27 +44,29 @@ final class StateMashine {
         case refresh
         case move(_ position: Int)
         case moveAI
+        case boardBlocked
         case toggleActivePlayer
         case gameOver(_ result: GameResult)
         case outOfTime
     }
     
     // MARK: - Initializer
-    init(timerManager: TimerManager, gameManager: GameManager, userManager: UserManager, gameMode: GameMode, player: Player, opponent: Player, level: DifficultyLevel) {
-        self.timerManager = timerManager
-        self.gameManager = gameManager
-        self.gameMode = gameMode
+    init(player: Player, opponent: Player, level: DifficultyLevel, gameMode: GameMode) {
         self.player = player
         self.opponent = opponent
         self.level = level
+        self.gameMode = gameMode
     }
     
     // MARK: - Game Reset Methods
     func resetGame() {
+        gameManager.resetGame()
+
+        player.isActive = isPlayerActive
+        opponent.isActive = !player.isActive
         gameResult = nil
         winningPattern = nil
         boardBlocked = false
-        timerManager.startTimer()
     }
     
     func recordRoundResult() {
@@ -74,13 +77,10 @@ final class StateMashine {
     // MARK: - Reducer Logic
     func reduce(state: State, event: GameEvent) -> State {
         currentState = state
-        print("Current state: \(currentState), event: \(event)")
         
         switch (state, event) {
         case (.startGame, .refresh):
-            gameManager.resetGame()
-            timerManager.startTimer()
-            self.secondsCount = timerManager.secondsCount
+
             self.resetGame()
             
             if opponent.isActive && opponent.isAI {
@@ -91,11 +91,12 @@ final class StateMashine {
             
         case (.play, .move(let position)):
             guard !isGameOver else { return .gameOver }
+       
             
             gameManager.makeMove(at: position, for: player.isActive ? player : opponent)
             
             return isGameOver
-            ? reduce(state: state, event: .gameOver(
+            ? reduce(state: .gameOver, event: .gameOver(
                 gameManager.getGameResult(
                     player: player,
                     opponent: opponent
@@ -108,40 +109,41 @@ final class StateMashine {
             guard !isGameOver else { return .gameOver }
             guard gameMode == .singlePlayer else { return .play }
             
-            if opponent.isAI && !player.isAI {
+            if opponent.isAI && !player.isAI && opponent.isActive {
                 boardBlocked = true
-                gameManager.aiMove(for: opponent, against: player, difficulty: level)
-            }
-            return isGameOver
-            ? reduce(
-                state: state,
-                event: .gameOver(
-                    gameManager.getGameResult(
-                        player: player,
-                        opponent: opponent
+                if gameManager.aiMove(for: opponent, against: player, difficulty: level) {
+                    
+                    return isGameOver
+                    ? reduce(
+                        state: .gameOver,
+                        event: .gameOver(
+                            gameManager.getGameResult(
+                                player: player,
+                                opponent: opponent
+                            )
+                        )
                     )
-                )
-            )
-            : reduce(state: state, event: .toggleActivePlayer)
-            
+                    : reduce(state: state, event: .toggleActivePlayer)
+                }
+            }
+            return .play
         case (.play, .toggleActivePlayer):
-            boardBlocked = false
-            
             player.isActive.toggle()
             opponent.isActive = !player.isActive
-           
+            boardBlocked = false
+            
             if opponent.isAI && opponent.isActive {
                 return reduce(state: .play, event: .moveAI)
             } else {
                 return .play
             }
             
-        case (.gameOver, .gameOver(let result)):
-            finishGame(with: result)
+        case (.play, .outOfTime):
+            finishGame(with: .draw)
             return .gameOver
             
-        case (.gameOver, .outOfTime):
-            finishGame(with: .draw)
+        case (.gameOver, .gameOver(let result)):
+            finishGame(with: result)
             return .gameOver
             
         default:
@@ -151,13 +153,11 @@ final class StateMashine {
     
     // MARK: - Finish Game Logic
     private func finishGame(with result: GameResult) {
-        timerManager.stopTimer()
-        currentState = .gameOver
+
+        winningPattern = gameManager.getWinningPattern()
         gameResult = result
         boardBlocked = true
-        if gameResult != .draw {
-            winningPattern = gameManager.getWinningPattern()
         }
+    
 
-    }
 }

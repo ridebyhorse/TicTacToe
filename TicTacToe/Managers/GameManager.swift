@@ -69,7 +69,7 @@ final class GameManager {
         guard isValidMove(at: position) else { print("ошибка\(gameBoard)"); return false  }
         gameBoard[position] = player.symbol
         onBoardChange?(self.gameBoard)
-        print("делаем ход.")
+      
         evaluateGameState(for: player)
         return true
     }
@@ -79,7 +79,6 @@ final class GameManager {
     func aiMove(for aiPlayer: Player, against humanPlayer: Player, difficulty: DifficultyLevel) -> Bool {
         
         guard !isGameOver else {
-            print("Игра окончена. AI не может сделать ход.")
             return false
         }
         
@@ -87,26 +86,22 @@ final class GameManager {
         
         aiDecision(for: aiPlayer, and: humanPlayer, level: difficulty) { [weak self] move in
             guard let self = self else {
-                print("Ссылка на GameManager потеряна.")
                 return
             }
             
             guard let move = move else {
-                print("AI не смог найти ход.")
                 return
             }
             
-            print("AI выбрал позицию: \(move)")
             self.performAIMove(player: aiPlayer, at: move)
             print("AI сделал ход на позицию: \(move)")
         }
-        
         return true
     }
     
     private func aiDecision(for player: Player, and opponent: Player, level: DifficultyLevel, completion: @escaping (Int?) -> Void) {
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             let move: Int?
             switch level {
             case .easy:

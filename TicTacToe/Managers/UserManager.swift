@@ -12,9 +12,7 @@ final class UserManager {
     
     private var player: Player
     private var opponent: Player
-    private var isPlayerActive = Bool.random()
-    private let isAI = false
-    
+
     private(set) var gameMode: GameMode = .singlePlayer
     
     // Initializes the UserManager with a shared StorageManager
@@ -45,7 +43,6 @@ final class UserManager {
         let settings = storageManager.getSettings()
         player.symbol = settings.playerSymbol ?? .x
         player.style = settings.selectedStyle ?? .crossPinkCirclePurple
-        player.isActive = isPlayerActive
         return player
     }
     
@@ -55,7 +52,6 @@ final class UserManager {
         
         opponent.symbol = player.symbol == .x ? .o : .x
         opponent.style = settings.selectedStyle ?? .crossPinkCirclePurple
-        opponent.isActive = !isPlayerActive
         return opponent
     }
     
@@ -66,6 +62,6 @@ final class UserManager {
     
     // Updates the opponent's score
     func updateOpponentScore() {
-        opponent.score  += 1
+        opponent.score += 1
     }
 }

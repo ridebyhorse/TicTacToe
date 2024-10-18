@@ -22,7 +22,7 @@ final class GameViewModel: ObservableObject {
     var player: Player
     var opponent: Player
     
-    var boardSize: BoardSize = .small
+    let boardSize: BoardSize
     var gameMode: GameMode
     var level: DifficultyLevel
     
@@ -51,9 +51,7 @@ final class GameViewModel: ObservableObject {
         
         self.gameMode = userManager.gameMode
         self.level = storageManager.getSettings().level
-        self.boardSize = storageManager.getSettings().boardSize
-     
-        gameManager.boardSize = boardSize
+        self.boardSize = gameManager.boardSize
         
         self.player = userManager.getPlayer()
         self.opponent = userManager.getOpponent()

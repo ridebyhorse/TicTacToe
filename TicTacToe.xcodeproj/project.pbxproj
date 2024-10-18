@@ -28,6 +28,8 @@
 		CB86AF392CAC95DF00C025FA /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB86AF382CAC95DF00C025FA /* LeaderboardView.swift */; };
 		CB86AF3B2CAC95EE00C025FA /* LeaderboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB86AF3A2CAC95EE00C025FA /* LeaderboardViewModel.swift */; };
 		CBA971042CB8399C00B39E30 /* SecondaryPurpleBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA971032CB8399C00B39E30 /* SecondaryPurpleBackgroundView.swift */; };
+		CBD7105A2CC240EB00155DD6 /* AIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD710592CC240EB00155DD6 /* AIManager.swift */; };
+		CBD7105C2CC242F200155DD6 /* GameEnvironmentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD7105B2CC242F200155DD6 /* GameEnvironmentsModel.swift */; };
 		E1392EEF2CAD2E6C00112013 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1392EEC2CAD2E6C00112013 /* UserManager.swift */; };
 		E1392EF12CAD2E6C00112013 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1392EEE2CAD2E6C00112013 /* StorageManager.swift */; };
 		E1392EF62CAD2E8300112013 /* GameSymbolSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1392EF22CAD2E8300112013 /* GameSymbolSelectionView.swift */; };
@@ -98,6 +100,8 @@
 		CB86AF382CAC95DF00C025FA /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
 		CB86AF3A2CAC95EE00C025FA /* LeaderboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardViewModel.swift; sourceTree = "<group>"; };
 		CBA971032CB8399C00B39E30 /* SecondaryPurpleBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryPurpleBackgroundView.swift; sourceTree = "<group>"; };
+		CBD710592CC240EB00155DD6 /* AIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIManager.swift; sourceTree = "<group>"; };
+		CBD7105B2CC242F200155DD6 /* GameEnvironmentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEnvironmentsModel.swift; sourceTree = "<group>"; };
 		E1392EEC2CAD2E6C00112013 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		E1392EEE2CAD2E6C00112013 /* StorageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		E1392EF22CAD2E8300112013 /* GameSymbolSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSymbolSelectionView.swift; sourceTree = "<group>"; };
@@ -198,6 +202,7 @@
 			children = (
 				CB33F13F2CB19C590008A39F /* Info.plist */,
 				CB6F3E542CA997AA005C2ED9 /* TicTacToeApp.swift */,
+				CBD7105B2CC242F200155DD6 /* GameEnvironmentsModel.swift */,
 				CB33F13D2CB19C400008A39F /* LaunchScreen */,
 				E1E0BDB52CA9EFCC00DB8D34 /* Models */,
 				CB6F3E6C2CA9AF33005C2ED9 /* Screens */,
@@ -387,6 +392,7 @@
 				E1392EEE2CAD2E6C00112013 /* StorageManager.swift */,
 				E1392EEC2CAD2E6C00112013 /* UserManager.swift */,
 				E1E0BDB32CA9EC4900DB8D34 /* GameManager.swift */,
+				CBD710592CC240EB00155DD6 /* AIManager.swift */,
 				CB33F1362CB174070008A39F /* TimerManager.swift */,
 				E1E0BDCF2CAA8DBE00DB8D34 /* Coordinator */,
 				E1E0BDDC2CAA976500DB8D34 /* Localizations */,
@@ -568,6 +574,7 @@
 				E1392F172CADE80300112013 /* GameSquareView.swift in Sources */,
 				E1392F112CADE7DD00112013 /* GameViewModel.swift in Sources */,
 				E1392F152CADE80300112013 /* GameFieldView.swift in Sources */,
+				CBD7105C2CC242F200155DD6 /* GameEnvironmentsModel.swift in Sources */,
 				E15CEC6C2CB7F11300DEB8BB /* RoundRow.swift in Sources */,
 				E1392F162CADE80300112013 /* PlayerSquareView.swift in Sources */,
 				CB6F3E572CA997AA005C2ED9 /* StartView.swift in Sources */,
@@ -575,6 +582,7 @@
 				E1FCE9532CB7AB060026CA1F /* GameModeButton.swift in Sources */,
 				CB86AF3B2CAC95EE00C025FA /* LeaderboardViewModel.swift in Sources */,
 				CB33F1372CB174070008A39F /* TimerManager.swift in Sources */,
+				CBD7105A2CC240EB00155DD6 /* AIManager.swift in Sources */,
 				E1392EF12CAD2E6C00112013 /* StorageManager.swift in Sources */,
 				E1392EF62CAD2E8300112013 /* GameSymbolSelectionView.swift in Sources */,
 				E1392EFA2CAD367F00112013 /* SettingModel.swift in Sources */,

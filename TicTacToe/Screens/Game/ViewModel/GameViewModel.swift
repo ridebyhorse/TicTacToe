@@ -19,8 +19,6 @@ final class GameViewModel: ObservableObject {
     private let musicManager: MusicManager
     private let timerManager: TimerManager
     
-    var player: Player
-    var opponent: Player
     
     var boardSize: BoardSize = .small
     var gameMode: GameMode
@@ -31,7 +29,7 @@ final class GameViewModel: ObservableObject {
     }
     
     var currentPlayer: Player {
-        player.isActive ? player : opponent
+        state.player.isActive ? state.player : state.opponent
     }
     
     var timerDisplay: String {
@@ -55,8 +53,8 @@ final class GameViewModel: ObservableObject {
      
         gameManager.boardSize = boardSize
         
-        self.player = userManager.getPlayer()
-        self.opponent = userManager.getOpponent()
+        let player = userManager.getPlayer()
+        let opponent = userManager.getOpponent()
         
         self.state = StateMashine(
             timerManager: timerManager,
@@ -102,7 +100,7 @@ final class GameViewModel: ObservableObject {
     
     private func updateScore() {
         if let winner = gameManager.winner {
-            winner == player
+            winner == state.player
             ? userManager.updatePlayerScore()
             : userManager.updateOpponentScore()
         }

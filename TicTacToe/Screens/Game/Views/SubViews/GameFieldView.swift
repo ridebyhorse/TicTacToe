@@ -30,53 +30,55 @@ struct GameFieldView: View {
     
     // MARK: - Body
     var body: some View {
-        ShadowedCardView() {
-            LazyVGrid(
-                columns: getColumns(),
-                spacing: Drawing.spacing
-            ) {
-                ForEach(0..<gameBoard.count, id: \.self) { index in
-                    GameSquareView(
-                        playerSymbol: gameBoard[index],
-                        playerStyle: playerStyle,
-                        squareSize: getSquareWidth()
-                    )
-                    .onTapGesture {
-                        withAnimation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.5)) {
-                            action(index)
+            ShadowedCardView() {
+                LazyVGrid(
+                    columns: getColumns(),
+                    spacing: Drawing.spacing
+                ) {
+                    ForEach(0..<gameBoard.count, id: \.self) { index in
+                        GameSquareView(
+                            playerSymbol: gameBoard[index],
+                            playerStyle: playerStyle,
+                            squareSize: getSquareWidth()
+                        )
+                        .onTapGesture {
+                            withAnimation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0.5)) {
+                                action(index)
+                            }
+                        }
+                        .transition(.scale(scale: Drawing.cellTransitionScale).combined(with: .opacity))
+                        .animation(.easeInOut(duration: Drawing.animationDuration), value: gameBoard[index])
+                    }
+                }
+                // MARK: - Линия победы
+                if let pattern = winningPattern {
+                    GeometryReader { geometry in
+                        let linePoints = getLinePoints(
+                            for: pattern,
+                            gridSize: geometry.size.width
+                        )
+                        Path { path in
+                            path.move(to: linePoints.start)
+                            path.addLine(to: linePoints.end)
+                        }
+                        .trim(from: 0, to: animateLine ? 1 : 0)
+                        .stroke(
+                            Color.basicBlue,
+                            style: StrokeStyle(
+                                lineWidth: Drawing.lineWidth,
+                                lineCap: .round
+                            )
+                        )
+                        .onAppear {
+                            withAnimation(.easeInOut(duration: Drawing.animationDuration)) {
+                                animateLine = true
+                            }
                         }
                     }
-                    .transition(.scale(scale: Drawing.cellTransitionScale).combined(with: .opacity))
-                    .animation(.easeInOut(duration: Drawing.animationDuration), value: gameBoard[index])
                 }
             }
+            .frame(width: getFieldWidth(), height: getFieldWidth())
         }
-        .frame(width: getFieldWidth(), height: getFieldWidth())
-        
-        // MARK: - Winning Line Drawing
-        if let pattern = winningPattern {
-            GeometryReader { geometry in
-                let linePoints = getLinePoints(for: pattern, gridSize: geometry.size.width)
-                Path { path in
-                    path.move(to: linePoints.start)
-                    path.addLine(to: linePoints.end)
-                }
-                .trim(from: 0, to: animateLine ? 1 : 0)
-                .stroke(
-                    Color.basicBlue,
-                    style: StrokeStyle(
-                        lineWidth: Drawing.lineWidth,
-                        lineCap: .round
-                    )
-                )
-                .onAppear {
-                    withAnimation(.easeInOut(duration: Drawing.animationDuration)) {
-                        animateLine = true
-                    }
-                }
-            }
-        }
-    }
     
     // MARK: - Helper Methods
     private func getFieldWidth() -> CGFloat {
@@ -111,15 +113,18 @@ struct GameFieldView: View {
         let endX = CGFloat(endCol) * cellSize + cellSize / 2
         let endY = CGFloat(endRow) * cellSize + cellSize / 2
         
-        return WinnerLine(start: CGPoint(x: startX, y: startY), end: CGPoint(x: endX, y: endY))
+        return WinnerLine(
+            start: CGPoint(x: startX, y: startY),
+            end: CGPoint(x: endX, y: endY)
+        )
     }
 }
-
 #Preview {
     GameFieldView(
         gameBoard: Array(repeating: nil, count: 16),
         playerStyle: .cakeIcecream,
         action: { index in },
-        boardSize: .medium
+        boardSize: .medium,
+        winningPattern: [0, 1, 2, 3, 4, 5]
     )
 }

@@ -30,6 +30,10 @@ final class GameViewModel: ObservableObject {
         "\(state.player.score) : \(state.opponent.score)"
     }
     
+    var currentPlayer: Player {
+        player.isActive ? player : opponent
+    }
+    
     var timerDisplay: String {
         let minutes = state.secondsCount / 60
         let seconds = state.secondsCount % 60

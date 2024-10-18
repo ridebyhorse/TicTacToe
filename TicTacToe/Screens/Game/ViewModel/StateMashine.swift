@@ -27,10 +27,7 @@ final class StateMashine {
     var currentState: State = .startGame
     
     // MARK: - Computed Properties
-    var currentPlayer: Player {
-        player.isActive ? player : opponent
-    }
-    
+
     var isGameOver: Bool {
         return gameManager.isGameOver || gameResult != nil || currentState == .gameOver
     }
@@ -86,7 +83,7 @@ final class StateMashine {
             self.secondsCount = timerManager.secondsCount
             self.resetGame()
             
-            if currentPlayer.isAI {
+            if opponent.isActive && opponent.isAI {
                 return reduce(state: .play, event: .moveAI)
             } else {
                 return .play
@@ -95,7 +92,7 @@ final class StateMashine {
         case (.play, .move(let position)):
             guard !isGameOver else { return .gameOver }
             
-            gameManager.makeMove(at: position, for: currentPlayer)
+            gameManager.makeMove(at: position, for: player.isActive ? player : opponent)
             
             return isGameOver
             ? reduce(state: state, event: .gameOver(
@@ -133,8 +130,7 @@ final class StateMashine {
             player.isActive.toggle()
             opponent.isActive = !player.isActive
            
-            
-            if currentPlayer.isAI {
+            if opponent.isAI && opponent.isActive {
                 return reduce(state: .play, event: .moveAI)
             } else {
                 return .play

@@ -32,17 +32,17 @@ struct GameView: View {
                     PlayerSquareView(player: viewModel.state.opponent)
                 }
                 HStack {
-                    Image(getPlayerImageName(for: viewModel.state.currentPlayer))
+                    Image(getPlayerImageName(for: viewModel.currentPlayer))
                         .resizable()
                         .frame(width: 54, height: 54)
-                    Text(viewModel.state.currentPlayer.name)
-                    
+                    Text(viewModel.currentPlayer.name)
+                     
                         .font(.basicTitle)
                 }
                 .padding(.top, 45)
                 GameFieldView(
                     gameBoard: viewModel.gameBoard,
-                    playerStyle: viewModel.state.currentPlayer.style,
+                    playerStyle: viewModel.currentPlayer.style,
                     action: viewModel.processPlayerMove(at:),
                     boardSize: viewModel.boardSize,
                     winningPattern: viewModel.state.winningPattern

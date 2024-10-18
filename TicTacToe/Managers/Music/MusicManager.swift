@@ -8,13 +8,13 @@
 import AVKit
 
 final class MusicManager {
-    static let shared = MusicManager()
+  
     private let storageManager = StorageManager.shared
     private var musicPlayer = AVAudioPlayer()
     private var soundPlayer = AVAudioPlayer()
     private var settings: GameSettings?
     
-    private init() {}
+    init() {}
     
     func playMusic() {
         settings = storageManager.getSettings()

@@ -10,25 +10,26 @@
 // MARK: - StateMachine Class (Game State)
 final class StateMachine {
     // MARK: - Properties
-
-    private let gameManager: GameManager = .shared
     
-    var gameMode: GameMode
-    var gameResult: GameResult? = nil
-    var winningPattern: [Int]? = nil
-    var player: Player
-    var opponent: Player
-    var isPlayerActive = Bool.random()
-    var level: DifficultyLevel
-    
-    var totalGameDuration = 0
-    var roundResults: [String] = []
-    var boardBlocked = false
+    private let gameManager: GameManager
+    private let gameMode: GameMode
     
     var currentState: State = .startGame
     
+    var gameResult: GameResult? = nil
+    var winningPattern: [Int]? = nil
+    
+    var player: Player
+    var opponent: Player
+    
+    private var isPlayerActive = Bool.random()
+    
+    private var totalGameDuration = 0
+    private var roundResults: [String] = []
+    private var boardBlocked = false
+    
+    
     // MARK: - Computed Properties
-
     var isGameOver: Bool {
         return gameManager.isGameOver || gameResult != nil || currentState == .gameOver
     }
@@ -51,19 +52,20 @@ final class StateMachine {
     }
     
     // MARK: - Initializer
-    init(player: Player, opponent: Player, level: DifficultyLevel, gameMode: GameMode) {
+    init(_ player: Player,_ opponent: Player,_ gameMode: GameMode,_ gameManager: GameManager) {
         self.player = player
         self.opponent = opponent
-        self.level = level
         self.gameMode = gameMode
+        self.gameManager = gameManager
     }
     
     // MARK: - Game Reset Methods
     func resetGame() {
         gameManager.resetGame()
-
+        
         player.isActive = isPlayerActive
         opponent.isActive = !player.isActive
+        
         gameResult = nil
         winningPattern = nil
         boardBlocked = false
@@ -80,7 +82,7 @@ final class StateMachine {
         
         switch (state, event) {
         case (.startGame, .refresh):
-
+            
             self.resetGame()
             
             if opponent.isActive && opponent.isAI {
@@ -91,7 +93,7 @@ final class StateMachine {
             
         case (.play, .move(let position)):
             guard !isGameOver else { return .gameOver }
-       
+            
             
             gameManager.makeMove(at: position, for: player.isActive ? player : opponent)
             
@@ -99,9 +101,8 @@ final class StateMachine {
             ? reduce(state: .gameOver, event: .gameOver(
                 gameManager.getGameResult(
                     player: player,
-                    opponent: opponent
-                    )
-                )
+                    opponent: opponent)
+            )
             )
             : reduce(state: state, event: .toggleActivePlayer)
             
@@ -111,20 +112,20 @@ final class StateMachine {
             
             if opponent.isAI && !player.isAI && opponent.isActive {
                 boardBlocked = true
-                if gameManager.aiMove(for: opponent, against: player, difficulty: level) {
-                    
-                    return isGameOver
-                    ? reduce(
-                        state: .gameOver,
-                        event: .gameOver(
-                            gameManager.getGameResult(
-                                player: player,
-                                opponent: opponent
-                            )
+                gameManager.aiMove(for: opponent, against: player)
+                
+                return isGameOver
+                ? reduce(
+                    state: .gameOver,
+                    event: .gameOver(
+                        gameManager.getGameResult(
+                            player: player,
+                            opponent: opponent
                         )
                     )
-                    : reduce(state: state, event: .toggleActivePlayer)
-                }
+                )
+                : reduce(state: state, event: .toggleActivePlayer)
+                
             }
             return .play
         case (.play, .toggleActivePlayer):
@@ -153,11 +154,8 @@ final class StateMachine {
     
     // MARK: - Finish Game Logic
     private func finishGame(with result: GameResult) {
-
         winningPattern = gameManager.getWinningPattern()
         gameResult = result
         boardBlocked = true
-        }
-    
-
+    }
 }

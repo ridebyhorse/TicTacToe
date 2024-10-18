@@ -13,7 +13,7 @@ final class GameViewModel: ObservableObject {
     @Published var secondsCount = 0
     
     private let coordinator: Coordinator
-    private let gameManager: GameManager
+    private var gameManager: GameManager
     private let userManager: UserManager
     private let timerManager: TimerManager
     private let musicManager: MusicManager
@@ -36,20 +36,18 @@ final class GameViewModel: ObservableObject {
     var currentScore: String {
         "\(stateMachine.player.score) : \(stateMachine.opponent.score)"
     }
+    
     // MARK: - Initialization
     init(coordinator: Coordinator,
-         gameManager: GameManager = .shared,
          userManager: UserManager = .shared,
-         storageManager: StorageManager = .shared,
-         timerManager: TimerManager = .shared,
-         musicManager: MusicManager = .shared
+         storageManager: StorageManager = .shared
     ) {
         self.coordinator = coordinator
-        self.gameManager = gameManager
         self.userManager = userManager
         self.storageManager = storageManager
-        self.timerManager = timerManager
-        self.musicManager = musicManager
+        
+        self.timerManager = TimerManager()
+        self.musicManager = MusicManager()
         
         let player = userManager.getPlayer()
         let opponent = userManager.getOpponent()
@@ -57,9 +55,16 @@ final class GameViewModel: ObservableObject {
         self.boardSize = storageManager.getSettings().boardSize
         self.gameMode = userManager.gameMode
         self.level = storageManager.getSettings().level
-        self.stateMachine = StateMachine(player: player, opponent: opponent, level: level, gameMode: gameMode)
         
-        gameManager.boardSize = boardSize
+        self.gameManager = GameManager(boardSize, level)
+       
+        self.stateMachine = StateMachine(
+            player,
+            opponent,
+            gameMode,
+            gameManager
+        )
+        
         setupGameBindings()
         startGame()
     }
@@ -67,7 +72,6 @@ final class GameViewModel: ObservableObject {
     // MARK: - Game Logic
     func processPlayerMove(at position: Int) {
         dispatch(.move(position))
-        getGameResult()
     }
     
     func getWinningPattern() -> [Int]? {
@@ -93,8 +97,8 @@ final class GameViewModel: ObservableObject {
     private func stopGame() {
         musicManager.stopMusic()
         timerManager.stopTimer()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        playFinalMusic()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.navigateToResultScreen()
         }
     }
@@ -115,14 +119,9 @@ final class GameViewModel: ObservableObject {
         }
     }
     
-    private func getGameResult() {
-        if stateMachine.isGameOver {
-            let result = gameManager.getGameResult(
-                player: stateMachine.player,
-                opponent: stateMachine.opponent
-            )
-            dispatch(.gameOver(result))
-        }
+    private func playFinalMusic() {
+        musicManager.playSoundFor(.final)
+        musicManager.stopMusic()
     }
     
     private func navigateToResultScreen() {

@@ -8,7 +8,6 @@
 import Foundation
 
 final class TimerManager {
-    static let shared = TimerManager()
     
     var outOfTime: (() -> Void)?
     var onTimeChange: ((Int) -> Void)?
@@ -16,7 +15,6 @@ final class TimerManager {
     private var duration: Duration = Duration(isSelectedDuration: false, valueDuration: nil) 
     var secondsCount: Int = 0
     
-    private init() {}
     
     func startTimer() {
         stopTimer()

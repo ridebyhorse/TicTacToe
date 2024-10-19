@@ -28,7 +28,6 @@ final class StateMachine {
     private var roundResults: [String] = []
     private var boardBlocked = false
     
-    
     // MARK: - Computed Properties
     var isGameOver: Bool {
         return gameManager.isGameOver || gameResult != nil || currentState == .gameOver
@@ -94,17 +93,9 @@ final class StateMachine {
         case (.play, .move(let position)):
             guard !isGameOver else { return .gameOver }
             
-            
             gameManager.makeMove(at: position, for: player.isActive ? player : opponent)
             
-            return isGameOver
-            ? reduce(state: .gameOver, event: .gameOver(
-                gameManager.getGameResult(
-                    player: player,
-                    opponent: opponent)
-            )
-            )
-            : reduce(state: state, event: .toggleActivePlayer)
+            return chechEvent(state)
             
         case (.play, .moveAI):
             guard !isGameOver else { return .gameOver }
@@ -113,21 +104,10 @@ final class StateMachine {
             if opponent.isAI && !player.isAI && opponent.isActive {
                 boardBlocked = true
                 gameManager.aiMove(for: opponent, against: player)
-                
-                return isGameOver
-                ? reduce(
-                    state: .gameOver,
-                    event: .gameOver(
-                        gameManager.getGameResult(
-                            player: player,
-                            opponent: opponent
-                        )
-                    )
-                )
-                : reduce(state: state, event: .toggleActivePlayer)
-                
             }
-            return .play
+            
+            return chechEvent(state)
+                
         case (.play, .toggleActivePlayer):
             player.isActive.toggle()
             opponent.isActive = !player.isActive
@@ -157,5 +137,19 @@ final class StateMachine {
         winningPattern = gameManager.getWinningPattern()
         gameResult = result
         boardBlocked = true
+    }
+    
+    private func chechEvent(_ state: State) -> State {
+        isGameOver
+        ? reduce(
+            state: .gameOver,
+            event: .gameOver(
+                gameManager.getGameResult(
+                    player: player,
+                    opponent: opponent
+                )
+            )
+        )
+        : reduce(state: state, event: .toggleActivePlayer)
     }
 }

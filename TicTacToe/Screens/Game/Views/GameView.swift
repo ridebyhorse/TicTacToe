@@ -18,7 +18,7 @@ struct GameView: View {
                 Color(.basicBackground)
                     .frame(height: 80)
                 HStack(spacing: 32) {
-                    PlayerSquareView(player: viewModel.stateMachine.player)
+                    PlayerSquareView(player: viewModel.player)
                     VStack(spacing: 8) {
                         Text(viewModel.timerDisplay)
                             .font(.basicTitle)
@@ -29,7 +29,7 @@ struct GameView: View {
                         Text(viewModel.currentScore)
                             .font(.basicSubtitle)
                     }
-                    PlayerSquareView(player: viewModel.stateMachine.opponent)
+                    PlayerSquareView(player: viewModel.opponent)
                 }
                 HStack {
                     Image(getPlayerImageName(for: viewModel.currentPlayer))

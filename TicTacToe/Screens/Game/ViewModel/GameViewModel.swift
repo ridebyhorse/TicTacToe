@@ -7,11 +7,13 @@
 import Foundation
 
 final class GameViewModel: ObservableObject {
-    // MARK: - Properties
+    
+    // MARK: - Published Properties
     @Published private(set) var stateMachine: StateMachine
     @Published var gameBoard: [PlayerSymbol?] = []
     @Published var secondsCount = 0
     
+    // MARK: - Private Properties
     private let coordinator: Coordinator
     private var gameManager: GameManager
     private let userManager: UserManager
@@ -19,12 +21,19 @@ final class GameViewModel: ObservableObject {
     private let musicManager: MusicManager
     private let storageManager: StorageManager
     
+    private var roundResults: [String] = []
+    private var totalGameDuration = 0
+    
+    // MARK: - Game Settings
+    var player: Player
+    var opponent: Player
     var boardSize: BoardSize
     var gameMode: GameMode
     var level: DifficultyLevel
     
+    // MARK: - Computed Properties
     var currentPlayer: Player {
-        stateMachine.player.isActive ? stateMachine.player : stateMachine.opponent
+        stateMachine.currentPlayer
     }
     
     var timerDisplay: String {
@@ -34,7 +43,7 @@ final class GameViewModel: ObservableObject {
     }
     
     var currentScore: String {
-        "\(stateMachine.player.score) : \(stateMachine.opponent.score)"
+        "\(player.score) : \(opponent.score)"
     }
     
     // MARK: - Initialization
@@ -49,15 +58,15 @@ final class GameViewModel: ObservableObject {
         self.timerManager = TimerManager()
         self.musicManager = MusicManager()
         
-        let player = userManager.getPlayer()
-        let opponent = userManager.getOpponent()
+        player = userManager.getPlayer()
+        opponent = userManager.getOpponent()
         
         self.boardSize = storageManager.getSettings().boardSize
         self.gameMode = userManager.gameMode
         self.level = storageManager.getSettings().level
         
         self.gameManager = GameManager(boardSize, level)
-       
+        
         self.stateMachine = StateMachine(
             player,
             opponent,
@@ -84,16 +93,21 @@ final class GameViewModel: ObservableObject {
         
         if stateMachine.isGameOver {
             stopGame()
+        } else {
+            stateMachine.currentState = stateMachine.reduce(state: .play, event: .toggleActivePlayer)
         }
+    }
+    
+    private func processAIMove() {
+        dispatch(.moveAI)
     }
     
     private func startGame() {
         musicManager.playMusic()
         timerManager.startTimer()
-        
         dispatch(.refresh)
     }
-    
+
     private func stopGame() {
         musicManager.stopMusic()
         timerManager.stopTimer()
@@ -103,6 +117,7 @@ final class GameViewModel: ObservableObject {
         }
     }
     
+    // MARK: - Helpers
     private func setupGameBindings() {
         gameManager.onBoardChange = { [weak self] updatedBoard in
             self?.gameBoard = updatedBoard
@@ -124,6 +139,7 @@ final class GameViewModel: ObservableObject {
         musicManager.stopMusic()
     }
     
+    // MARK: - Navigation
     private func navigateToResultScreen() {
         coordinator.updateNavigationState(action: .showResult(
             winner: gameManager.winner,
@@ -131,11 +147,18 @@ final class GameViewModel: ObservableObject {
         ))
     }
     
+    // MARK: - Score Management
     private func updateScore() {
         if let winner = gameManager.winner {
-            winner == stateMachine.player
+            winner == player
             ? userManager.updatePlayerScore()
             : userManager.updateOpponentScore()
         }
+    }
+    
+    // MARK: - Result Recording
+    private func recordRoundResult() {
+        let resultString = "\(player.name) : \(player.score) - \(opponent.name) : \(opponent.score) (Duration: \(totalGameDuration) seconds)"
+        roundResults.append(resultString)
     }
 }

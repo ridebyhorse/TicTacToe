@@ -1,5 +1,3 @@
-
-
 //
 //  StateMashine.swift
 //  TicTacToe
@@ -7,32 +5,8 @@
 //  Created by Келлер Дмитрий on 17.10.2024.
 //
 
-// MARK: - StateMachine Class (Game State)
+
 final class StateMachine {
-    // MARK: - Properties
-    
-    private let gameManager: GameManager
-    private let gameMode: GameMode
-    
-    var currentState: State = .startGame
-    
-    var gameResult: GameResult? = nil
-    var winningPattern: [Int]? = nil
-    
-    var player: Player
-    var opponent: Player
-    
-    private var isPlayerActive = Bool.random()
-    
-    private var totalGameDuration = 0
-    private var roundResults: [String] = []
-    private var boardBlocked = false
-    
-    // MARK: - Computed Properties
-    var isGameOver: Bool {
-        return gameManager.isGameOver || gameResult != nil || currentState == .gameOver
-    }
-    
     // MARK: - State and Event Enums
     enum State {
         case startGame
@@ -44,10 +18,31 @@ final class StateMachine {
         case refresh
         case move(_ position: Int)
         case moveAI
-        case boardBlocked
         case toggleActivePlayer
         case gameOver(_ result: GameResult)
         case outOfTime
+    }
+    
+    // MARK: - Properties
+    private let gameManager: GameManager
+    private let gameMode: GameMode
+    
+    var currentState: State = .startGame
+    
+    var player: Player
+    var opponent: Player
+    
+    var currentPlayer: Player
+    
+    var gameResult: GameResult? = nil
+    var winningPattern: [Int]? = nil
+
+    var boardBlocked = false
+    var updateCurrentPlayer: (() -> Void)?
+    
+    // MARK: - Computed Properties
+    var isGameOver: Bool {
+        return gameManager.isGameOver || gameResult != nil || currentState == .gameOver
     }
     
     // MARK: - Initializer
@@ -56,80 +51,62 @@ final class StateMachine {
         self.opponent = opponent
         self.gameMode = gameMode
         self.gameManager = gameManager
+        self.currentPlayer = player
     }
     
     // MARK: - Game Reset Methods
     func resetGame() {
         gameManager.resetGame()
-        
-        player.isActive = isPlayerActive
-        opponent.isActive = !player.isActive
-        
+
         gameResult = nil
         winningPattern = nil
         boardBlocked = false
-    }
-    
-    func recordRoundResult() {
-        let resultString = "\(player.name) : \(player.score) - \(opponent.name) : \(opponent.score) (Duration: \(totalGameDuration) seconds)"
-        roundResults.append(resultString)
     }
     
     // MARK: - Reducer Logic
     func reduce(state: State, event: GameEvent) -> State {
         currentState = state
         
-        switch (state, event) {
-        case (.startGame, .refresh):
-            
+        switch event {
+        case  .refresh:
             self.resetGame()
+            currentPlayer = randomizeCurrentActivePlayer()
             
-            if opponent.isActive && opponent.isAI {
+            if currentPlayer.isAI {
                 return reduce(state: .play, event: .moveAI)
-            } else {
-                return .play
             }
             
-        case (.play, .move(let position)):
+        case .move(let position):
             guard !isGameOver else { return .gameOver }
+            if !currentPlayer.isAI {
+                gameManager.makeMove(at: position, for: currentPlayer)
+            }
             
-            gameManager.makeMove(at: position, for: player.isActive ? player : opponent)
-            
-            return chechEvent(state)
-            
-        case (.play, .moveAI):
+        case .moveAI:
             guard !isGameOver else { return .gameOver }
             guard gameMode == .singlePlayer else { return .play }
             
-            if opponent.isAI && !player.isAI && opponent.isActive {
+            if currentPlayer.isAI {
                 boardBlocked = true
-                gameManager.aiMove(for: opponent, against: player)
+                gameManager.aiMove(for: currentPlayer)
             }
             
-            return chechEvent(state)
-                
-        case (.play, .toggleActivePlayer):
+        case .toggleActivePlayer:
             player.isActive.toggle()
             opponent.isActive = !player.isActive
-            boardBlocked = false
+            currentPlayer = player.isActive ? player : opponent
+           
             
-            if opponent.isAI && opponent.isActive {
-                return reduce(state: .play, event: .moveAI)
-            } else {
-                return .play
-            }
-            
-        case (.play, .outOfTime):
+        case .outOfTime:
             finishGame(with: .draw)
             return .gameOver
             
-        case (.gameOver, .gameOver(let result)):
+        case .gameOver(let result):
             finishGame(with: result)
             return .gameOver
-            
-        default:
-            return currentState
         }
+        
+        return currentState
     }
     
     // MARK: - Finish Game Logic
@@ -139,17 +116,8 @@ final class StateMachine {
         boardBlocked = true
     }
     
-    private func chechEvent(_ state: State) -> State {
-        isGameOver
-        ? reduce(
-            state: .gameOver,
-            event: .gameOver(
-                gameManager.getGameResult(
-                    player: player,
-                    opponent: opponent
-                )
-            )
-        )
-        : reduce(state: state, event: .toggleActivePlayer)
+    private func randomizeCurrentActivePlayer() -> Player {
+        let isPlayerActive = Bool.random()
+        return isPlayerActive ? player : opponent
     }
 }

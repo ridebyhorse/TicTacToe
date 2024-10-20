@@ -74,28 +74,30 @@ final class GameManager {
         onBoardChange?(self.gameBoard)
       
         evaluateGameState(for: player)
+      
     }
     
     // MARK: - AI Move
-    func aiMove(for aiPlayer: Player, against humanPlayer: Player) {
+    func aiMove(for aiPlayer: Player) {
+        
         guard !isGameOver else { return }
         
-        aiDecision(for: aiPlayer, and: humanPlayer) { [weak self] move in
+        aiDecision(for: aiPlayer) { [weak self] move in
             guard let self = self else {
                 return
             }
             guard let move = move else {
                 return
             }
-            self.performAIMove(aiPlayer: aiPlayer, at: move)
+            self.performAIMove(player: aiPlayer, at: move)
             print("AI сделал ход на позицию: \(move)")
         }
     }
     
     // MARK: - Game Result and Pattern
-    func getGameResult(player: Player, opponent: Player) -> GameResult {
+    func getGameResult(_ currentPlayer: Player) -> GameResult {
         if let winner = winner {
-            if winner == opponent && opponent.isAI {
+            if winner == currentPlayer && currentPlayer.isAI {
                 return .lose
             } else {
                 return .win(name: winner.name)
@@ -115,27 +117,37 @@ final class GameManager {
     }
     
     // MARK: - Private Methods
-    private func aiDecision(for player: Player, and opponent: Player, completion: @escaping (Int?) -> Void) {
-        
+    private func aiDecision(for aiPlayer: Player, completion: @escaping (Int?) -> Void) {
+        let opponentSymbol = self.opponentSymbol(for: aiPlayer.symbol)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             let move: Int?
             switch self.level {
             case .easy:
                 move = self.findFirstAvailableMove()
             case .normal:
-                move = self.findCenterMove() ?? self.findWinningMove(for: opponent.symbol) ?? self.findFirstAvailableMove()
+                move = self.findCenterMove()
+                ?? self.findWinningMove(for: opponentSymbol)
+                ?? self.findFirstAvailableMove()
             case .hard:
-                move = self.findWinningMove(for: opponent.symbol) ?? self.findWinningMove(for: player.symbol) ?? self.findCenterMove() ?? self.findCornerMove() ?? self.findFirstAvailableMove()
+                move = self.findWinningMove(for: opponentSymbol)
+                ?? self.findWinningMove(for: aiPlayer.symbol)
+                ?? self.findCenterMove()
+                ?? self.findCornerMove()
+                ?? self.findFirstAvailableMove()
             }
             completion(move)
         }
     }
     
+    private func opponentSymbol(for aiSymbol: PlayerSymbol) -> PlayerSymbol {
+        return aiSymbol == .x ? .o : .x
+    }
+    
     // MARK: - Perform AI Move
-    private func performAIMove(aiPlayer: Player, at position: Int) {
-        gameBoard[position] = aiPlayer.symbol
+    private func performAIMove(player: Player, at position: Int) {
+        gameBoard[position] = player.symbol
         onBoardChange?(self.gameBoard)
-        evaluateGameState(for: aiPlayer)
+        evaluateGameState(for: player)
     }
     
     // MARK: - Validation and Evaluation

@@ -32,22 +32,25 @@ struct GameView: View {
                     PlayerSquareView(player: viewModel.opponent)
                 }
                 HStack {
-                    Image(getPlayerImageName(for: viewModel.currentPlayer))
-                        .resizable()
-                        .frame(width: 54, height: 54)
-                    Text(viewModel.currentPlayer.name)
-                     
-                        .font(.basicTitle)
+                    if let currentPlayer = viewModel.currentPlayer {
+                        Image(getPlayerImageName(for: currentPlayer))
+                            .resizable()
+                            .frame(width: 54, height: 54)
+                        Text(currentPlayer.name)
+                            .font(.basicTitle)
+                    }
                 }
                 .padding(.top, 45)
-                GameFieldView(
-                    gameBoard: viewModel.gameBoard,
-                    playerStyle: viewModel.currentPlayer.style,
-                    action: viewModel.processPlayerMove(at:),
-                    boardSize: viewModel.boardSize,
-                    winningPattern: viewModel.stateMachine.winningPattern
-                )
-                .padding(.top, 20)
+                if let currentPlayer = viewModel.currentPlayer {
+                    GameFieldView(
+                        gameBoard: viewModel.gameBoard,
+                        playerStyle: currentPlayer.style,
+                        action: viewModel.processPlayerMove(at:),
+                        boardSize: viewModel.boardSize,
+                        winningPattern: viewModel.getWinningPattern()
+                    )
+                    .padding(.top, 20)
+                }
                 Spacer()
                     .padding(.bottom, 40)
             }

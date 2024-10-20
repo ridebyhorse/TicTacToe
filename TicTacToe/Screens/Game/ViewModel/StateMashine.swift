@@ -5,6 +5,7 @@
 //  Created by Келлер Дмитрий on 17.10.2024.
 //
 
+import Foundation
 
 final class StateMachine {
     // MARK: - State and Event Enums
@@ -19,7 +20,6 @@ final class StateMachine {
         case move(_ position: Int)
         case moveAI
         case toggleActivePlayer
-        case gameOver(_ result: GameResult)
         case outOfTime
     }
     
@@ -38,11 +38,10 @@ final class StateMachine {
     var winningPattern: [Int]? = nil
 
     var boardBlocked = false
-    var updateCurrentPlayer: (() -> Void)?
     
     // MARK: - Computed Properties
     var isGameOver: Bool {
-        return gameManager.isGameOver || gameResult != nil || currentState == .gameOver
+        gameManager.isGameOver || gameResult != nil || currentState == .gameOver
     }
     
     // MARK: - Initializer
@@ -51,39 +50,40 @@ final class StateMachine {
         self.opponent = opponent
         self.gameMode = gameMode
         self.gameManager = gameManager
-        self.currentPlayer = player
+        let isPlayerActive = Bool.random()
+        self.currentPlayer = isPlayerActive ? player : opponent
     }
     
     // MARK: - Game Reset Methods
     func resetGame() {
         gameManager.resetGame()
-
         gameResult = nil
         winningPattern = nil
         boardBlocked = false
     }
     
     // MARK: - Reducer Logic
-    func reduce(state: State, event: GameEvent) -> State {
+    func reduce(state: State, event: GameEvent) {
         currentState = state
-        
         switch event {
         case  .refresh:
             self.resetGame()
             currentPlayer = randomizeCurrentActivePlayer()
             
         case .move(let position):
-            guard !isGameOver else { return .gameOver }
+            guard !isGameOver else { return }
             if !currentPlayer.isAI {
                 gameManager.makeMove(at: position, for: currentPlayer)
             }
             
         case .moveAI:
-            guard !isGameOver else { return .gameOver }
-            guard gameMode == .singlePlayer else { return .play }
-            
+            guard !isGameOver else { return }
+            guard gameMode == .singlePlayer else { return }
             if currentPlayer.isAI {
                 gameManager.aiMove(for: currentPlayer)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                    self?.boardBlocked = false
+                }
             }
             
         case .toggleActivePlayer:
@@ -94,11 +94,6 @@ final class StateMachine {
             
         case .outOfTime:
             finishGame(with: .draw)
-            return .gameOver
-            
-        case .gameOver(let result):
-            finishGame(with: result)
-            return .gameOver
         }
         return currentState
     }
@@ -108,10 +103,5 @@ final class StateMachine {
         winningPattern = gameManager.getWinningPattern()
         gameResult = result
         boardBlocked = true
-    }
-    
-    private func randomizeCurrentActivePlayer() -> Player {
-        let isPlayerActive = Bool.random()
-        return isPlayerActive ? player : opponent
     }
 }

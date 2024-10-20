@@ -15,6 +15,7 @@ final class GameManager {
     var onBoardChange: (([PlayerSymbol?]) -> Void)?
     var boardSize: BoardSize
     var level: DifficultyLevel
+    private(set) var moveCompleted: Bool = false
     
     // MARK: - Winning Patterns
     private var winningCombinations: [[Int]] {
@@ -69,15 +70,18 @@ final class GameManager {
     func makeMove(at position: Int, for player: Player) {
         guard isValidMove(at: position) else { return }
         gameBoard[position] = player.symbol
-        onBoardChange?(self.gameBoard)
-      
         evaluateGameState(for: player)
-
+        onBoardChange?(self.gameBoard)
+        print("\(player.name) сделал ход на позицию: \(position)")
+        self.moveCompleted = true
+    }
+    
+    func resetMoveState() {
+        moveCompleted = false
     }
     
     // MARK: - AI Move
     func aiMove(for aiPlayer: Player) {
-        
         guard !isGameOver else { return }
         
         aiDecision(for: aiPlayer) { [weak self] move in
@@ -87,7 +91,9 @@ final class GameManager {
             guard let move = move else {
                 return
             }
-            self.performAIMove(player: aiPlayer, at: move)
+            self.performAIMove(aiPlayer, at: move)
+            evaluateGameState(for: aiPlayer)
+            onBoardChange?(self.gameBoard)
             print("AI сделал ход на позицию: \(move)")
         }
     }
@@ -142,10 +148,8 @@ final class GameManager {
     }
     
     // MARK: - Perform AI Move
-    private func performAIMove(player: Player, at position: Int) {
-        gameBoard[position] = player.symbol
-        onBoardChange?(self.gameBoard)
-        evaluateGameState(for: player)
+    private func performAIMove(_ aiPlayer: Player, at position: Int) {
+        gameBoard[position] = aiPlayer.symbol
     }
     
     // MARK: - Validation and Evaluation

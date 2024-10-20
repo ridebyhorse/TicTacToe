@@ -15,7 +15,6 @@ final class GameManager {
     var onBoardChange: (([PlayerSymbol?]) -> Void)?
     var boardSize: BoardSize
     var level: DifficultyLevel
-    private(set) var moveCompleted: Bool = false
     
     // MARK: - Winning Patterns
     private var winningCombinations: [[Int]] {
@@ -73,11 +72,6 @@ final class GameManager {
         evaluateGameState(for: player)
         onBoardChange?(self.gameBoard)
         print("\(player.name) сделал ход на позицию: \(position)")
-        self.moveCompleted = true
-    }
-    
-    func resetMoveState() {
-        moveCompleted = false
     }
     
     // MARK: - AI Move

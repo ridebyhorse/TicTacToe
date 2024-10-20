@@ -93,8 +93,6 @@ final class GameViewModel: ObservableObject {
         
         if stateMachine.isGameOver {
             stopGame()
-        } else {
-            stateMachine.currentState = stateMachine.reduce(state: .play, event: .toggleActivePlayer)
         }
     }
     
@@ -106,6 +104,9 @@ final class GameViewModel: ObservableObject {
         musicManager.playMusic()
         timerManager.startTimer()
         dispatch(.refresh)
+        if currentPlayer.isAI {
+            dispatch(.moveAI)
+        }
     }
 
     private func stopGame() {
@@ -121,8 +122,13 @@ final class GameViewModel: ObservableObject {
     private func setupGameBindings() {
         gameManager.onBoardChange = { [weak self] updatedBoard in
             self?.gameBoard = updatedBoard
-        }
         
+            self?.dispatch(.toggleActivePlayer)
+                
+            if ((self?.currentPlayer.isAI) != nil) {
+                    self?.processAIMove()
+                }
+            }
         timerManager.onTimeChange = { [weak self] newTime in
             DispatchQueue.main.async {
                 self?.secondsCount = newTime

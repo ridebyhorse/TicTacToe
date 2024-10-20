@@ -72,10 +72,6 @@ final class StateMachine {
             self.resetGame()
             currentPlayer = randomizeCurrentActivePlayer()
             
-            if currentPlayer.isAI {
-                return reduce(state: .play, event: .moveAI)
-            }
-            
         case .move(let position):
             guard !isGameOver else { return .gameOver }
             if !currentPlayer.isAI {
@@ -87,7 +83,6 @@ final class StateMachine {
             guard gameMode == .singlePlayer else { return .play }
             
             if currentPlayer.isAI {
-                boardBlocked = true
                 gameManager.aiMove(for: currentPlayer)
             }
             
@@ -95,7 +90,7 @@ final class StateMachine {
             player.isActive.toggle()
             opponent.isActive = !player.isActive
             currentPlayer = player.isActive ? player : opponent
-           
+            return .play
             
         case .outOfTime:
             finishGame(with: .draw)
@@ -105,7 +100,6 @@ final class StateMachine {
             finishGame(with: result)
             return .gameOver
         }
-        
         return currentState
     }
     

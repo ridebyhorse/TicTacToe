@@ -45,7 +45,7 @@ struct GameView: View {
                     playerStyle: viewModel.currentPlayer.style,
                     action: viewModel.processPlayerMove(at:),
                     boardSize: viewModel.boardSize,
-                    winningPattern: viewModel.getWinningPattern()
+                    winningPattern: viewModel.stateMachine.winningPattern
                 )
                 .padding(.top, 20)
                 Spacer()

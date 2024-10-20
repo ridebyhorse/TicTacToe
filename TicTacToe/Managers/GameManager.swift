@@ -13,10 +13,8 @@ final class GameManager {
     private(set) var isGameOver: Bool = false
     var winner: Player? = nil
     var onBoardChange: (([PlayerSymbol?]) -> Void)?
-    
     var boardSize: BoardSize
     var level: DifficultyLevel
-    
     
     // MARK: - Winning Patterns
     private var winningCombinations: [[Int]] {
@@ -74,7 +72,7 @@ final class GameManager {
         onBoardChange?(self.gameBoard)
       
         evaluateGameState(for: player)
-      
+
     }
     
     // MARK: - AI Move

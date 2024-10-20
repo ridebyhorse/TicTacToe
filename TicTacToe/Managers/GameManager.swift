@@ -74,7 +74,6 @@ final class GameManager {
         onBoardChange?(self.gameBoard)
       
         evaluateGameState(for: player)
-      
     }
     
     // MARK: - AI Move
@@ -119,7 +118,7 @@ final class GameManager {
     // MARK: - Private Methods
     private func aiDecision(for aiPlayer: Player, completion: @escaping (Int?) -> Void) {
         let opponentSymbol = self.opponentSymbol(for: aiPlayer.symbol)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             let move: Int?
             switch self.level {
             case .easy:

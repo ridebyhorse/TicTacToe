@@ -12,6 +12,7 @@ final class GameViewModel: ObservableObject {
     @Published private(set) var stateMachine: StateMachine
     @Published var gameBoard: [PlayerSymbol?] = []
     @Published var secondsCount = 0
+    @Published var currentPlayer: Player?
     
     // MARK: - Private Properties
     private let coordinator: Coordinator
@@ -32,10 +33,6 @@ final class GameViewModel: ObservableObject {
     var level: DifficultyLevel
     
     // MARK: - Computed Properties
-    var currentPlayer: Player {
-        stateMachine.currentPlayer
-    }
-    
     var timerDisplay: String {
         let minutes = secondsCount / 60
         let seconds = secondsCount % 60
@@ -80,6 +77,7 @@ final class GameViewModel: ObservableObject {
     
     // MARK: - Game Logic
     func processPlayerMove(at position: Int) {
+        guard !stateMachine.boardBlocked else { return }
         dispatch(.move(position))
     }
     
@@ -88,13 +86,26 @@ final class GameViewModel: ObservableObject {
     }
     
     private func dispatch(_ event: StateMachine.GameEvent) {
-        let newState = stateMachine.reduce(state: stateMachine.currentState, event: event)
-        stateMachine.currentState = newState
-        
+        stateMachine.reduce(state: stateMachine.currentState, event: event)
         if stateMachine.isGameOver {
             stopGame()
         } else {
-            stateMachine.currentState = stateMachine.reduce(state: .play, event: .toggleActivePlayer)
+            stateMachine.reduce(state: .play, event: .toggleActivePlayer)
+            if gameMode == .singlePlayer && currentPlayer?.isAI == true {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                    self?.currentPlayer = self?.stateMachine.currentPlayer
+                }
+            } else {
+                currentPlayer = stateMachine.currentPlayer
+            }
+        }
+        if stateMachine.currentPlayer.isAI {
+            processAIMove()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                if self?.stateMachine.isGameOver == true {
+                    self?.stopGame()
+                }
+            }
         }
     }
     
@@ -105,6 +116,7 @@ final class GameViewModel: ObservableObject {
     private func startGame() {
         musicManager.playMusic()
         timerManager.startTimer()
+        currentPlayer = stateMachine.currentPlayer
         dispatch(.refresh)
     }
 
